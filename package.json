@@ -1,0 +1,46 @@
+{
+  "name": "scroll-stash",
+  "description": "A JavaScript plugin to help preserve an element's scroll position.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "keywords": [
+    "JavaScript",
+    "component",
+    "drawer",
+    "scroll"
+  ],
+  "main": "dist/scripts.cjs.js",
+  "module": "index.js",
+  "browser": "dist/scripts.js",
+  "scripts": {
+    "build": "npm-run-all clean scripts",
+    "clean": "del dist",
+    "scripts": "rollup -c",
+    "watch": "nodemon -e js -x 'npm run scripts' -i dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebnitu/MemoryScroll.git"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@rollup/plugin-babel": "^5.0.3",
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.1",
+    "@testing-library/jest-dom": "^5.10.1",
+    "@vrembem/base": "^1.7.2",
+    "@vrembem/utility": "^1.7.2",
+    "babel-jest": "^26.0.1",
+    "concurrently": "^5.2.0",
+    "del-cli": "^3.0.1",
+    "eslint": "^7.2.0",
+    "eslint-plugin-jest": "^23.13.2",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.16.1",
+    "rollup-plugin-terser": "^6.1.0"
+  }
+}
