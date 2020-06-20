@@ -1,4 +1,4 @@
-(function (exports) {
+this.ScrollStash = (function () {
   'use strict';
 
   function _defineProperty(obj, key, value) {
@@ -22,18 +22,19 @@
 
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-  var MemoryScroll = function MemoryScroll(options) {
+  var index = (function (options) {
     var api = {};
     var defaults = {
       autoInit: false,
       selector: '[data-scroll-stash]',
       selectorActive: '',
       selectorActiveParent: '',
-      selectorElementPadding: '',
-      saveKey: 'StickyScroll',
+      selectorTopElem: '',
+      selectorBotElem: '',
+      saveKey: 'ScrollStash',
       throttleDelay: 500,
       positionBottom: true,
-      padding: 30
+      padding: 16
     };
     api.settings = _objectSpread(_objectSpread({}, defaults), options);
     api.lastPosition = 0;
@@ -47,7 +48,7 @@
         setScrollPosition();
 
         if (api.settings.selectorActive) {
-          showActive();
+          showActive(api.element);
         }
 
         api.element.addEventListener('scroll', throttle, false);
@@ -60,9 +61,9 @@
       }
     };
 
-    api.showActive = function () {
+    api.showActive = function (el) {
       if (api.settings.selectorActive) {
-        showActive();
+        showActive(el);
       }
     };
 
@@ -76,6 +77,7 @@
     };
 
     var run = function run() {
+      console.log(api.element.scrollTop);
       saveScrollPosition();
       api.ticking = false;
     };
@@ -92,39 +94,40 @@
       }
     };
 
-    var showActive = function showActive() {
-      var el = api.element.querySelector(api.settings.selectorActive);
+    var showActive = function showActive(el) {
+      var active = el.querySelector(api.settings.selectorActive);
 
       if (api.settings.selectorActiveParent) {
-        el = el.closest(api.settings.selectorActiveParent);
+        active = active.closest(api.settings.selectorActiveParent);
       }
 
-      if (el) {
-        var adjust = 0;
+      if (active) {
+        var adjustTop = api.settings.padding;
+        var adjustBot = api.settings.padding;
 
-        if (api.settings.selectorElementPadding) {
-          adjust = api.element.querySelector(api.settings.selectorElementPadding).getBoundingClientRect().height;
+        if (api.settings.selectorTopElem) {
+          adjustTop = adjustTop + el.querySelector(api.settings.selectorElementPadding).offsetHeight;
         }
 
-        var bounding = el.getBoundingClientRect();
-        var scrollBounding = api.element.getBoundingClientRect();
-        var maxTop = scrollBounding.top + adjust;
-        var maxBot = window.innerHeight || document.documentElement.clientHeight;
-        var posTop = el.offsetTop - (adjust + api.settings.padding);
-        var posBot = el.offsetTop + el.getBoundingClientRect().height + api.settings.padding - scrollBounding.height;
+        if (api.settings.selectorBotElem) {
+          adjustBot = adjustBot + el.querySelector(api.settings.selectorElementPadding).offsetHeight;
+        }
 
-        if (bounding.top < maxTop) {
-          api.element.scrollTop = posTop;
-        } else if (bounding.bottom > maxBot) {
-          api.element.scrollTop = api.settings.positionBottom ? posBot : posTop;
+        var posTop = active.offsetTop - adjustTop;
+        var posBot = active.offsetTop - (el.offsetHeight - (active.offsetHeight + adjustBot));
+
+        if (el.scrollTop > posTop) {
+          el.scrollTop = posTop;
+        } else if (el.scrollTop < posBot) {
+          el.scrollTop = posBot;
         }
       }
     };
 
     if (api.settings.autoInit) api.init();
     return api;
-  };
+  });
 
-  exports.MemoryScroll = MemoryScroll;
+  return index;
 
-}(this['scroll-stash'] = this['scroll-stash'] || {}));
+}());

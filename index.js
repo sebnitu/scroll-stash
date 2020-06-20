@@ -1,4 +1,4 @@
-export const MemoryScroll = (options) => {
+export default (options) => {
 
   let api = {};
   const defaults = {
@@ -6,11 +6,12 @@ export const MemoryScroll = (options) => {
     selector: '[data-scroll-stash]',
     selectorActive: '',
     selectorActiveParent: '',
-    selectorElementPadding: '',
-    saveKey: 'StickyScroll',
+    selectorTopElem: '',
+    selectorBotElem: '',
+    saveKey: 'ScrollStash',
     throttleDelay: 500,
     positionBottom: true,
-    padding: 30
+    padding: 16
   };
 
   api.settings = { ...defaults, ...options };
@@ -24,7 +25,7 @@ export const MemoryScroll = (options) => {
     if (api.element) {
       setScrollPosition();
       if (api.settings.selectorActive) {
-        showActive();
+        showActive(api.element);
       }
       api.element.addEventListener('scroll', throttle, false);
     }
@@ -36,9 +37,9 @@ export const MemoryScroll = (options) => {
     }
   };
 
-  api.showActive = () => {
+  api.showActive = (el) => {
     if (api.settings.selectorActive) {
-      showActive();
+      showActive(el);
     }
   };
 
@@ -51,6 +52,7 @@ export const MemoryScroll = (options) => {
   };
 
   const run = () => {
+    console.log(api.element.scrollTop);
     saveScrollPosition();
     api.ticking = false;
   };
@@ -66,32 +68,29 @@ export const MemoryScroll = (options) => {
     }
   };
 
-  const showActive = () => {
-    let el = api.element.querySelector(api.settings.selectorActive);
+  const showActive = (el) => {
+    let active = el.querySelector(api.settings.selectorActive);
     if (api.settings.selectorActiveParent) {
-      el = el.closest(api.settings.selectorActiveParent);
+      active = active.closest(api.settings.selectorActiveParent);
     }
 
-    if (el) {
-      let adjust = 0;
-      if (api.settings.selectorElementPadding) {
-        adjust = api.element
-          .querySelector(api.settings.selectorElementPadding)
-          .getBoundingClientRect().height;
+    if (active) {
+      let adjustTop = api.settings.padding;
+      let adjustBot = api.settings.padding;
+      if (api.settings.selectorTopElem) {
+        adjustTop = adjustTop + el.querySelector(api.settings.selectorElementPadding).offsetHeight;
+      }
+      if (api.settings.selectorBotElem) {
+        adjustBot = adjustBot + el.querySelector(api.settings.selectorElementPadding).offsetHeight;
       }
 
-      const bounding = el.getBoundingClientRect();
-      const scrollBounding = api.element.getBoundingClientRect();
-      const maxTop = scrollBounding.top + adjust;
-      const maxBot = (window.innerHeight || document.documentElement.clientHeight);
+      const posTop = active.offsetTop - (adjustTop);
+      const posBot = active.offsetTop - (el.offsetHeight - (active.offsetHeight + adjustBot));
 
-      const posTop = el.offsetTop - (adjust + api.settings.padding);
-      const posBot = (el.offsetTop + el.getBoundingClientRect().height + api.settings.padding) - (scrollBounding.height);
-
-      if (bounding.top < maxTop) {
-        api.element.scrollTop = posTop;
-      } else if (bounding.bottom > maxBot) {
-        api.element.scrollTop = (api.settings.positionBottom ? posBot : posTop);
+      if (el.scrollTop > posTop) {
+        el.scrollTop = posTop;
+      } else if (el.scrollTop < posBot) {
+        el.scrollTop = posBot;
       }
     }
   };

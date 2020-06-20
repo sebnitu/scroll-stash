@@ -2,15 +2,109 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="./node_modules/@vrembem/base/dist/styles.min.css">
-  <link rel="stylesheet" href="./node_modules/@vrembem/utility/dist/styles.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@vrembem/base/dist/styles.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@vrembem/utility/dist/styles.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@vrembem/menu/dist/styles.min.css">
   <title>scroll-stash</title>
+  <style>
+    .scroll-box {
+      position: relative;
+      height: 200px;
+    }
+    .menu__link.is-active,
+    .menu__link.is-active:focus,
+    .menu__link.is-active:hover,
+    .menu__link.is-active:active {
+      background: #fff;
+    }
+  </style>
 </head>
 <body>
+<div class="spacing-lg padding-xl">
+  <header class="spacing">
+    <h1>scroll-stash</h1>
+    <p>A JavaScript plugin to help preserve an element's scroll position.</p>
+  </header>
 
-<p>scroll-stash</p>
+  <hr class="sep">
 
-<script src="./dist/scripts.min.js"></script>
-<script></script>
+  <div>
+    <h2 class="margin-bottom-md">Example 1</h2>
+    <div class="scroll-box background-shade-dark" data-scroll-stash="example-1">
+      <ul class="menu menu_stack margin">
+        <li class="menu__item">
+          <a href="#" class="menu__link">1: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">2: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">3: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">4: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">5: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">6: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">7: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">8: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">9: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link is-active">10: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">11: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">12: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">13: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">14: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">15: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">16: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">17: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">18: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">19: Menu Item</a>
+        </li>
+        <li class="menu__item">
+          <a href="#" class="menu__link">20: Menu Item</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+<script src="./dist/scripts.js"></script>
+<script>
+  const options = {
+    selectorActive: '.is-active',
+    selectorActiveParent: '.menu__item'
+  };
+  const scrollStash = new ScrollStash(options);
+  scrollStash.init();
+</script>
 </body>
 </html>
