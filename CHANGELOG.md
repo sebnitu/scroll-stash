@@ -13,7 +13,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 * refactor the show active functionality ([50b46d5](https://github.com/sebnitu/scroll-stash/commit/50b46d5d89196754d64b80b6d25e29a9a6615f6f))
 
-### [0.1.0](https://github.com/sebnitu/scroll-stash/compare/v0.1.0) (2020-06-21)
+
+### [0.1.0](https://github.com/sebnitu/scroll-stash/compare/v0.1.0) (2020-06-17)
 
 
 ### Features
