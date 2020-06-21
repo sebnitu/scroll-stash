@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * add support for multiple scroll-stash elements ([8c82b37](https://github.com/sebnitu/scroll-stash/commit/8c82b37e16409e7422a9b677211225b39c493fd7))
 
-### Improvements
+### Refactor
 
 * refactor the show active functionality ([50b46d5](https://github.com/sebnitu/scroll-stash/commit/50b46d5d89196754d64b80b6d25e29a9a6615f6f))
 
