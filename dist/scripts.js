@@ -18,14 +18,20 @@ this.ScrollStash = (function () {
 
   var defineProperty = _defineProperty;
 
+  var camelCase = function camelCase(str) {
+    return str.replace(/-([a-z])/g, function (g) {
+      return g[1].toUpperCase();
+    });
+  };
+
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
   var index = (function (options) {
     var api = {};
     var defaults = {
       autoInit: false,
+      dataScroll: 'scroll-stash',
       selector: '[data-scroll-stash]',
       selectorActive: '',
       selectorActiveParent: '',
@@ -37,28 +43,30 @@ this.ScrollStash = (function () {
       padding: 16
     };
     api.settings = _objectSpread(_objectSpread({}, defaults), options);
-    api.lastPosition = 0;
+    api.scrolls = [];
+    api.state = {};
     api.ticking = false;
-    api.element = false;
 
     api.init = function () {
-      api.element = document.querySelector(api.settings.selector);
-
-      if (api.element) {
+      api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
+      api.scrolls.forEach(function (item) {
         setScrollPosition();
 
         if (api.settings.selectorActive) {
-          showActive(api.element);
+          showActive(item);
         }
 
-        api.element.addEventListener('scroll', throttle, false);
-      }
+        item.addEventListener('scroll', throttle, false);
+      });
     };
 
     api.destroy = function () {
-      if (api.element) {
-        api.element.removeEventListener('scroll', throttle, false);
-      }
+      api.scrolls.forEach(function (item) {
+        item.removeEventListener('scroll', throttle, false);
+      });
+      api.scrolls = [];
+      api.state = {};
+      localStorage.removeItem(api.settings.saveKey);
     };
 
     api.showActive = function (el) {
@@ -67,9 +75,7 @@ this.ScrollStash = (function () {
       }
     };
 
-    var throttle = function throttle(event) {
-      api.lastPosition = event.target.scrollTop;
-
+    var throttle = function throttle() {
       if (!api.ticking) {
         setTimeout(run, api.settings.throttleDelay);
         api.ticking = true;
@@ -77,27 +83,35 @@ this.ScrollStash = (function () {
     };
 
     var run = function run() {
-      console.log(api.element.scrollTop);
       saveScrollPosition();
       api.ticking = false;
     };
 
     var saveScrollPosition = function saveScrollPosition() {
-      localStorage.setItem(api.settings.saveKey, api.lastPosition);
+      var scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
+      scrolls.forEach(function (el) {
+        var id = el.dataset[camelCase(api.settings.dataScroll)];
+        if (id) api.state[id] = el.scrollTop;
+      });
+      localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
     };
 
     var setScrollPosition = function setScrollPosition() {
-      var pos = localStorage.getItem(api.settings.saveKey);
-
-      if (pos) {
-        api.element.scrollTop = pos;
+      if (localStorage.getItem(api.settings.saveKey)) {
+        api.state = JSON.parse(localStorage.getItem(api.settings.saveKey));
+        Object.keys(api.state).forEach(function (key) {
+          var item = document.querySelector("[data-".concat(api.settings.dataScroll, "=\"").concat(key, "\"]"));
+          if (item) item.scrollTop = api.state[key];
+        });
+      } else {
+        saveScrollPosition();
       }
     };
 
     var showActive = function showActive(el) {
       var active = el.querySelector(api.settings.selectorActive);
 
-      if (api.settings.selectorActiveParent) {
+      if (active && api.settings.selectorActiveParent) {
         active = active.closest(api.settings.selectorActiveParent);
       }
 

@@ -1,8 +1,11 @@
+import { camelCase } from '@vrembem/core';
+
 export default (options) => {
 
   let api = {};
   const defaults = {
     autoInit: false,
+    dataScroll: 'scroll-stash',
     selector: '[data-scroll-stash]',
     selectorActive: '',
     selectorActiveParent: '',
@@ -16,25 +19,28 @@ export default (options) => {
 
   api.settings = { ...defaults, ...options };
 
-  api.lastPosition = 0;
+  api.scrolls = [];
+  api.state = {};
   api.ticking = false;
-  api.element = false;
 
   api.init = () => {
-    api.element = document.querySelector(api.settings.selector);
-    if (api.element) {
+    api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
+    api.scrolls.forEach((item) => {
       setScrollPosition();
       if (api.settings.selectorActive) {
-        showActive(api.element);
+        showActive(item);
       }
-      api.element.addEventListener('scroll', throttle, false);
-    }
+      item.addEventListener('scroll', throttle, false);
+    });
   };
 
   api.destroy = () => {
-    if (api.element) {
-      api.element.removeEventListener('scroll', throttle, false);
-    }
+    api.scrolls.forEach((item) => {
+      item.removeEventListener('scroll', throttle, false);
+    });
+    api.scrolls = [];
+    api.state = {};
+    localStorage.removeItem(api.settings.saveKey);
   };
 
   api.showActive = (el) => {
@@ -43,8 +49,7 @@ export default (options) => {
     }
   };
 
-  const throttle = (event) => {
-    api.lastPosition = event.target.scrollTop;
+  const throttle = () => {
     if (!api.ticking) {
       setTimeout(run, api.settings.throttleDelay);
       api.ticking = true;
@@ -52,25 +57,36 @@ export default (options) => {
   };
 
   const run = () => {
-    console.log(api.element.scrollTop);
     saveScrollPosition();
     api.ticking = false;
   };
 
   const saveScrollPosition = () => {
-    localStorage.setItem(api.settings.saveKey, api.lastPosition);
+    const scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
+    scrolls.forEach((el) => {
+      const id = el.dataset[camelCase(api.settings.dataScroll)];
+      if (id) api.state[id] = el.scrollTop;
+    });
+    localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
   };
 
   const setScrollPosition = () => {
-    let pos = localStorage.getItem(api.settings.saveKey);
-    if (pos) {
-      api.element.scrollTop = pos;
+    if (localStorage.getItem(api.settings.saveKey)) {
+      api.state = JSON.parse(localStorage.getItem(api.settings.saveKey));
+      Object.keys(api.state).forEach((key) => {
+        const item = document.querySelector(
+          `[data-${api.settings.dataScroll}="${key}"]`
+        );
+        if (item) item.scrollTop = api.state[key];
+      });
+    } else {
+      saveScrollPosition();
     }
   };
 
   const showActive = (el) => {
     let active = el.querySelector(api.settings.selectorActive);
-    if (api.settings.selectorActiveParent) {
+    if (active && api.settings.selectorActiveParent) {
       active = active.closest(api.settings.selectorActiveParent);
     }
 
