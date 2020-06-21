@@ -19,7 +19,7 @@
     "watch": "nodemon -e js -x 'npm run scripts' -i dist",
     "test": "jest || true",
     "test:watch": "jest --watch || true",
-    "release": "conventional-changelog"
+    "changelog": "conventional-changelog -p angular"
   },
   "repository": {
     "type": "git",
