@@ -49,9 +49,8 @@ this.ScrollStash = (function () {
 
     api.init = function () {
       api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
+      setScrollPosition();
       api.scrolls.forEach(function (item) {
-        setScrollPosition();
-
         if (api.settings.selectorActive) {
           showActive(item);
         }
@@ -120,11 +119,19 @@ this.ScrollStash = (function () {
         var adjustBot = api.settings.padding;
 
         if (api.settings.selectorTopElem) {
-          adjustTop = adjustTop + el.querySelector(api.settings.selectorElementPadding).offsetHeight;
+          var topElem = el.querySelector(api.settings.selectorTopElem);
+
+          if (topElem) {
+            adjustTop = adjustTop + topElem.offsetHeight;
+          }
         }
 
         if (api.settings.selectorBotElem) {
-          adjustBot = adjustBot + el.querySelector(api.settings.selectorElementPadding).offsetHeight;
+          var botElem = el.querySelector(api.settings.selectorBotElem);
+
+          if (botElem) {
+            adjustBot = adjustBot + botElem.offsetHeight;
+          }
         }
 
         var posTop = active.offsetTop - adjustTop;

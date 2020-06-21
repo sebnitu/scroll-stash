@@ -25,8 +25,8 @@ export default (options) => {
 
   api.init = () => {
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
+    setScrollPosition();
     api.scrolls.forEach((item) => {
-      setScrollPosition();
       if (api.settings.selectorActive) {
         showActive(item);
       }
@@ -94,10 +94,16 @@ export default (options) => {
       let adjustTop = api.settings.padding;
       let adjustBot = api.settings.padding;
       if (api.settings.selectorTopElem) {
-        adjustTop = adjustTop + el.querySelector(api.settings.selectorElementPadding).offsetHeight;
+        const topElem = el.querySelector(api.settings.selectorTopElem);
+        if (topElem) {
+          adjustTop = adjustTop + topElem.offsetHeight;
+        }
       }
       if (api.settings.selectorBotElem) {
-        adjustBot = adjustBot + el.querySelector(api.settings.selectorElementPadding).offsetHeight;
+        const botElem = el.querySelector(api.settings.selectorBotElem);
+        if (botElem) {
+          adjustBot = adjustBot + botElem.offsetHeight;
+        }
       }
 
       const posTop = active.offsetTop - (adjustTop);

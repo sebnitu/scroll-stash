@@ -4,12 +4,20 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://unpkg.com/@vrembem/base/dist/styles.min.css">
   <link rel="stylesheet" href="https://unpkg.com/@vrembem/utility/dist/styles.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@vrembem/dialog/dist/styles.min.css">
   <link rel="stylesheet" href="https://unpkg.com/@vrembem/menu/dist/styles.min.css">
   <title>scroll-stash</title>
   <style>
     .scroll-box {
       position: relative;
       height: 200px;
+    }
+    .scroll-box .dialog {
+      height: 200px;
+    }
+    .dialog,
+    .dialog__body {
+      background: none;
     }
     .menu__link.is-active,
     .menu__link.is-active:focus,
@@ -24,6 +32,7 @@
   <header class="spacing">
     <h1>scroll-stash</h1>
     <p>A JavaScript plugin to help preserve an element's scroll position.</p>
+    <p><button class="link js-show-active">Show active</button></p>
   </header>
 
   <hr class="sep">
@@ -164,15 +173,100 @@
     </div>
   </div>
 
+  <div>
+    <h2 class="margin-bottom-md">Example 3</h2>
+    <div class="scroll-box background-shade-dark">
+      <div class="dialog" data-scroll-stash="example-3">
+        <div class="dialog__header background-shade-dark">
+          Dialog title...
+        </div>
+        <div class="dialog__body">
+          <ul class="menu menu_stack">
+            <li class="menu__item">
+              <a href="#" class="menu__link">1: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">2: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">3: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">4: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">5: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">6: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">7: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">8: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">9: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link is-active">10: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">11: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">12: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">13: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">14: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">15: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">16: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">17: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">18: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">19: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">20: Menu Item</a>
+            </li>
+          </ul>
+        </div>
+        <div class="dialog__footer background-shade-dark">
+          Dialog footer...
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 <script src="./dist/scripts.js"></script>
 <script>
   const options = {
     selectorActive: '.is-active',
-    selectorActiveParent: '.menu__item'
+    selectorActiveParent: '.menu__item',
+    selectorTopElem: '.dialog__header',
+    selectorBotElem: '.dialog__footer'
   };
   const scrollStash = new ScrollStash(options);
   scrollStash.init();
+
+  const btn = document.querySelector('.js-show-active');
+  btn.addEventListener('click', () => {
+    scrollStash.showActive(scrollStash.scrolls.item(1));
+  });
 </script>
 </body>
 </html>
