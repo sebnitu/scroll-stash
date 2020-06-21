@@ -31,9 +31,10 @@ var index = (function (options) {
   var defaults = {
     autoInit: false,
     dataScroll: 'scroll-stash',
+    dataAnchor: 'scroll-stash-anchor',
     selector: '[data-scroll-stash]',
-    selectorActive: '',
-    selectorActiveParent: '',
+    selectorAnchor: '',
+    selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
     saveKey: 'ScrollStash',
@@ -50,8 +51,8 @@ var index = (function (options) {
     api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
     setScrollPosition();
     api.scrolls.forEach(function (item) {
-      if (api.settings.selectorActive) {
-        showActive(item);
+      if (api.settings.selectorAnchor) {
+        showAnchor(item);
       }
 
       item.addEventListener('scroll', throttle, false);
@@ -67,9 +68,9 @@ var index = (function (options) {
     localStorage.removeItem(api.settings.saveKey);
   };
 
-  api.showActive = function (el) {
-    if (api.settings.selectorActive) {
-      showActive(el);
+  api.showAnchor = function (el) {
+    if (api.settings.selectorAnchor) {
+      showAnchor(el);
     }
   };
 
@@ -106,14 +107,22 @@ var index = (function (options) {
     }
   };
 
-  var showActive = function showActive(el) {
-    var active = el.querySelector(api.settings.selectorActive);
+  var showAnchor = function showAnchor(el) {
+    var anchor = el.querySelector(api.settings.selectorAnchor);
 
-    if (active && api.settings.selectorActiveParent) {
-      active = active.closest(api.settings.selectorActiveParent);
+    if (anchor && api.settings.selectorAnchorParent) {
+      anchor = anchor.closest(api.settings.selectorAnchorParent);
     }
 
-    if (active) {
+    var dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
+
+    if (dataAnchor == ('false' )) {
+      return false;
+    } else if (dataAnchor) {
+      anchor = el.querySelector(dataAnchor) ? el.querySelector(dataAnchor) : anchor;
+    }
+
+    if (anchor) {
       var adjustTop = api.settings.padding;
       var adjustBot = api.settings.padding;
 
@@ -133,8 +142,8 @@ var index = (function (options) {
         }
       }
 
-      var posTop = active.offsetTop - adjustTop;
-      var posBot = active.offsetTop - (el.offsetHeight - (active.offsetHeight + adjustBot));
+      var posTop = anchor.offsetTop - adjustTop;
+      var posBot = anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + adjustBot));
 
       if (el.scrollTop > posTop) {
         el.scrollTop = posTop;

@@ -6,9 +6,10 @@ export default (options) => {
   const defaults = {
     autoInit: false,
     dataScroll: 'scroll-stash',
+    dataAnchor: 'scroll-stash-anchor',
     selector: '[data-scroll-stash]',
-    selectorActive: '',
-    selectorActiveParent: '',
+    selectorAnchor: '',
+    selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
     saveKey: 'ScrollStash',
@@ -27,8 +28,8 @@ export default (options) => {
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
     setScrollPosition();
     api.scrolls.forEach((item) => {
-      if (api.settings.selectorActive) {
-        showActive(item);
+      if (api.settings.selectorAnchor) {
+        showAnchor(item);
       }
       item.addEventListener('scroll', throttle, false);
     });
@@ -43,9 +44,9 @@ export default (options) => {
     localStorage.removeItem(api.settings.saveKey);
   };
 
-  api.showActive = (el) => {
-    if (api.settings.selectorActive) {
-      showActive(el);
+  api.showAnchor = (el) => {
+    if (api.settings.selectorAnchor) {
+      showAnchor(el);
     }
   };
 
@@ -84,13 +85,23 @@ export default (options) => {
     }
   };
 
-  const showActive = (el) => {
-    let active = el.querySelector(api.settings.selectorActive);
-    if (active && api.settings.selectorActiveParent) {
-      active = active.closest(api.settings.selectorActiveParent);
+  const showAnchor = (el) => {
+    // Element size and scrolling
+    // https://javascript.info/size-and-scroll
+
+    let anchor = el.querySelector(api.settings.selectorAnchor);
+    if (anchor && api.settings.selectorAnchorParent) {
+      anchor = anchor.closest(api.settings.selectorAnchorParent);
     }
 
-    if (active) {
+    const dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
+    if (dataAnchor == ('false' || '0')) {
+      return false;
+    } else if (dataAnchor) {
+      anchor = (el.querySelector(dataAnchor)) ? el.querySelector(dataAnchor) : anchor;
+    }
+
+    if (anchor) {
       let adjustTop = api.settings.padding;
       let adjustBot = api.settings.padding;
       if (api.settings.selectorTopElem) {
@@ -106,8 +117,8 @@ export default (options) => {
         }
       }
 
-      const posTop = active.offsetTop - (adjustTop);
-      const posBot = active.offsetTop - (el.offsetHeight - (active.offsetHeight + adjustBot));
+      const posTop = anchor.offsetTop - (adjustTop);
+      const posBot = anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + adjustBot));
 
       if (el.scrollTop > posTop) {
         el.scrollTop = posTop;

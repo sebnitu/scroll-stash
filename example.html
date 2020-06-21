@@ -2,18 +2,21 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <!-- Example styles -->
   <link rel="stylesheet" href="https://unpkg.com/@vrembem/base/dist/styles.min.css">
   <link rel="stylesheet" href="https://unpkg.com/@vrembem/utility/dist/styles.min.css">
   <link rel="stylesheet" href="https://unpkg.com/@vrembem/dialog/dist/styles.min.css">
   <link rel="stylesheet" href="https://unpkg.com/@vrembem/menu/dist/styles.min.css">
   <title>scroll-stash</title>
+
+  <!-- Styles -->
   <style>
+    .page {
+      height: 100vh;
+      overflow: auto;
+    }
     .scroll-box {
       position: relative;
-      height: 200px;
-    }
-    .scroll-box .dialog {
-      height: 200px;
     }
     .dialog,
     .dialog__body {
@@ -28,160 +31,89 @@
   </style>
 </head>
 <body>
-<div class="spacing-lg padding-xl">
-  <header class="spacing">
-    <h1>scroll-stash</h1>
-    <p>A JavaScript plugin to help preserve an element's scroll position.</p>
-    <p><button class="link js-show-active">Show active</button></p>
-  </header>
+  <div class="page" data-scroll-stash="page" data-scroll-stash-anchor="false">
 
-  <hr class="sep">
+    <div class="spacing-lg padding-xl">
+      <header class="spacing">
+        <h1>scroll-stash</h1>
+        <p>A JavaScript plugin to help preserve an element's scroll position.</p>
+        <p><button class="link js-show-anchor">Show anchor</button></p>
+      </header>
 
-  <div>
-    <h2 class="margin-bottom-md">Example 1</h2>
-    <div class="scroll-box background-shade-dark" data-scroll-stash="example-1">
-      <ul class="menu menu_stack margin">
-        <li class="menu__item">
-          <a href="#" class="menu__link">1: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">2: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">3: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">4: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">5: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">6: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">7: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">8: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">9: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">10: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">11: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">12: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">13: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">14: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">15: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">16: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">17: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">18: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">19: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">20: Menu Item</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+      <hr class="sep">
 
-  <div>
-    <h2 class="margin-bottom-md">Example 2</h2>
-    <div class="scroll-box background-shade-dark" data-scroll-stash="example-2">
-      <ul class="menu menu_stack margin">
-        <li class="menu__item">
-          <a href="#" class="menu__link">1: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">2: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">3: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">4: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">5: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">6: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">7: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">8: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">9: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link is-active">10: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">11: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">12: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">13: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">14: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">15: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">16: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">17: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">18: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">19: Menu Item</a>
-        </li>
-        <li class="menu__item">
-          <a href="#" class="menu__link">20: Menu Item</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="margin-bottom-md">Example 3</h2>
-    <div class="scroll-box background-shade-dark">
-      <div class="dialog" data-scroll-stash="example-3">
-        <div class="dialog__header background-shade-dark">
-          Dialog title...
+      <div>
+        <h2 class="margin-bottom-md">Example 1</h2>
+        <div class="scroll-box background-shade-dark" style="height:200px;" data-scroll-stash="example-1" data-scroll-stash-anchor=".background-secondary">
+          <ul class="menu menu_stack margin">
+            <li class="menu__item">
+              <a href="#" class="menu__link">1: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">2: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">3: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">4: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">5: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">6: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">7: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">8: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">9: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">10: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">11: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">12: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link background-secondary color-white">13: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">14: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">15: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">16: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">17: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">18: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link">19: Menu Item</a>
+            </li>
+            <li class="menu__item">
+              <a href="#" class="menu__link is-active">20: Menu Item</a>
+            </li>
+          </ul>
         </div>
-        <div class="dialog__body">
-          <ul class="menu menu_stack">
+      </div>
+
+      <div>
+        <h2 class="margin-bottom-md">Example 2</h2>
+        <div class="scroll-box background-shade-dark" style="height:200px;" data-scroll-stash="example-2">
+          <ul class="menu menu_stack margin">
             <li class="menu__item">
               <a href="#" class="menu__link">1: Menu Item</a>
             </li>
@@ -244,28 +176,105 @@
             </li>
           </ul>
         </div>
-        <div class="dialog__footer background-shade-dark">
-          Dialog footer...
+      </div>
+
+      <div>
+        <h2 class="margin-bottom-md">Example 3</h2>
+        <div class="scroll-box background-shade-dark">
+          <div class="dialog" style="height:400px;" data-scroll-stash="example-3">
+            <div class="dialog__header background-shade-dark">
+              Dialog title...
+            </div>
+            <div class="dialog__body">
+              <ul class="menu menu_stack">
+                <li class="menu__item">
+                  <a href="#" class="menu__link">1: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">2: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">3: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">4: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">5: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">6: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">7: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">8: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">9: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link is-active">10: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">11: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">12: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">13: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">14: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">15: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">16: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">17: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">18: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">19: Menu Item</a>
+                </li>
+                <li class="menu__item">
+                  <a href="#" class="menu__link">20: Menu Item</a>
+                </li>
+              </ul>
+            </div>
+            <div class="dialog__footer background-shade-dark">
+              Dialog footer...
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-</div>
+    </div>
+
+</div><!-- .page -->
+
+<!-- Scripts -->
 <script src="./dist/scripts.js"></script>
 <script>
   const options = {
-    selectorActive: '.is-active',
-    selectorActiveParent: '.menu__item',
+    selectorAnchor: '.is-active',
     selectorTopElem: '.dialog__header',
     selectorBotElem: '.dialog__footer'
   };
   const scrollStash = new ScrollStash(options);
   scrollStash.init();
 
-  const btn = document.querySelector('.js-show-active');
+  const btn = document.querySelector('.js-show-anchor');
+  const box = document.querySelector('[data-scroll-stash="example-2"]');
   btn.addEventListener('click', () => {
-    scrollStash.showActive(scrollStash.scrolls.item(1));
+    scrollStash.showAnchor(box);
   });
 </script>
 </body>
