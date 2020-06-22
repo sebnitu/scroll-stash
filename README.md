@@ -70,6 +70,7 @@ Key | Default | Description
 `anchorPadding` | `16` | The extra padding to provide when scrolling anchors into view.
 `saveKey` | `'ScrollStash'` | The key that is used to save the scroll stash state object in local storage.
 `throttleDelay` | `500` | The delay to apply between scroll stash saves. Since scrolling events fire extremely fast, this creates a throttle to help improve performance.
+`customEventPrefix` | `'scroll-stash:'` | Prefix to be used on custom events.
 
 ### JavaScript API
 
