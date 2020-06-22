@@ -340,6 +340,18 @@
 <!-- Scripts -->
 <script src="./dist/scripts.js"></script>
 <script>
+  document.addEventListener('scroll-stash:saved', (event) => {
+    console.log('Saved!', JSON.parse(localStorage.getItem('ScrollStash')));
+  });
+
+  document.addEventListener('scroll-stash:applied', (event) => {
+    console.log('Applied!', event.target);
+  });
+
+  document.addEventListener('scroll-stash:anchor', (event) => {
+    console.log('Anchor!', event.target);
+  });
+
   const options = {
     selectorAnchor: '.is-active',
     selectorTopElem: '.dialog__header',

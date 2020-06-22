@@ -11,9 +11,10 @@ export default (options) => {
     selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
+    anchorPadding: 16,
     saveKey: 'ScrollStash',
     throttleDelay: 500,
-    padding: 16
+    customEventPrefix: 'scroll-stash:',
   };
 
   api.settings = { ...defaults, ...options };
@@ -67,6 +68,10 @@ export default (options) => {
       if (id) api.state[id] = el.scrollTop;
     });
     localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
+    const customEvent = new CustomEvent(api.settings.customEventPrefix + 'saved', {
+      bubbles: true
+    });
+    document.dispatchEvent(customEvent);
   };
 
   const setScrollPosition = () => {
@@ -77,6 +82,10 @@ export default (options) => {
           `[data-${api.settings.dataScroll}="${key}"]`
         );
         if (item) item.scrollTop = api.state[key];
+        const customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
+          bubbles: true
+        });
+        item.dispatchEvent(customEvent);
       });
     } else {
       saveScrollPosition();
@@ -100,8 +109,8 @@ export default (options) => {
     }
 
     if (anchor) {
-      let adjustTop = api.settings.padding;
-      let adjustBot = api.settings.padding;
+      let adjustTop = api.settings.anchorPadding;
+      let adjustBot = api.settings.anchorPadding;
       if (api.settings.selectorTopElem) {
         const topElem = el.querySelector(api.settings.selectorTopElem);
         if (topElem) {
@@ -123,6 +132,11 @@ export default (options) => {
       } else if (el.scrollTop < posBot) {
         el.scrollTop = posBot;
       }
+
+      const customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
+        bubbles: true
+      });
+      el.dispatchEvent(customEvent);
     }
   };
 

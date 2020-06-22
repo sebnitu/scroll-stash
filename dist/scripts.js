@@ -37,9 +37,10 @@ this.ScrollStash = (function () {
       selectorAnchorParent: '',
       selectorTopElem: '',
       selectorBotElem: '',
+      anchorPadding: 16,
       saveKey: 'ScrollStash',
       throttleDelay: 500,
-      padding: 16
+      customEventPrefix: 'scroll-stash:'
     };
     api.settings = _objectSpread(_objectSpread({}, defaults), options);
     api.scrolls = [];
@@ -92,6 +93,10 @@ this.ScrollStash = (function () {
         if (id) api.state[id] = el.scrollTop;
       });
       localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
+      var customEvent = new CustomEvent(api.settings.customEventPrefix + 'saved', {
+        bubbles: true
+      });
+      document.dispatchEvent(customEvent);
     };
 
     var setScrollPosition = function setScrollPosition() {
@@ -100,6 +105,10 @@ this.ScrollStash = (function () {
         Object.keys(api.state).forEach(function (key) {
           var item = document.querySelector("[data-".concat(api.settings.dataScroll, "=\"").concat(key, "\"]"));
           if (item) item.scrollTop = api.state[key];
+          var customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
+            bubbles: true
+          });
+          item.dispatchEvent(customEvent);
         });
       } else {
         saveScrollPosition();
@@ -122,8 +131,8 @@ this.ScrollStash = (function () {
       }
 
       if (anchor) {
-        var adjustTop = api.settings.padding;
-        var adjustBot = api.settings.padding;
+        var adjustTop = api.settings.anchorPadding;
+        var adjustBot = api.settings.anchorPadding;
 
         if (api.settings.selectorTopElem) {
           var topElem = el.querySelector(api.settings.selectorTopElem);
@@ -149,6 +158,11 @@ this.ScrollStash = (function () {
         } else if (el.scrollTop < posBot) {
           el.scrollTop = posBot;
         }
+
+        var customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
+          bubbles: true
+        });
+        el.dispatchEvent(customEvent);
       }
     };
 
