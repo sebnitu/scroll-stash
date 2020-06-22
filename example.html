@@ -11,6 +11,9 @@
 
   <!-- Styles -->
   <style>
+    [data-scroll-stash] {
+      position: relative;
+    }
     .page {
       height: 100vh;
       overflow: auto;
@@ -18,19 +21,8 @@
     .example {
       max-width: 48em;
     }
-    .scroll-box {
-      position: relative;
-      max-width: 48em;
-    }
-    .dialog,
-    .dialog__body {
-      background: none;
-    }
-    .menu__link.is-active,
-    .menu__link.is-active:focus,
-    .menu__link.is-active:hover,
-    .menu__link.is-active:active {
-      background: #fff;
+    .is-active {
+      background: #fff !important;
     }
   </style>
 </head>
@@ -194,12 +186,12 @@
           <p>Scrolling anchor in view should take into account a sticky header and footer along with the set padding.</p>
           <p><button class="link js-show-anchor">Show anchor</button></p>
         </div>
-        <div class="scroll-box background-shade-dark">
-          <div class="dialog" style="height:28em;" data-scroll-stash="example-3">
+        <div class="scroll-box">
+          <div class="dialog background-shade-dark" style="height:28em;" data-scroll-stash="example-3">
             <div class="dialog__header background-shade-dark">
               Dialog header...
             </div>
-            <div class="dialog__body">
+            <div class="dialog__body background-none">
               <ul class="menu menu_stack">
                 <li class="menu__item">
                   <a href="#" class="menu__link">1: Menu Item</a>
