@@ -15,9 +15,17 @@ All notable changes to this project will be documented in this file.
 
 <!--
 Commit template:
-chore(release): add v0.1.2 to CHANGELOG.md
+chore(release): add v0.2.0 to CHANGELOG.md
 -->
 <!-- ADD-NEW-CHANGELOG-HERE -->
+
+## [0.2.0](https://github.com/sebnitu/scroll-stash/compare/v0.1.2...v0.2.0) (2020-06-22)
+
+### Features
+
+* add custom events for saved, applied and anchor ([ba34a8c](https://github.com/sebnitu/scroll-stash/commit/ba34a8c5dc759b9d3580995a9cbf883dfa462607))
+
+
 
 ## [0.1.2](https://github.com/sebnitu/scroll-stash/compare/v0.1.0...v0.1.2) (2020-06-21)
 
@@ -34,7 +42,6 @@ chore(release): add v0.1.2 to CHANGELOG.md
 
 ## [0.1.1](https://github.com/sebnitu/scroll-stash/compare/v0.1.0...v0.1.1) (2020-06-21)
 
-
 ### Features
 
 * add support for multiple scroll-stash elements ([8c82b37](https://github.com/sebnitu/scroll-stash/commit/8c82b37e16409e7422a9b677211225b39c493fd7))
@@ -46,7 +53,6 @@ chore(release): add v0.1.2 to CHANGELOG.md
 
 
 ## [0.1.0](https://github.com/sebnitu/scroll-stash/compare/v0.1.0) (2020-06-17)
-
 
 ### Features
 
