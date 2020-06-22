@@ -13,7 +13,6 @@ export default (options) => {
     selectorBotElem: '',
     saveKey: 'ScrollStash',
     throttleDelay: 500,
-    positionBottom: true,
     padding: 16
   };
 

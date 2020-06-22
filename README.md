@@ -1,3 +1,77 @@
 # scroll-stash
 
 A JavaScript plugin to help preserve an element's scroll position.
+
+## Installation
+
+```
+npm install scroll-stash
+```
+
+### JavaScript
+
+```js
+import { ScrollStash } from 'scroll-stash';
+const scrollStash = new ScrollStash({ autoInit: true });
+```
+
+### Styles
+
+There are no styles to include for `scroll-stash`, but if you plan on using the anchor feature it's important to make sure:
+
+- The scrollable element has `position: relative` applied.
+- The anchor's nearest parent with `position: relative` should be the scrollable container.
+- If a parent wrapper of an anchor exists that needs to be positioned relatively, pass it's selector as the `selectorAnchorParent` option.
+
+### Markup
+
+The most basic implementation of `scroll-stash` is the application of the data attribute `data-scroll-stash` with a unique ID as the value. The unique ID is used in saving each `scroll-stash` element's scroll position.
+
+```html
+<div data-scroll-stash="[unique-id]">
+  ...
+</div>
+```
+
+#### `data-scroll-stash-anchor`
+
+This optional data attribute—when set on a `scroll-stash` element with a valid selector—defines an anchor that will take precedence over set options on instantiation. Setting it's value to `false` or `0` will disable the anchor feature. This is useful to prevent a parent scrollable wrapper from inheriting the anchor of child elements.
+
+```html
+<div data-scroll-stash="[unique-id]" data-scroll-stash-anchor="[false | 0 | selector]">
+  ...
+</div>
+```
+
+> Anchors are elements within a scrollable container that you want to always be visible. In the case where a preserved scroll position is applied and the anchor is not visible, the scroll will be adjusted to the nearest position to make the entire element visible with the appropriate padding or clearance elements as defined in options.
+
+## Customization
+
+### JavaScript Events
+
+- `scroll-stash:saved` Emits when scroll positions are saved.
+- `scroll-stash:applied` Emits when scroll positions are applied.
+- `scroll-stash:anchor` Emits when the anchor is scrolled into view.
+
+### JavaScript Options
+
+Key | Default | Description
+---|---|---
+`autoInit` | `false` | Automatically instantiates the instance.
+`dataScroll` | `'scroll-stash'` | Data attribute for a `scroll-stash` element. Stores the unique ID for saving and restoring scroll positions.
+`dataAnchor` | `'scroll-stash-anchor'` | Data attribute for setting an element specific anchor or disabling the anchor feature on a specific `scroll-stash` element.
+`selectorAnchor` | `''` | Selector for the anchor to look for in each `scroll-stash` element.
+`selectorAnchorParent` | `''` | Parent selector for anchors who are wrapped in elements with `position: relative` styles.
+`selectorTopElem` | `''` | Selector for sticky or fixed top element within a `scroll-stash` that anchors need to take into account.
+`selectorBotElem` | `''` | Selector for sticky or fixed bottom element within a `scroll-stash` that anchors need to take into account.
+`saveKey` | `'ScrollStash'` | The key that is used to save the scroll stash state object in local storage.
+`throttleDelay` | `500` | The delay to apply between scroll stash saves. Since scrolling events fire extremely fast, this creates a throttle to help improve performance.
+`padding` | `16` | The extra padding to provide when scrolling anchors into view.
+
+### JavaScript API
+
+Method | Description
+---|---
+`scrollStash.init()` | Initializes the scroll-stash instance.
+`scrollStash.destroy()` | Destroys and cleans up the scroll-stash instantiation.
+`scrollStash.showAnchor(scroll-element)` | Sets the anchor in view.

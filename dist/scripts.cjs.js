@@ -38,7 +38,6 @@ var index = (function (options) {
     selectorBotElem: '',
     saveKey: 'ScrollStash',
     throttleDelay: 500,
-    positionBottom: true,
     padding: 16
   };
   api.settings = _objectSpread(_objectSpread({}, defaults), options);
