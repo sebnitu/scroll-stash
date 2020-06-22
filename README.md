@@ -50,13 +50,13 @@ This optional data attribute—when set on a `scroll-stash` element with a valid
 
 ## Customization
 
-### JavaScript Events
+### Events
 
 - `scroll-stash:saved` Emits when scroll positions are saved.
 - `scroll-stash:applied` Emits when scroll positions are applied.
 - `scroll-stash:anchor` Emits when the anchor is scrolled into view.
 
-### JavaScript Options
+### Options
 
 Key | Default | Description
 ---|---|---
@@ -72,7 +72,7 @@ Key | Default | Description
 `throttleDelay` | `500` | The delay to apply between scroll stash saves. Since scrolling events fire extremely fast, this creates a throttle to help improve performance.
 `customEventPrefix` | `'scroll-stash:'` | Prefix to be used on custom events.
 
-### JavaScript API
+### API
 
 Method | Description
 ---|---
