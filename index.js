@@ -7,7 +7,6 @@ export default (options) => {
     autoInit: false,
     dataScroll: 'scroll-stash',
     dataAnchor: 'scroll-stash-anchor',
-    selector: '[data-scroll-stash]',
     selectorAnchor: '',
     selectorAnchorParent: '',
     selectorTopElem: '',
