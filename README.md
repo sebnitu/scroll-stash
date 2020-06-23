@@ -74,8 +74,35 @@ Key | Default | Description
 
 ### API
 
-Method | Description
----|---
-`scrollStash.init()` | Initializes the scroll-stash instance.
-`scrollStash.destroy()` | Destroys and cleans up the scroll-stash instantiation.
-`scrollStash.showAnchor(scroll-element)` | Sets the anchor in view.
+#### `scrollStash.init()`
+
+Initializes the `scroll-stash` instance.
+
+```js
+const scrollStash = new ScrollStash();
+scrollStash.init();
+```
+
+#### `scrollStash.destroy()`
+
+Destroys the previously initialized `scroll-stash` instance.
+
+```js
+const scrollStash = new ScrollStash();
+scrollStash.init();
+// ...
+scrollStash.destroy();
+```
+
+#### `scrollStash.showAnchor(el)`
+
+Scrolls the anchor in view of the passed `scroll-stash` HTML element.
+
+**Parameters**
+
+- `el` HTML element that scroll stash has been instantiated on.
+
+```js
+const el = document.querySelector('[data-scroll-stash]');
+scrollStash.showAnchor(el);
+```
