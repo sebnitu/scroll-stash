@@ -1,12 +1,13 @@
 import 'expect-puppeteer';
+import path from 'path';
 
-describe('Google', () => {
+describe('Example page', () => {
   beforeAll(async () => {
-    await page.goto('https://google.com');
+    await page.goto(`file:${path.join(__dirname, '../example.html')}`);
   });
 
-  it('should display "google" text on page', async () => {
+  it('should display "scroll-stash" in the page title', async () => {
     // await jestPuppeteer.debug();
-    await expect(page).toMatch('google');
+    await expect(await page.title()).toEqual('scroll-stash');
   });
 });
