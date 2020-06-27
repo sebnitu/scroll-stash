@@ -36,6 +36,7 @@ var index = (function (options) {
     selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
+    behavior: 'auto',
     anchorPadding: 16,
     saveKey: 'ScrollStash',
     throttleDelay: 500,
@@ -68,8 +69,10 @@ var index = (function (options) {
   };
 
   api.showAnchor = function (el) {
+    var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
+
     if (api.settings.selectorAnchor) {
-      showAnchor(el);
+      showAnchor(el, behavior);
     }
   };
 
@@ -115,6 +118,7 @@ var index = (function (options) {
   };
 
   var showAnchor = function showAnchor(el) {
+    var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
     var anchor = el.querySelector(api.settings.selectorAnchor);
 
     if (anchor && api.settings.selectorAnchorParent) {
@@ -153,9 +157,15 @@ var index = (function (options) {
       var posBot = anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + adjustBot));
 
       if (el.scrollTop > posTop) {
-        el.scrollTop = posTop;
+        el.scroll({
+          top: posTop,
+          behavior: behavior
+        });
       } else if (el.scrollTop < posBot) {
-        el.scrollTop = posBot;
+        el.scroll({
+          top: posBot,
+          behavior: behavior
+        });
       }
 
       var customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {

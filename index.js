@@ -11,6 +11,7 @@ export default (options) => {
     selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
+    behavior: 'auto', // smooth
     anchorPadding: 16,
     saveKey: 'ScrollStash',
     throttleDelay: 500,
@@ -43,9 +44,9 @@ export default (options) => {
     localStorage.removeItem(api.settings.saveKey);
   };
 
-  api.showAnchor = (el) => {
+  api.showAnchor = (el, behavior = api.settings.behavior) => {
     if (api.settings.selectorAnchor) {
-      showAnchor(el);
+      showAnchor(el, behavior);
     }
   };
 
@@ -92,7 +93,7 @@ export default (options) => {
     }
   };
 
-  const showAnchor = (el) => {
+  const showAnchor = (el, behavior = api.settings.behavior) => {
     // Element size and scrolling
     // https://javascript.info/size-and-scroll
 
@@ -128,9 +129,15 @@ export default (options) => {
       const posBot = anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + adjustBot));
 
       if (el.scrollTop > posTop) {
-        el.scrollTop = posTop;
+        el.scroll({
+          top: posTop,
+          behavior: behavior
+        });
       } else if (el.scrollTop < posBot) {
-        el.scrollTop = posBot;
+        el.scroll({
+          top: posBot,
+          behavior: behavior
+        });
       }
 
       const customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
