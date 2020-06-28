@@ -11,7 +11,7 @@ export default (options) => {
     selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
-    behavior: 'auto', // smooth
+    behavior: 'auto', // auto | smooth
     anchorPadding: 16,
     saveKey: 'ScrollStash',
     throttleDelay: 500,
