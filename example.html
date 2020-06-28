@@ -28,7 +28,7 @@
   </style>
 </head>
 <body>
-<div class="page" data-scroll-stash="page" data-scroll-stash-anchor="false">
+<div id="page" class="page" data-scroll-stash="page" data-scroll-stash-anchor="false">
   <div class="spacing-lg padding-xl">
 
     <header class="spacing-sm">
@@ -40,7 +40,7 @@
 
     <div class="example spacing">
       <div class="spacing-sm">
-        <h2>Example 1</h2>
+        <h2 id="example-1">Example 1</h2>
         <p>Basic implementation should stash scroll position.</p>
       </div>
       <div class="scroll-box background-shade-dark" style="height:14em;" data-scroll-stash="example-1">
@@ -111,7 +111,7 @@
 
     <div class="example spacing">
       <div class="spacing-sm">
-        <h2>Example 2</h2>
+        <h2 id="example-2">Example 2</h2>
         <p>Scroll position should be preserved but will scroll to the nearest anchor if it's not currently visible.</p>
         <p><button class="link js-show-anchor">Show anchor</button></p>
         <p><button class="link js-scrollIntoView">Element.scrollIntoView()</button></p>
@@ -184,7 +184,7 @@
 
     <div class="example spacing">
       <div class="spacing-sm">
-        <h2>Example 3</h2>
+        <h2 id="example-3">Example 3</h2>
         <p>Scrolling anchor in view should take into account a sticky header and footer along with the set padding.</p>
         <p><button class="link js-show-anchor">Show anchor</button></p>
       </div>
@@ -266,7 +266,7 @@
 
     <div class="example spacing">
       <div class="spacing-sm">
-        <h2>Example 4</h2>
+        <h2 id="example-4">Example 4</h2>
         <p>Using a custom anchor by providing a selector via <code class="code">data-scroll-stash-anchor</code> which overrides the anchor selector passed in options.</p>
         <p><button class="link js-show-anchor">Show anchor</button></p>
       </div>

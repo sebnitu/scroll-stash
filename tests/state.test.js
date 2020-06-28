@@ -33,28 +33,28 @@ test('should update local storage when any scroll position changes', async () =>
   };
 
   const el_1 = await page.$eval('[data-scroll-stash="example-1"]', (el, obj) => {
-    el.scrollIntoView();
+    document.querySelector('#example-1').scrollIntoView();
     el.scrollTop = obj['example-1'];
     return el.scrollTop;
   }, expectedState);
   expect(el_1).toBe(100);
 
   const el_2 = await page.$eval('[data-scroll-stash="example-2"]', (el, obj) => {
-    el.scrollIntoView();
+    document.querySelector('#example-2').scrollIntoView();
     el.scrollTop = obj['example-2'];
     return el.scrollTop;
   }, expectedState);
   expect(el_2).toBe(300);
 
   const el_3 = await page.$eval('[data-scroll-stash="example-3"]', (el, obj) => {
-    el.scrollIntoView();
+    document.querySelector('#example-3').scrollIntoView();
     el.scrollTop = obj['example-3'];
     return el.scrollTop;
   }, expectedState);
   expect(el_3).toBe(200);
 
   const el_4 = await page.$eval('[data-scroll-stash="example-4"]', (el, obj) => {
-    el.scrollIntoView();
+    document.querySelector('#example-4').scrollIntoView();
     el.scrollTop = obj['example-4'];
     return el.scrollTop;
   }, expectedState);
@@ -76,16 +76,6 @@ test('should update local storage when any scroll position changes', async () =>
 });
 
 test('should apply scroll state when page is reloaded', async () => {
-  await page.evaluate(() => {
-    localStorage.setItem('ScrollStash', JSON.stringify({
-      'page': 1100,
-      'example-1': 110,
-      'example-2': 310,
-      'example-3': 210,
-      'example-4': 310
-    }));
-  });
-
   await page.reload({ waitUntil: 'networkidle0' });
   await throttleDelay();
 
@@ -101,6 +91,5 @@ test('should apply scroll state when page is reloaded', async () => {
     });
     return obj;
   });
-
   expect(currentState).toEqual(savedState);
 });
