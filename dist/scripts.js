@@ -40,7 +40,7 @@ this.ScrollStash = (function () {
       behavior: 'auto',
       anchorPadding: 16,
       saveKey: 'ScrollStash',
-      throttleDelay: 500,
+      throttleDelay: 250,
       customEventPrefix: 'scroll-stash:'
     };
     api.settings = _objectSpread(_objectSpread({}, defaults), options);
@@ -97,7 +97,8 @@ this.ScrollStash = (function () {
       });
       localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
       var customEvent = new CustomEvent(api.settings.customEventPrefix + 'saved', {
-        bubbles: true
+        bubbles: true,
+        detail: api.state
       });
       document.dispatchEvent(customEvent);
     };
@@ -108,11 +109,12 @@ this.ScrollStash = (function () {
         Object.keys(api.state).forEach(function (key) {
           var item = document.querySelector("[data-".concat(api.settings.dataScroll, "=\"").concat(key, "\"]"));
           if (item) item.scrollTop = api.state[key];
-          var customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
-            bubbles: true
-          });
-          item.dispatchEvent(customEvent);
         });
+        var customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
+          bubbles: true,
+          detail: api.state
+        });
+        document.dispatchEvent(customEvent);
       } else {
         saveScrollPosition();
       }
@@ -170,7 +172,11 @@ this.ScrollStash = (function () {
         }
 
         var customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
-          bubbles: true
+          bubbles: true,
+          detail: {
+            key: el.dataset[camelCase(api.settings.dataScroll)],
+            position: el.scrollTop
+          }
         });
         el.dispatchEvent(customEvent);
       }

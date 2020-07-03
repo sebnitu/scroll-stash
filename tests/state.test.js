@@ -3,9 +3,7 @@ import path from 'path';
 import { throttleDelay } from './helpers/throttleDelay';
 
 beforeAll(async () => {
-  await page.goto(`file:${path.join(__dirname, '../example.html')}`, {
-    waitUntil: 'networkidle0'
-  });
+  await page.goto(`file:${path.join(__dirname, '../example.html')}`);
 });
 
 test('should save all scroll-stash elements to local storage', async () => {
@@ -16,6 +14,7 @@ test('should save all scroll-stash elements to local storage', async () => {
     'example-3': 107,
     'example-4': 217
   };
+  await throttleDelay();
   const savedState = JSON.parse(await page.evaluate(() => {
     return localStorage.getItem('ScrollStash');
   }));
@@ -76,7 +75,7 @@ test('should update local storage when any scroll position changes', async () =>
 });
 
 test('should apply scroll state when page is reloaded', async () => {
-  await page.reload({ waitUntil: 'networkidle0' });
+  await page.reload();
   await throttleDelay();
 
   const savedState = JSON.parse(await page.evaluate(() => {

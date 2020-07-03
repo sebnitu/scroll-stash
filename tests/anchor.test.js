@@ -3,9 +3,7 @@ import path from 'path';
 import { throttleDelay } from './helpers/throttleDelay';
 
 beforeAll(async () => {
-  await page.goto(`file:${path.join(__dirname, '../example.html')}`, {
-    waitUntil: 'networkidle0'
-  });
+  await page.goto(`file:${path.join(__dirname, '../example.html')}`);
 });
 
 test('should scroll to anchor from initial scroll position', async () => {
@@ -24,7 +22,7 @@ test('should scroll to anchor from saved scroll position', async () => {
   });
   expect(el).toBe(627);
   await throttleDelay();
-  await page.reload({ waitUntil: 'networkidle0' });
+  await page.reload();
   await throttleDelay();
   el = await page.$eval('[data-scroll-stash="example-2"]', (el) => {
     document.querySelector('#example-2').scrollIntoView();
@@ -47,7 +45,7 @@ test('should scroll to anchor with spacing for sticky footer', async () => {
     el.scrollTop = 9999;
   });
   await throttleDelay();
-  await page.reload({ waitUntil: 'networkidle0' });
+  await page.reload();
   await throttleDelay();
   let el = await page.$eval('[data-scroll-stash="example-3"]', (el) => {
     document.querySelector('#example-3').scrollIntoView();
@@ -70,7 +68,7 @@ test('should disable anchor scrolling when data attribute is set to false', asyn
     el.scrollTop = 0;
   });
   await throttleDelay();
-  await page.reload({ waitUntil: 'networkidle0' });
+  await page.reload();
   await throttleDelay();
   const el = await page.$eval('[data-scroll-stash="page"]', (el) => {
     return el.scrollTop;
