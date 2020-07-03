@@ -2,8 +2,13 @@ import 'expect-puppeteer';
 import path from 'path';
 import { throttleDelay } from './helpers/throttleDelay';
 
+let maxScroll;
+
 beforeAll(async () => {
   await page.goto(`file:${path.join(__dirname, '../example.html')}`);
+  maxScroll = await page.$eval('#page', (el) => {
+    return (el.scrollHeight - el.offsetHeight);
+  });
 });
 
 test('should save all scroll-stash elements to local storage', async () => {
@@ -24,7 +29,7 @@ test('should save all scroll-stash elements to local storage', async () => {
 
 test('should update local storage when any scroll position changes', async () => {
   const expectedState = {
-    'page': 1229,
+    'page': maxScroll,
     'example-1': 100,
     'example-2': 300,
     'example-3': 200,
@@ -63,7 +68,7 @@ test('should update local storage when any scroll position changes', async () =>
     el.scrollTop = 9999;
     return el.scrollTop;
   });
-  expect(el_page).toBe(1229);
+  expect(el_page).toBe(maxScroll);
 
   await throttleDelay();
 

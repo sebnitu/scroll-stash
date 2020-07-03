@@ -114,7 +114,6 @@
         <h2 id="example-2">Example 2</h2>
         <p>Scroll position should be preserved but will scroll to the nearest anchor if it's not currently visible.</p>
         <p><button class="link js-show-anchor">Show anchor</button></p>
-        <p><button class="link js-scrollIntoView">Element.scrollIntoView()</button></p>
       </div>
       <div class="scroll-box background-shade-dark" style="height:14em;" data-scroll-stash="example-2">
         <ul class="menu menu_stack margin">
@@ -367,15 +366,6 @@
     if (event.target.classList.contains('js-show-anchor')) {
       const scrollBox = event.target.closest('.example').querySelector('[data-scroll-stash]');
       scrollStash.showAnchor(scrollBox, 'smooth');
-    }
-
-    if (event.target.classList.contains('js-scrollIntoView')) {
-      const link = event.target.closest('.example').querySelector('[data-scroll-stash] .is-active');
-      link.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center'
-      });
     }
   });
 </script>
