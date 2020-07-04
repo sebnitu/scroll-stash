@@ -41,7 +41,6 @@ test('should emit custom event when scroll states are saved', async () => {
   await page.$eval('[data-scroll-stash="example-1"]', (el) => {
     document.querySelector('#example-1').scrollIntoView();
     el.scrollTop = 100;
-    return el.scrollTop;
   });
   await throttleDelay(500);
   expect(eLog.saved.length).toBe(eCount + 1);
@@ -55,6 +54,7 @@ test('should emit custom event when scolling anchors into view', async () => {
   await page.reload();
   await throttleDelay();
   const anchorScroll = await page.evaluate(() => {
+    document.querySelector('#example-2').scrollIntoView();
     return [{
       key: 'example-2',
       position: (document.querySelector('[data-scroll-stash="example-2"]').scrollTop)
@@ -66,6 +66,7 @@ test('should emit custom event when scolling anchors into view', async () => {
       position: (document.querySelector('[data-scroll-stash="example-4"]').scrollTop)
     }];
   });
+  await throttleDelay();
   expect(eLog.anchor.length).toBe(eCount + 3);
 
   const current = eLog.anchor.slice(Math.max(eLog.anchor.length - 3, 0));
