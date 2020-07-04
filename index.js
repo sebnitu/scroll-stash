@@ -11,9 +11,10 @@ export default (options) => {
     selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
+    behavior: 'auto', // auto | smooth
     anchorPadding: 16,
     saveKey: 'ScrollStash',
-    throttleDelay: 500,
+    throttleDelay: 250,
     customEventPrefix: 'scroll-stash:',
   };
 
@@ -43,9 +44,9 @@ export default (options) => {
     localStorage.removeItem(api.settings.saveKey);
   };
 
-  api.showAnchor = (el) => {
+  api.showAnchor = (el, behavior = api.settings.behavior) => {
     if (api.settings.selectorAnchor) {
-      showAnchor(el);
+      showAnchor(el, behavior);
     }
   };
 
@@ -69,7 +70,8 @@ export default (options) => {
     });
     localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
     const customEvent = new CustomEvent(api.settings.customEventPrefix + 'saved', {
-      bubbles: true
+      bubbles: true,
+      detail: api.state
     });
     document.dispatchEvent(customEvent);
   };
@@ -82,17 +84,18 @@ export default (options) => {
           `[data-${api.settings.dataScroll}="${key}"]`
         );
         if (item) item.scrollTop = api.state[key];
-        const customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
-          bubbles: true
-        });
-        item.dispatchEvent(customEvent);
       });
+      const customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
+        bubbles: true,
+        detail: api.state
+      });
+      document.dispatchEvent(customEvent);
     } else {
       saveScrollPosition();
     }
   };
 
-  const showAnchor = (el) => {
+  const showAnchor = (el, behavior = api.settings.behavior) => {
     // Element size and scrolling
     // https://javascript.info/size-and-scroll
 
@@ -111,12 +114,14 @@ export default (options) => {
     if (anchor) {
       let adjustTop = api.settings.anchorPadding;
       let adjustBot = api.settings.anchorPadding;
+
       if (api.settings.selectorTopElem) {
         const topElem = el.querySelector(api.settings.selectorTopElem);
         if (topElem) {
           adjustTop = adjustTop + topElem.offsetHeight;
         }
       }
+
       if (api.settings.selectorBotElem) {
         const botElem = el.querySelector(api.settings.selectorBotElem);
         if (botElem) {
@@ -128,13 +133,23 @@ export default (options) => {
       const posBot = anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + adjustBot));
 
       if (el.scrollTop > posTop) {
-        el.scrollTop = posTop;
+        el.scroll({
+          top: posTop,
+          behavior: behavior
+        });
       } else if (el.scrollTop < posBot) {
-        el.scrollTop = posBot;
+        el.scroll({
+          top: posBot,
+          behavior: behavior
+        });
       }
 
       const customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
-        bubbles: true
+        bubbles: true,
+        detail: {
+          key: el.dataset[camelCase(api.settings.dataScroll)],
+          position: el.scrollTop,
+        }
       });
       el.dispatchEvent(customEvent);
     }
