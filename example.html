@@ -40,6 +40,16 @@
 
     <div class="example spacing">
       <div class="spacing-sm">
+        <h2 id="example-api">API</h2>
+        <ul class="list">
+          <li><button class="link js-api-init"><code class="code">api.init</code></button></li>
+          <li><button class="link js-api-destroy"><code class="code">api.destroy</code></button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="example spacing">
+      <div class="spacing-sm">
         <h2 id="example-1">Example 1</h2>
         <p>Basic implementation should stash scroll position.</p>
       </div>
@@ -113,7 +123,9 @@
       <div class="spacing-sm">
         <h2 id="example-2">Example 2</h2>
         <p>Scroll position should be preserved but will scroll to the nearest anchor if it's not currently visible.</p>
-        <p><button class="link js-show-anchor">Show anchor</button></p>
+        <ul class="list">
+          <li><button class="link js-show-anchor"><code class="code">api.showAnchor</code></button></li>
+        </ul>
       </div>
       <div class="scroll-box background-shade-dark" style="height:14em;" data-scroll-stash="example-2">
         <ul class="menu menu_stack margin">
@@ -185,7 +197,9 @@
       <div class="spacing-sm">
         <h2 id="example-3">Example 3</h2>
         <p>Scrolling anchor in view should take into account a sticky header and footer along with the set padding.</p>
-        <p><button class="link js-show-anchor">Show anchor</button></p>
+        <ul class="list">
+          <li><button class="link js-show-anchor"><code class="code">api.showAnchor</code></button></li>
+        </ul>
       </div>
       <div class="scroll-box">
         <div class="dialog background-shade-dark" style="height:28em;" data-scroll-stash="example-3">
@@ -267,7 +281,9 @@
       <div class="spacing-sm">
         <h2 id="example-4">Example 4</h2>
         <p>Using a custom anchor by providing a selector via <code class="code">data-scroll-stash-anchor</code> which overrides the anchor selector passed in options.</p>
-        <p><button class="link js-show-anchor">Show anchor</button></p>
+        <ul class="list">
+          <li><button class="link js-show-anchor"><code class="code">api.showAnchor</code></button></li>
+        </ul>
       </div>
       <div class="scroll-box background-shade-dark" style="height:14em;" data-scroll-stash="example-4" data-scroll-stash-anchor=".background-secondary">
         <ul class="menu menu_stack margin">
@@ -362,10 +378,29 @@
 
   scrollStash.init();
 
-  document.addEventListener('click', (event) => {
-    if (event.target.classList.contains('js-show-anchor')) {
-      const scrollBox = event.target.closest('.example').querySelector('[data-scroll-stash]');
+  document.addEventListener('click', ({ target }) => {
+    if (
+      target.classList.contains('js-show-anchor') ||
+      target.parentElement.classList.contains('js-show-anchor')
+    ) {
+      const scrollBox = target.closest('.example').querySelector('[data-scroll-stash]');
       scrollStash.showAnchor(scrollBox, 'smooth');
+    }
+
+    if (
+      target.classList.contains('js-api-init') ||
+      target.parentElement.classList.contains('js-api-init')
+    ) {
+      console.log('init...');
+      scrollStash.init();
+    }
+
+    if (
+      target.classList.contains('js-api-destroy') ||
+      target.parentElement.classList.contains('js-api-destroy')
+    ) {
+      console.log('destroy...');
+      scrollStash.destroy();
     }
   });
 </script>
