@@ -15,9 +15,16 @@ All notable changes to this project will be documented in this file.
 
 <!--
 Commit template:
-chore(release): add v0.2.0 to CHANGELOG.md
+chore(release): add v0.2.1 to CHANGELOG.md
 -->
 <!-- ADD-NEW-CHANGELOG-HERE -->
+
+## [0.2.1](https://github.com/sebnitu/scroll-stash/compare/v0.2.0...v0.2.1) (2020-07-04)
+
+### Tests
+
+* Add headless browser testing ([#19](https://github.com/sebnitu/scroll-stash/pull/19)) ([c96ac3c](https://github.com/sebnitu/scroll-stash/commit/c96ac3c7f0b41ab8fb42fb785243cb65eee43047))
+
 
 ## [0.2.0](https://github.com/sebnitu/scroll-stash/compare/v0.1.2...v0.2.0) (2020-06-22)
 
