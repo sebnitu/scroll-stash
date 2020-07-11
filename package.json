@@ -17,8 +17,8 @@
     "clean": "del dist",
     "scripts": "rollup -c",
     "watch": "nodemon -e js -x 'npm run scripts' -i dist",
-    "test": "jest || true",
-    "test:watch": "jest --watch || true",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "changelog": "conventional-changelog -p angular"
   },
   "repository": {
