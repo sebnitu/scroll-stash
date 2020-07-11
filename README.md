@@ -3,7 +3,7 @@
 A JavaScript plugin to help preserve an element's scroll position.
 
 [![npm version](https://img.shields.io/npm/v/scroll-stash.svg)](https://www.npmjs.com/package/scroll-stash)
-[![Build Status](https://img.shields.io/travis/sebnitu/scroll-stash.svg)](https://travis-ci.org/sebnitu/scroll-stash)
+[![Build Status](https://travis-ci.org/sebnitu/scroll-stash.svg?branch=master)](https://travis-ci.org/sebnitu/scroll-stash)
 [![devDependency Status](https://img.shields.io/david/dev/sebnitu/scroll-stash.svg)](https://david-dm.org/sebnitu/scroll-stash?type=dev)
 
 ## Installation

@@ -17,7 +17,10 @@
     "clean": "del dist",
     "scripts": "rollup -c",
     "watch": "nodemon -e js -x 'npm run scripts' -i dist",
+    "lint": "eslint index.js",
+    "lint:fix": "eslint index.js --fix",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "changelog": "conventional-changelog -p angular"
   },
@@ -41,6 +44,7 @@
     "babel-jest": "^26.0.1",
     "concurrently": "^5.2.0",
     "conventional-changelog-cli": "^2.0.34",
+    "coveralls": "^3.1.0",
     "del-cli": "^3.0.1",
     "eslint": "^7.2.0",
     "eslint-plugin-jest": "^23.13.2",
