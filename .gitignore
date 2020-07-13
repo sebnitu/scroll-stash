@@ -1,5 +1,6 @@
 node_modules/
 .changelog
+UNRELEASED.md
 coverage
 
 # Numerous always-ignore extensions

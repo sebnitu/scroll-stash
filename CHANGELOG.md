@@ -15,15 +15,25 @@ All notable changes to this project will be documented in this file.
 
 <!--
 Commit template:
-chore(release): add v0.2.1 to CHANGELOG.md
+chore(release): add v0.2.2 to CHANGELOG.md
 -->
 <!-- ADD-NEW-CHANGELOG-HERE -->
+
+## [0.2.2](https://github.com/sebnitu/scroll-stash/compare/v0.2.1...v0.2.2) (2020-07-13)
+
+### Tests
+
+* add a few unit tests via jsdom env (#35) ([7db0b3e](https://github.com/sebnitu/scroll-stash/commit/7db0b3e)), closes [#35](https://github.com/sebnitu/scroll-stash/issues/35)
+* update test script ([6c669de](https://github.com/sebnitu/scroll-stash/commit/6c669de))
+
+
 
 ## [0.2.1](https://github.com/sebnitu/scroll-stash/compare/v0.2.0...v0.2.1) (2020-07-04)
 
 ### Tests
 
 * Add headless browser testing ([#19](https://github.com/sebnitu/scroll-stash/pull/19)) ([c96ac3c](https://github.com/sebnitu/scroll-stash/commit/c96ac3c7f0b41ab8fb42fb785243cb65eee43047))
+
 
 
 ## [0.2.0](https://github.com/sebnitu/scroll-stash/compare/v0.1.2...v0.2.0) (2020-06-22)

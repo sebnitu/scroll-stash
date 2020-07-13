@@ -22,7 +22,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "changelog": "conventional-changelog -p angular"
+    "unreleased": "conventional-changelog --outfile UNRELEASED.md --output-unreleased"
   },
   "repository": {
     "type": "git",
