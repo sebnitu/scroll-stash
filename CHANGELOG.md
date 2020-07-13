@@ -14,10 +14,17 @@ All notable changes to this project will be documented in this file.
 - `chore:` Changes to the build process or auxiliary tools and libraries such as documentation generation
 
 <!--
-Commit template:
-chore(release): add v0.2.2 to CHANGELOG.md
+Release flow:
+1. Run `npm run release`
+2. Update CHANGELOG with details from UNRELEASED and commit with msg:
+  - `chore(release): add v0.2.2 to CHANGELOG.md`
+3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
+  - `npm version patch -m "chore(release): bump to %s"`
+4. Run `npm publish`
 -->
-<!-- ADD-NEW-CHANGELOG-HERE -->
+<!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
 
 ## [0.2.2](https://github.com/sebnitu/scroll-stash/compare/v0.2.1...v0.2.2) (2020-07-13)
 

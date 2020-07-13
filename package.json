@@ -22,7 +22,9 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "unreleased": "conventional-changelog --outfile UNRELEASED.md --output-unreleased"
+    "unreleased": "conventional-changelog --outfile UNRELEASED.md --output-unreleased",
+    "preversion": "npm-run-all build lint test",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
