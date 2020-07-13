@@ -17,12 +17,24 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run release`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v0.2.2 to CHANGELOG.md`
+  - `chore(release): add v0.2.3 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to %s"`
 4. Run `npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+
+## [0.2.3](https://github.com/sebnitu/scroll-stash/compare/v0.2.2...v0.2.3) (2020-07-13)
+
+### Chore
+
+* add release flow to changelog and update version scripts ([4160d51](https://github.com/sebnitu/scroll-stash/commit/4160d51))
+
+### Documentation
+
+* add coverage badge to readme ([dbda049](https://github.com/sebnitu/scroll-stash/commit/dbda049))
 
 
 
