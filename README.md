@@ -40,10 +40,10 @@ The most basic implementation of `scroll-stash` is the application of the data a
 
 #### `data-scroll-stash-anchor`
 
-This optional data attribute—when set on a `scroll-stash` element with a valid selector—defines an anchor that will take precedence over set options on instantiation. Setting it's value to `false` or `0` will disable the anchor feature. This is useful to prevent a parent scrollable wrapper from inheriting the anchor of child elements.
+This optional data attribute—when set on a `scroll-stash` element with a valid selector—defines an anchor that will take precedence over set options on instantiation. Setting it's value to `ignore` or `false` will disable the anchor feature. This is useful to prevent a parent scrollable wrapper from inheriting the anchor of child elements.
 
 ```html
-<div data-scroll-stash="[unique-id]" data-scroll-stash-anchor="[false | 0 | selector]">
+<div data-scroll-stash="[unique-id]" data-scroll-stash-anchor="[selector | ignore | false]">
   ...
 </div>
 ```

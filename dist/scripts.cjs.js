@@ -129,7 +129,7 @@ var index = (function (options) {
 
     var dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
 
-    if (dataAnchor == ('false' )) {
+    if (dataAnchor == 'false' || dataAnchor == 'ignore') {
       return false;
     } else if (dataAnchor) {
       anchor = el.querySelector(dataAnchor) ? el.querySelector(dataAnchor) : anchor;

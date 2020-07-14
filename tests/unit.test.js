@@ -82,7 +82,43 @@ test('should scroll to anchor when anchor selector is set', () => {
     selectorBotElem: '.bot',
   });
   const el1 = document.querySelector('[data-scroll-stash="example-1"]');
-  const storage = JSON.parse(localStorage.getItem('ScrollStash'));
-  expect(scrollStash.state).toEqual(storage);
+  expect(el1.scroll).toHaveBeenCalled();
+});
+
+test('should scroll to anchor when showAnchor api is called', () => {
+  window.HTMLElement.prototype.scroll = jest.fn();
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    selectorAnchor: '.anchor',
+  });
+  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
+  scrollStash.showAnchor(el1);
+  expect(el1.scroll).toHaveBeenCalled();
+});
+
+test('should ignore anchor selector if data value is set to false or ignore', () => {
+  window.HTMLElement.prototype.scroll = jest.fn();
+  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
+  el1.dataset.scrollStashAnchor = 'false';
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    selectorAnchor: '.anchor',
+  });
+  expect(el1.scroll).not.toHaveBeenCalled();
+
+  scrollStash.destroy();
+  el1.dataset.scrollStashAnchor = 'ignore';
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    selectorAnchor: '.anchor',
+  });
+  expect(el1.scroll).not.toHaveBeenCalled();
+
+  scrollStash.destroy();
+  delete el1.dataset.scrollStashAnchor;
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    selectorAnchor: '.anchor',
+  });
   expect(el1.scroll).toHaveBeenCalled();
 });
