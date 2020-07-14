@@ -15,14 +15,22 @@ All notable changes to this project will be documented in this file.
 
 <!--
 Release flow:
-1. Run `npm run release`
+1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v0.2.3 to CHANGELOG.md`
+  - `chore(release): add v0.2.4 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s"`
 4. Run `npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+
+## [0.2.4](https://github.com/sebnitu/scroll-stash/compare/v0.2.3...v0.2.4) (2020-07-14)
+
+### Bug Fixes
+
+* fixed conditional logic on data anchor ([9837c83](https://github.com/sebnitu/scroll-stash/commit/9837c83))
 
 
 
