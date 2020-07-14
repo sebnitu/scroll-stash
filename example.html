@@ -357,26 +357,13 @@
 <!-- Scripts -->
 <script src="./dist/scripts.js"></script>
 <script>
-  document.addEventListener('scroll-stash:saved', ({ type, detail, target }) => {
-    console.log({ type, detail, target });
-  });
-
-  document.addEventListener('scroll-stash:applied', ({ type, detail, target }) => {
-    console.log({ type, detail, target });
-  });
-
-  document.addEventListener('scroll-stash:anchor', ({ type, detail, target }) => {
-    console.log({ type, detail, target });
-  });
-
   const options = {
+    autoInit: true,
     selectorAnchor: '.is-active',
     selectorTopElem: '.dialog__header',
     selectorBotElem: '.dialog__footer'
   };
   const scrollStash = new ScrollStash(options);
-
-  scrollStash.init();
 
   document.addEventListener('click', ({ target }) => {
     if (
@@ -391,7 +378,6 @@
       target.classList.contains('js-api-init') ||
       target.parentElement.classList.contains('js-api-init')
     ) {
-      console.log('init...');
       scrollStash.init();
     }
 
@@ -399,7 +385,6 @@
       target.classList.contains('js-api-destroy') ||
       target.parentElement.classList.contains('js-api-destroy')
     ) {
-      console.log('destroy...');
       scrollStash.destroy();
     }
   });

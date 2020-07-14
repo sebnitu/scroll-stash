@@ -1,7 +1,9 @@
 node_modules/
 .changelog
 UNRELEASED.md
+.nyc_output
 coverage
+coverage-puppeteer
 
 # Numerous always-ignore extensions
 *.diff

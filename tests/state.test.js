@@ -1,14 +1,21 @@
 import 'expect-puppeteer';
+import pti from 'puppeteer-to-istanbul';
 import path from 'path';
 import { throttleDelay } from './helpers/throttleDelay';
 
 let maxScroll;
 
 beforeAll(async () => {
+  await page.coverage.startJSCoverage({ resetOnNavigation: false });
   await page.goto(`file:${path.join(__dirname, '../example.html')}`);
   maxScroll = await page.$eval('#page', (el) => {
     return (el.scrollHeight - el.offsetHeight);
   });
+});
+
+afterAll(async () => {
+  const jsCoverage = await page.coverage.stopJSCoverage();
+  pti.write(jsCoverage);
 });
 
 test('should save all scroll-stash elements to local storage', async () => {

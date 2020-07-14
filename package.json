@@ -20,8 +20,9 @@
     "lint": "eslint index.js",
     "lint:fix": "eslint index.js --fix",
     "test": "jest",
-    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
+    "test:coverage": "npm-run-all test coverage",
+    "coverage": "nyc report --reporter=lcov --reporter=text",
     "unreleased": "conventional-changelog --outfile UNRELEASED.md --output-unreleased",
     "preversion": "npm-run-all build lint test",
     "postversion": "git push && git push --tags"
@@ -54,7 +55,9 @@
     "jest-puppeteer": "^4.4.0",
     "nodemon": "^2.0.4",
     "npm-run-all": "^4.1.5",
+    "nyc": "^15.1.0",
     "puppeteer": "^5.0.0",
+    "puppeteer-to-istanbul": "^1.4.0",
     "rollup": "^2.16.1",
     "rollup-plugin-terser": "^6.1.0"
   }
