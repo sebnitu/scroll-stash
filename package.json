@@ -22,8 +22,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:integration": "jest && npm run coverage",
-    "coverage": "nyc report --reporter=lcov --reporter=text",
+    "cover:report": "nyc report --reporter=lcov --reporter=text",
     "unreleased": "conventional-changelog --outfile UNRELEASED.md --output-unreleased",
     "preversion": "npm-run-all build lint test",
     "postversion": "git push && git push --tags"

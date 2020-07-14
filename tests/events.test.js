@@ -40,7 +40,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   const jsCoverage = await page.coverage.stopJSCoverage();
-  pti.write(jsCoverage);
+  pti.write(jsCoverage, { storagePath: './.nyc_output' });
 });
 
 test('should emit custom event when scroll states are saved', async () => {

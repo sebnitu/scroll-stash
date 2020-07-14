@@ -34,7 +34,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   const jsCoverage = await page.coverage.stopJSCoverage();
-  pti.write(jsCoverage);
+  pti.write(jsCoverage, { storagePath: './.nyc_output' });
 });
 
 test('should scroll to anchor on showAnchor api call', async () => {
