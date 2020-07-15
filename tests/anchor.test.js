@@ -4,13 +4,13 @@ import path from 'path';
 import { throttleDelay } from './helpers/throttleDelay';
 
 beforeAll(async () => {
-  await page.coverage.startJSCoverage({ resetOnNavigation: false });
+  await page.coverage.startJSCoverage();
   await page.goto(`file:${path.join(__dirname, '../example.html')}`);
 });
 
 afterAll(async () => {
   const jsCoverage = await page.coverage.stopJSCoverage();
-  pti.write(jsCoverage, { storagePath: './.nyc_output' });
+  pti.write(jsCoverage);
 });
 
 test('should scroll to anchor from initial scroll position', async () => {

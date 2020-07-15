@@ -6,7 +6,7 @@ import { throttleDelay } from './helpers/throttleDelay';
 let maxScroll;
 
 beforeAll(async () => {
-  await page.coverage.startJSCoverage({ resetOnNavigation: false });
+  await page.coverage.startJSCoverage();
   await page.goto(`file:${path.join(__dirname, '../example.html')}`);
   maxScroll = await page.$eval('#page', (el) => {
     return (el.scrollHeight - el.offsetHeight);
@@ -15,7 +15,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   const jsCoverage = await page.coverage.stopJSCoverage();
-  pti.write(jsCoverage, { storagePath: './.nyc_output' });
+  pti.write(jsCoverage);
 });
 
 test('should save all scroll-stash elements to local storage', async () => {

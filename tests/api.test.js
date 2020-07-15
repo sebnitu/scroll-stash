@@ -11,7 +11,7 @@ let eLog = {
 };
 
 beforeAll(async () => {
-  await page.coverage.startJSCoverage({ resetOnNavigation: false });
+  await page.coverage.startJSCoverage();
   await page.exposeFunction('onCustomEvent', ({ type, detail, target }) => {
     if (type == 'scroll-stash:anchor') {
       eLog.anchor.push({ type, detail, target });
@@ -34,7 +34,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   const jsCoverage = await page.coverage.stopJSCoverage();
-  pti.write(jsCoverage, { storagePath: './.nyc_output' });
+  pti.write(jsCoverage);
 });
 
 test('should scroll to anchor on showAnchor api call', async () => {
