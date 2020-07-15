@@ -17,12 +17,28 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v0.2.4 to CHANGELOG.md`
+  - `chore(release): add v0.2.5 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s"`
 4. Run `npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+
+## [0.2.5](https://github.com/sebnitu/scroll-stash/compare/v0.2.4...v0.2.5) (2020-07-15)
+
+### Bug Fixes
+
+* anchor event no longer incorrectly fire when anchors are in view ([1e4d9ba](https://github.com/sebnitu/scroll-stash/commit/1e4d9ba))
+
+### Refactor
+
+* use shorthand to add top bot adjust ([40fe158](https://github.com/sebnitu/scroll-stash/commit/40fe158))
+
+### Tests
+
+* Improve test coverage (#40) ([5642648](https://github.com/sebnitu/scroll-stash/commit/5642648)), closes [#40](https://github.com/sebnitu/scroll-stash/issues/40)
 
 
 
