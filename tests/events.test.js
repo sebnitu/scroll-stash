@@ -51,6 +51,9 @@ test('should emit custom event when scroll states are saved', async () => {
 
 test('should emit custom event when scolling anchors into view', async () => {
   const eCount = eLog.anchor.length;
+  await page.evaluate(() => {
+    localStorage.removeItem('ScrollStash');
+  });
   await page.reload();
   await throttleDelay();
   const anchorScroll = await page.evaluate(() => {

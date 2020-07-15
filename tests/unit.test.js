@@ -11,20 +11,26 @@ let scrollStash;
 const markup = `
   <div data-scroll-stash="example-1" data-scroll-stash-anchor=".anchor">
     <span class="top"></span>
-    <span class="anchor"></span>
+    <span class="anchor-parent">
+      <span class="anchor"></span>
+    </span>
     <span class="bot"></span>
   </div>
   <div data-scroll-stash="example-2"></div>
   <div data-scroll-stash="example-3"></div>
+  <div data-scroll-stash=""></div>
 `;
 
 beforeEach(() => {
   document.body.innerHTML = markup;
+  window.HTMLElement.prototype.scroll = jest.fn();
 });
 
 afterEach(() => {
-  scrollStash.destroy();
-  scrollStash = null;
+  if (scrollStash) {
+    scrollStash.destroy();
+    scrollStash = null;
+  }
 });
 
 test('should save scroll stash instances and scroll position on init', () => {
@@ -71,33 +77,101 @@ test('should apply saved scroll state to a fresh document', () => {
   expect(el3.scrollTop).toBe(75);
 });
 
-test('should scroll to anchor when anchor selector is set', () => {
-  window.HTMLElement.prototype.scroll = jest.fn();
+test('should not throw error if element in localStorage is not present on page', () => {
+  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
+  const el2 = document.querySelector('[data-scroll-stash="example-2"]');
+  const el3 = document.querySelector('[data-scroll-stash="example-3"]');
+  localStorage.setItem('ScrollStash', JSON.stringify({
+    'example-asdf': 25,
+    'example-2': 50,
+    'example-3': 75,
+  }));
+  scrollStash = new ScrollStash();
+  expect(scrollStash.init).not.toThrow();
+  expect(el1.scrollTop).toBe(0);
+  expect(el2.scrollTop).toBe(50);
+  expect(el3.scrollTop).toBe(75);
+});
 
+test('throttle delay prevents multiple save calls from being fired', async () => {
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  let count = 0;
+  window.addEventListener('scroll-stash:saved', () => {
+    count ++;
+  });
+  scrollStash = new ScrollStash({ autoInit: true });
+  expect(scrollStash.state['example-1']).toBe(0);
+  expect(count).toBe(1);
+  el.scrollTop = 100;
+  el.dispatchEvent(new CustomEvent('scroll'));
+  el.dispatchEvent(new CustomEvent('scroll'));
+  el.dispatchEvent(new CustomEvent('scroll'));
+  await throttleDelay();
+  expect(scrollStash.state['example-1']).toBe(100);
+  expect(count).toBe(2);
+});
+
+test('should scroll to anchor when anchor selector is set', () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
     selectorAnchorParent: '.anchor-parent',
-    selectorTopElem: '.top',
-    selectorBotElem: '.bot',
   });
-  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
-  expect(el1.scroll).toHaveBeenCalled();
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  expect(el.scroll).toHaveBeenCalledWith({ behavior: 'auto', top: -16 });
 });
 
-test('should scroll to anchor when showAnchor api is called', () => {
-  window.HTMLElement.prototype.scroll = jest.fn();
+test('should scroll to anchor while adjusting for top elements', () => {
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  el.scrollTop = 30;
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
+    selectorTopElem: '.top',
+    selectorBotElem: '.bot',
   });
-  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.showAnchor(el1);
-  expect(el1.scroll).toHaveBeenCalled();
+  expect(el.scroll).toHaveBeenCalledWith({ behavior: 'auto', top: -16 });
+});
+
+test('should scroll to anchor while adjusting for bottom elements', () => {
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  el.scrollTop = -30;
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    selectorAnchor: '.anchor',
+    selectorTopElem: '.top',
+    selectorBotElem: '.bot',
+  });
+  expect(el.scroll).toHaveBeenCalledWith({ behavior: 'auto', top: 16 });
+});
+
+test('should not scroll if anchor is already in view', () => {
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  let hasScrolled = false;
+  window.addEventListener('scroll-stash:anchor', () => {
+    hasScrolled = true;
+  });
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    selectorAnchor: '.anchor',
+    anchorPadding: 0,
+  });
+  expect(el.scroll).not.toHaveBeenCalled();
+  expect(hasScrolled).toBe(false);
+});
+
+test('should not throw error if selector top and bottom elements aren\'t found', () => {
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  scrollStash = new ScrollStash({
+    selectorAnchor: '.anchor',
+    selectorTopElem: '.top-asdf',
+    selectorBotElem: '.bo-asdft',
+  });
+  expect(scrollStash.init).not.toThrow();
+  expect(el.scroll).toHaveBeenCalled();
 });
 
 test('should ignore anchor selector if data value is set to false or ignore', () => {
-  window.HTMLElement.prototype.scroll = jest.fn();
   const el1 = document.querySelector('[data-scroll-stash="example-1"]');
   el1.dataset.scrollStashAnchor = 'false';
   scrollStash = new ScrollStash({
@@ -121,4 +195,44 @@ test('should ignore anchor selector if data value is set to false or ignore', ()
     selectorAnchor: '.anchor',
   });
   expect(el1.scroll).toHaveBeenCalled();
+});
+
+test('should not throw error if anchor parent is not found', () => {
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  el.dataset.scrollStashAnchor = 'ignore';
+  scrollStash = new ScrollStash({
+    selectorAnchor: '.anchor',
+    selectorAnchorParent: '.anchor-asdf',
+  });
+  expect(scrollStash.init).not.toThrow();
+  expect(el.scroll).not.toHaveBeenCalled();
+});
+
+test('should not throw error if data anchor is not found', () => {
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  el.dataset.scrollStashAnchor = '.asdf';
+  scrollStash = new ScrollStash({
+    selectorAnchor: '.anchor',
+  });
+  expect(scrollStash.init).not.toThrow();
+  expect(el.scroll).toHaveBeenCalled();
+});
+
+test('should scroll to anchor when showAnchor api is called', () => {
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    selectorAnchor: '.anchor',
+  });
+  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
+  scrollStash.showAnchor(el1);
+  expect(el1.scroll).toHaveBeenCalled();
+});
+
+test('should ignore showAnchor api call if select anchor is not set', () => {
+  scrollStash = new ScrollStash({
+    autoInit: true,
+  });
+  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
+  scrollStash.showAnchor(el1);
+  expect(el1.scroll).not.toHaveBeenCalled();
 });

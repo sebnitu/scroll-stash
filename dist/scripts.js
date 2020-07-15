@@ -125,7 +125,8 @@ this.ScrollStash = (function () {
       var anchor = el.querySelector(api.settings.selectorAnchor);
 
       if (anchor && api.settings.selectorAnchorParent) {
-        anchor = anchor.closest(api.settings.selectorAnchorParent);
+        var anchorParent = anchor.closest(api.settings.selectorAnchorParent);
+        anchor = anchorParent ? anchorParent : anchor;
       }
 
       var dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
@@ -169,6 +170,8 @@ this.ScrollStash = (function () {
             top: posBot,
             behavior: behavior
           });
+        } else {
+          return true;
         }
 
         var customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {

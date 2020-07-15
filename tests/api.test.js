@@ -128,5 +128,5 @@ test('should re-initialize scroll-stash instance on api call', async () => {
   await throttleDelay();
   expect(result).not.toBe(null);
   expect(eLog.saved.length).toBe(eSavedCount + 1);
-  expect(eLog.anchor.length).toBe(eAnchorCount + 3);
+  expect(eLog.anchor.length).toBe(eAnchorCount);
 });
