@@ -101,7 +101,8 @@ export default (options) => {
 
     let anchor = el.querySelector(api.settings.selectorAnchor);
     if (anchor && api.settings.selectorAnchorParent) {
-      anchor = anchor.closest(api.settings.selectorAnchorParent);
+      const anchorParent = anchor.closest(api.settings.selectorAnchorParent);
+      anchor = (anchorParent) ? anchorParent : anchor;
     }
 
     const dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
@@ -118,14 +119,14 @@ export default (options) => {
       if (api.settings.selectorTopElem) {
         const topElem = el.querySelector(api.settings.selectorTopElem);
         if (topElem) {
-          adjustTop = adjustTop + topElem.offsetHeight;
+          adjustTop += topElem.offsetHeight;
         }
       }
 
       if (api.settings.selectorBotElem) {
         const botElem = el.querySelector(api.settings.selectorBotElem);
         if (botElem) {
-          adjustBot = adjustBot + botElem.offsetHeight;
+          adjustBot += botElem.offsetHeight;
         }
       }
 
@@ -142,6 +143,8 @@ export default (options) => {
           top: posBot,
           behavior: behavior
         });
+      } else {
+        return true;
       }
 
       const customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
