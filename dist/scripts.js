@@ -144,7 +144,7 @@ this.ScrollStash = (function () {
           var topElem = el.querySelector(api.settings.selectorTopElem);
 
           if (topElem) {
-            adjustTop = adjustTop + topElem.offsetHeight;
+            adjustTop += topElem.offsetHeight;
           }
         }
 
@@ -152,7 +152,7 @@ this.ScrollStash = (function () {
           var botElem = el.querySelector(api.settings.selectorBotElem);
 
           if (botElem) {
-            adjustBot = adjustBot + botElem.offsetHeight;
+            adjustBot += botElem.offsetHeight;
           }
         }
 
