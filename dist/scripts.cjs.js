@@ -156,36 +156,37 @@ var index = (function (options) {
     return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
   };
 
+  var getPosNearest = function getPosNearest(el, anchor) {
+    var posTop = getPosTop(el, anchor);
+    var posBot = getPosBot(el, anchor);
+    if (el.scrollTop > posTop) return posTop;
+    if (el.scrollTop < posBot) return posBot;
+    return false;
+  };
+
   var showAnchor = function showAnchor(el) {
     var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
     var anchor = getAnchor(el);
 
     if (anchor) {
-      var posTop = getPosTop(el, anchor);
-      var posBot = getPosBot(el, anchor);
+      var position = getPosNearest(el, anchor);
 
-      if (el.scrollTop > posTop) {
+      if (position) {
         el.scroll({
-          top: posTop,
-          behavior: behavior
-        });
-      } else if (el.scrollTop < posBot) {
-        el.scroll({
-          top: posBot,
+          top: position,
           behavior: behavior
         });
       } else {
         return true;
       }
 
-      var customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
+      el.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'anchor', {
         bubbles: true,
         detail: {
           key: el.dataset[camelCase(api.settings.dataScroll)],
           position: el.scrollTop
         }
-      });
-      el.dispatchEvent(customEvent);
+      }));
     }
   };
 

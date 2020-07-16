@@ -134,35 +134,37 @@ export default (options) => {
     return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
   };
 
+  const getPosNearest = (el, anchor) => {
+    const posTop = getPosTop(el, anchor);
+    const posBot = getPosBot(el, anchor);
+
+    if (el.scrollTop > posTop) return posTop;
+    if (el.scrollTop < posBot) return posBot;
+    return false;
+  };
+
   const showAnchor = (el, behavior = api.settings.behavior) => {
     const anchor = getAnchor(el);
 
     if (anchor) {
-      const posTop = getPosTop(el, anchor);
-      const posBot = getPosBot(el, anchor);
+      const position = getPosNearest(el, anchor);
 
-      if (el.scrollTop > posTop) {
+      if (position) {
         el.scroll({
-          top: posTop,
-          behavior: behavior
-        });
-      } else if (el.scrollTop < posBot) {
-        el.scroll({
-          top: posBot,
+          top: position,
           behavior: behavior
         });
       } else {
         return true;
       }
 
-      const customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
+      el.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'anchor', {
         bubbles: true,
         detail: {
           key: el.dataset[camelCase(api.settings.dataScroll)],
           position: el.scrollTop,
         }
-      });
-      el.dispatchEvent(customEvent);
+      }));
     }
   };
 
