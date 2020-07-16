@@ -235,12 +235,3 @@ test('should scroll to anchor when showAnchor api is called', () => {
   scrollStash.showAnchor(el1);
   expect(el1.scroll).toHaveBeenCalled();
 });
-
-test('should ignore showAnchor api call if select anchor is not set', () => {
-  scrollStash = new ScrollStash({
-    autoInit: true,
-  });
-  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.showAnchor(el1);
-  expect(el1.scroll).not.toHaveBeenCalled();
-});

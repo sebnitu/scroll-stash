@@ -51,10 +51,7 @@ var index = (function (options) {
     api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
     setScrollPosition();
     api.scrolls.forEach(function (item) {
-      if (api.settings.selectorAnchor) {
-        showAnchor(item);
-      }
-
+      showAnchor(item);
       item.addEventListener('scroll', throttle, false);
     });
   };
@@ -70,10 +67,7 @@ var index = (function (options) {
 
   api.showAnchor = function (el) {
     var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
-
-    if (api.settings.selectorAnchor) {
-      showAnchor(el, behavior);
-    }
+    showAnchor(el, behavior);
   };
 
   var throttle = function throttle() {
@@ -130,7 +124,7 @@ var index = (function (options) {
       return el.querySelector(dataAnchor);
     }
 
-    var selectorAnchor = el.querySelector(api.settings.selectorAnchor);
+    var selectorAnchor = api.settings.selectorAnchor ? el.querySelector(api.settings.selectorAnchor) : null;
 
     if (selectorAnchor && api.settings.selectorAnchorParent) {
       var parentAnchor = selectorAnchor.closest(api.settings.selectorAnchorParent);

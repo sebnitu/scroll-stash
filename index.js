@@ -28,9 +28,7 @@ export default (options) => {
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
     setScrollPosition();
     api.scrolls.forEach((item) => {
-      if (api.settings.selectorAnchor) {
-        showAnchor(item);
-      }
+      showAnchor(item);
       item.addEventListener('scroll', throttle, false);
     });
   };
@@ -45,9 +43,7 @@ export default (options) => {
   };
 
   api.showAnchor = (el, behavior = api.settings.behavior) => {
-    if (api.settings.selectorAnchor) {
-      showAnchor(el, behavior);
-    }
+    showAnchor(el, behavior);
   };
 
   const throttle = () => {
@@ -108,7 +104,8 @@ export default (options) => {
     }
 
     // 3. If selectAnchor and parentAnchor return an anchor, return parentAnchor
-    const selectorAnchor = el.querySelector(api.settings.selectorAnchor);
+    const selectorAnchor = (api.settings.selectorAnchor) ?
+      el.querySelector(api.settings.selectorAnchor) : null;
     if (selectorAnchor && api.settings.selectorAnchorParent) {
       const parentAnchor = selectorAnchor.closest(api.settings.selectorAnchorParent);
       if (parentAnchor) return parentAnchor;
