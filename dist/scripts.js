@@ -135,32 +135,35 @@ this.ScrollStash = (function () {
       return selectorAnchor ? selectorAnchor : null;
     };
 
+    var getPosTop = function getPosTop(el, anchor) {
+      var pos = api.settings.anchorPadding;
+
+      if (api.settings.selectorTopElem) {
+        var topElem = el.querySelector(api.settings.selectorTopElem);
+        if (topElem) pos += topElem.offsetHeight;
+      }
+
+      return anchor.offsetTop - pos;
+    };
+
+    var getPosBot = function getPosBot(el, anchor) {
+      var pos = api.settings.anchorPadding;
+
+      if (api.settings.selectorBotElem) {
+        var botElem = el.querySelector(api.settings.selectorBotElem);
+        if (botElem) pos += botElem.offsetHeight;
+      }
+
+      return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
+    };
+
     var showAnchor = function showAnchor(el) {
       var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
       var anchor = getAnchor(el);
 
       if (anchor) {
-        var adjustTop = api.settings.anchorPadding;
-        var adjustBot = api.settings.anchorPadding;
-
-        if (api.settings.selectorTopElem) {
-          var topElem = el.querySelector(api.settings.selectorTopElem);
-
-          if (topElem) {
-            adjustTop += topElem.offsetHeight;
-          }
-        }
-
-        if (api.settings.selectorBotElem) {
-          var botElem = el.querySelector(api.settings.selectorBotElem);
-
-          if (botElem) {
-            adjustBot += botElem.offsetHeight;
-          }
-        }
-
-        var posTop = anchor.offsetTop - adjustTop;
-        var posBot = anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + adjustBot));
+        var posTop = getPosTop(el, anchor);
+        var posBot = getPosBot(el, anchor);
 
         if (el.scrollTop > posTop) {
           el.scroll({

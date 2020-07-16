@@ -116,32 +116,30 @@ export default (options) => {
     return (selectorAnchor) ? selectorAnchor : null;
   };
 
+  const getPosTop = (el, anchor) => {
+    let pos = api.settings.anchorPadding;
+    if (api.settings.selectorTopElem) {
+      const topElem = el.querySelector(api.settings.selectorTopElem);
+      if (topElem) pos += topElem.offsetHeight;
+    }
+    return anchor.offsetTop - (pos);
+  };
+
+  const getPosBot = (el, anchor) => {
+    let pos = api.settings.anchorPadding;
+    if (api.settings.selectorBotElem) {
+      const botElem = el.querySelector(api.settings.selectorBotElem);
+      if (botElem) pos += botElem.offsetHeight;
+    }
+    return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
+  };
+
   const showAnchor = (el, behavior = api.settings.behavior) => {
     const anchor = getAnchor(el);
 
-    // Element size and scrolling
-    // https://javascript.info/size-and-scroll
-
     if (anchor) {
-      let adjustTop = api.settings.anchorPadding;
-      let adjustBot = api.settings.anchorPadding;
-
-      if (api.settings.selectorTopElem) {
-        const topElem = el.querySelector(api.settings.selectorTopElem);
-        if (topElem) {
-          adjustTop += topElem.offsetHeight;
-        }
-      }
-
-      if (api.settings.selectorBotElem) {
-        const botElem = el.querySelector(api.settings.selectorBotElem);
-        if (botElem) {
-          adjustBot += botElem.offsetHeight;
-        }
-      }
-
-      const posTop = anchor.offsetTop - (adjustTop);
-      const posBot = anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + adjustBot));
+      const posTop = getPosTop(el, anchor);
+      const posBot = getPosBot(el, anchor);
 
       if (el.scrollTop > posTop) {
         el.scroll({
