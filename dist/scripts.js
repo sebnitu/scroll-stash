@@ -37,6 +37,7 @@ this.ScrollStash = (function () {
       selectorAnchorParent: '',
       selectorTopElem: '',
       selectorBotElem: '',
+      alignment: 'nearest',
       behavior: 'auto',
       anchorPadding: 16,
       saveKey: 'ScrollStash',
@@ -163,12 +164,30 @@ this.ScrollStash = (function () {
       return false;
     };
 
+    var getPosition = function getPosition(el, anchor) {
+      var align = api.settings.alignment;
+
+      switch (align) {
+        case 'start':
+          return getPosTop(el, anchor);
+
+        case 'end':
+          return getPosBot(el, anchor);
+
+        case 'nearest':
+          return getPosNearest(el, anchor);
+
+        default:
+          return false;
+      }
+    };
+
     var showAnchor = function showAnchor(el) {
       var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
       var anchor = getAnchor(el);
 
       if (anchor) {
-        var position = getPosNearest(el, anchor);
+        var position = getPosition(el, anchor);
 
         if (position) {
           el.scroll({

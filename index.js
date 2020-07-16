@@ -11,6 +11,7 @@ export default (options) => {
     selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
+    alignment: 'nearest', // start | end | nearest
     behavior: 'auto', // auto | smooth
     anchorPadding: 16,
     saveKey: 'ScrollStash',
@@ -141,11 +142,21 @@ export default (options) => {
     return false;
   };
 
+  const getPosition = (el, anchor) => {
+    const align = api.settings.alignment;
+    switch (align) {
+    case 'start' : return getPosTop(el, anchor);
+    case 'end' : return getPosBot(el, anchor);
+    case 'nearest' : return getPosNearest(el, anchor);
+    default: return false;
+    }
+  };
+
   const showAnchor = (el, behavior = api.settings.behavior) => {
     const anchor = getAnchor(el);
 
     if (anchor) {
-      const position = getPosNearest(el, anchor);
+      const position = getPosition(el, anchor);
 
       if (position) {
         el.scroll({

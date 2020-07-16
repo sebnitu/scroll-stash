@@ -25,6 +25,12 @@ const markup = `
   <div data-scroll-stash=""></div>
 `;
 
+const markupSimple = `
+  <div data-scroll-stash="example" data-scroll-stash-anchor="[data-anchor]">
+    <span data-anchor></span>
+  </div>
+`;
+
 beforeEach(() => {
   document.body.innerHTML = markup;
   window.HTMLElement.prototype.scroll = jest.fn();
@@ -126,7 +132,6 @@ test('should scroll to anchor when anchor selector is set', () => {
 });
 
 test('should not throw error if anchor parent doesn not return an element', () => {
-  // MISSING: check which anchor was used to calculate the scroll from
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
@@ -234,4 +239,35 @@ test('should scroll to anchor when showAnchor api is called', () => {
   const el1 = document.querySelector('[data-scroll-stash="example-1"]');
   scrollStash.showAnchor(el1);
   expect(el1.scroll).toHaveBeenCalled();
+});
+
+test('should scroll to anchor using alignment options', () => {
+  document.body.innerHTML = markupSimple;
+  const el = document.querySelector('[data-scroll-stash="example"]');
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    alignment: 'start'
+  });
+  expect(el.scroll).toHaveBeenCalledTimes(1);
+
+  scrollStash.destroy();
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    alignment: 'end'
+  });
+  expect(el.scroll).toHaveBeenCalledTimes(2);
+
+  scrollStash.destroy();
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    alignment: 'nearest'
+  });
+  expect(el.scroll).toHaveBeenCalledTimes(3);
+
+  scrollStash.destroy();
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    alignment: 'asdf'
+  });
+  expect(el.scroll).toHaveBeenCalledTimes(3);
 });
