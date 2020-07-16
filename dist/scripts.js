@@ -90,11 +90,10 @@ this.ScrollStash = (function () {
         if (id) api.state[id] = el.scrollTop;
       });
       localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
-      var customEvent = new CustomEvent(api.settings.customEventPrefix + 'saved', {
+      document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'saved', {
         bubbles: true,
         detail: api.state
-      });
-      document.dispatchEvent(customEvent);
+      }));
     };
 
     var setScrollPosition = function setScrollPosition() {
@@ -104,11 +103,10 @@ this.ScrollStash = (function () {
           var item = document.querySelector("[data-".concat(api.settings.dataScroll, "=\"").concat(key, "\"]"));
           if (item) item.scrollTop = api.state[key];
         });
-        var customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
+        document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'applied', {
           bubbles: true,
           detail: api.state
-        });
-        document.dispatchEvent(customEvent);
+        }));
       } else {
         saveScrollPosition();
       }

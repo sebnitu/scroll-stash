@@ -65,11 +65,10 @@ export default (options) => {
       if (id) api.state[id] = el.scrollTop;
     });
     localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
-    const customEvent = new CustomEvent(api.settings.customEventPrefix + 'saved', {
+    document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'saved', {
       bubbles: true,
       detail: api.state
-    });
-    document.dispatchEvent(customEvent);
+    }));
   };
 
   const setScrollPosition = () => {
@@ -81,11 +80,10 @@ export default (options) => {
         );
         if (item) item.scrollTop = api.state[key];
       });
-      const customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
+      document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'applied', {
         bubbles: true,
         detail: api.state
-      });
-      document.dispatchEvent(customEvent);
+      }));
     } else {
       saveScrollPosition();
     }
