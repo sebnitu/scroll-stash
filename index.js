@@ -95,22 +95,35 @@ export default (options) => {
     }
   };
 
-  const showAnchor = (el, behavior = api.settings.behavior) => {
-    // Element size and scrolling
-    // https://javascript.info/size-and-scroll
-
-    let anchor = el.querySelector(api.settings.selectorAnchor);
-    if (anchor && api.settings.selectorAnchorParent) {
-      const anchorParent = anchor.closest(api.settings.selectorAnchorParent);
-      anchor = (anchorParent) ? anchorParent : anchor;
-    }
-
+  const getAnchor = (el) => {
+    // 1. If dataAnchor is disabled, return null
     const dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
     if (dataAnchor == 'false' || dataAnchor == 'ignore') {
-      return false;
-    } else if (dataAnchor) {
-      anchor = (el.querySelector(dataAnchor)) ? el.querySelector(dataAnchor) : anchor;
+      return null;
     }
+
+    // 2. If dataAnchor returns an anchor, return dataAnchor
+    if (dataAnchor && el.querySelector(dataAnchor)) {
+      return el.querySelector(dataAnchor);
+    }
+
+    // 3. If selectAnchor and parentAnchor return an anchor, return parentAnchor
+    const selectorAnchor = el.querySelector(api.settings.selectorAnchor);
+    if (selectorAnchor && api.settings.selectorAnchorParent) {
+      const parentAnchor = selectorAnchor.closest(api.settings.selectorAnchorParent);
+      if (parentAnchor) return parentAnchor;
+    }
+
+    // 4. If selectAnchor returned an anchor, return selectorAnchor
+    // 5. else null
+    return (selectorAnchor) ? selectorAnchor : null;
+  };
+
+  const showAnchor = (el, behavior = api.settings.behavior) => {
+    const anchor = getAnchor(el);
+
+    // Element size and scrolling
+    // https://javascript.info/size-and-scroll
 
     if (anchor) {
       let adjustTop = api.settings.anchorPadding;

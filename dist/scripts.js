@@ -120,22 +120,30 @@ this.ScrollStash = (function () {
       }
     };
 
-    var showAnchor = function showAnchor(el) {
-      var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
-      var anchor = el.querySelector(api.settings.selectorAnchor);
-
-      if (anchor && api.settings.selectorAnchorParent) {
-        var anchorParent = anchor.closest(api.settings.selectorAnchorParent);
-        anchor = anchorParent ? anchorParent : anchor;
-      }
-
+    var getAnchor = function getAnchor(el) {
       var dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
 
       if (dataAnchor == 'false' || dataAnchor == 'ignore') {
-        return false;
-      } else if (dataAnchor) {
-        anchor = el.querySelector(dataAnchor) ? el.querySelector(dataAnchor) : anchor;
+        return null;
       }
+
+      if (dataAnchor && el.querySelector(dataAnchor)) {
+        return el.querySelector(dataAnchor);
+      }
+
+      var selectorAnchor = el.querySelector(api.settings.selectorAnchor);
+
+      if (selectorAnchor && api.settings.selectorAnchorParent) {
+        var parentAnchor = selectorAnchor.closest(api.settings.selectorAnchorParent);
+        if (parentAnchor) return parentAnchor;
+      }
+
+      return selectorAnchor ? selectorAnchor : null;
+    };
+
+    var showAnchor = function showAnchor(el) {
+      var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
+      var anchor = getAnchor(el);
 
       if (anchor) {
         var adjustTop = api.settings.anchorPadding;
