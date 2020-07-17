@@ -29,7 +29,7 @@ export default (options) => {
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
     setScrollPosition();
     api.scrolls.forEach((item) => {
-      showAnchor(item);
+      api.showAnchor(item);
       item.addEventListener('scroll', throttle, false);
     });
   };
@@ -41,10 +41,6 @@ export default (options) => {
     api.scrolls = [];
     api.state = {};
     localStorage.removeItem(api.settings.saveKey);
-  };
-
-  api.showAnchor = (el, behavior = api.settings.behavior) => {
-    showAnchor(el, behavior);
   };
 
   const throttle = () => {
@@ -152,7 +148,7 @@ export default (options) => {
     }
   };
 
-  const showAnchor = (el, behavior = api.settings.behavior) => {
+  api.showAnchor = (el, behavior = api.settings.behavior) => {
     const anchor = getAnchor(el);
 
     if (anchor) {

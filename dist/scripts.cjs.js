@@ -52,7 +52,7 @@ var index = (function (options) {
     api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
     setScrollPosition();
     api.scrolls.forEach(function (item) {
-      showAnchor(item);
+      api.showAnchor(item);
       item.addEventListener('scroll', throttle, false);
     });
   };
@@ -64,11 +64,6 @@ var index = (function (options) {
     api.scrolls = [];
     api.state = {};
     localStorage.removeItem(api.settings.saveKey);
-  };
-
-  api.showAnchor = function (el) {
-    var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
-    showAnchor(el, behavior);
   };
 
   var throttle = function throttle() {
@@ -181,7 +176,7 @@ var index = (function (options) {
     }
   };
 
-  var showAnchor = function showAnchor(el) {
+  api.showAnchor = function (el) {
     var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
     var anchor = getAnchor(el);
 
