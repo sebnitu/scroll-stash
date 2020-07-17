@@ -53,7 +53,7 @@ this.ScrollStash = (function () {
       api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
       setScrollPosition();
       api.scrolls.forEach(function (item) {
-        showAnchor(item);
+        api.showAnchor(item);
         item.addEventListener('scroll', throttle, false);
       });
     };
@@ -65,11 +65,6 @@ this.ScrollStash = (function () {
       api.scrolls = [];
       api.state = {};
       localStorage.removeItem(api.settings.saveKey);
-    };
-
-    api.showAnchor = function (el) {
-      var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
-      showAnchor(el, behavior);
     };
 
     var throttle = function throttle() {
@@ -182,7 +177,7 @@ this.ScrollStash = (function () {
       }
     };
 
-    var showAnchor = function showAnchor(el) {
+    api.showAnchor = function (el) {
       var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
       var anchor = getAnchor(el);
 
