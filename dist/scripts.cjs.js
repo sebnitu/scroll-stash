@@ -44,6 +44,54 @@ var getAnchor = function getAnchor(el, settings) {
   return selectorAnchor ? selectorAnchor : null;
 };
 
+var getPosTop = function getPosTop(el, anchor, settings) {
+  var pos = settings.anchorPadding;
+
+  if (settings.selectorTopElem) {
+    var topElem = el.querySelector(settings.selectorTopElem);
+    if (topElem) pos += topElem.offsetHeight;
+  }
+
+  return anchor.offsetTop - pos;
+};
+
+var getPosBot = function getPosBot(el, anchor, settings) {
+  var pos = settings.anchorPadding;
+
+  if (settings.selectorBotElem) {
+    var botElem = el.querySelector(settings.selectorBotElem);
+    if (botElem) pos += botElem.offsetHeight;
+  }
+
+  return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
+};
+
+var getPosNearest = function getPosNearest(el, anchor, settings) {
+  var posTop = getPosTop(el, anchor, settings);
+  var posBot = getPosBot(el, anchor, settings);
+  if (el.scrollTop > posTop) return posTop;
+  if (el.scrollTop < posBot) return posBot;
+  return false;
+};
+
+var getPosition = function getPosition(el, anchor, settings) {
+  var align = settings.alignment;
+
+  switch (align) {
+    case 'start':
+      return getPosTop(el, anchor, settings);
+
+    case 'end':
+      return getPosBot(el, anchor, settings);
+
+    case 'nearest':
+      return getPosNearest(el, anchor, settings);
+
+    default:
+      return false;
+  }
+};
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -128,60 +176,12 @@ var index = (function (options) {
     }
   };
 
-  var getPosTop = function getPosTop(el, anchor) {
-    var pos = api.settings.anchorPadding;
-
-    if (api.settings.selectorTopElem) {
-      var topElem = el.querySelector(api.settings.selectorTopElem);
-      if (topElem) pos += topElem.offsetHeight;
-    }
-
-    return anchor.offsetTop - pos;
-  };
-
-  var getPosBot = function getPosBot(el, anchor) {
-    var pos = api.settings.anchorPadding;
-
-    if (api.settings.selectorBotElem) {
-      var botElem = el.querySelector(api.settings.selectorBotElem);
-      if (botElem) pos += botElem.offsetHeight;
-    }
-
-    return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
-  };
-
-  var getPosNearest = function getPosNearest(el, anchor) {
-    var posTop = getPosTop(el, anchor);
-    var posBot = getPosBot(el, anchor);
-    if (el.scrollTop > posTop) return posTop;
-    if (el.scrollTop < posBot) return posBot;
-    return false;
-  };
-
-  var getPosition = function getPosition(el, anchor) {
-    var align = api.settings.alignment;
-
-    switch (align) {
-      case 'start':
-        return getPosTop(el, anchor);
-
-      case 'end':
-        return getPosBot(el, anchor);
-
-      case 'nearest':
-        return getPosNearest(el, anchor);
-
-      default:
-        return false;
-    }
-  };
-
   api.showAnchor = function (el) {
     var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
     var anchor = getAnchor(el, api.settings);
 
     if (anchor) {
-      var position = getPosition(el, anchor);
+      var position = getPosition(el, anchor, api.settings);
 
       if (position) {
         el.scroll({

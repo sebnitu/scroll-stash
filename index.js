@@ -1,5 +1,6 @@
 import { camelCase } from '@vrembem/core';
 import { getAnchor } from './src/getAnchor';
+import { getPosition } from './src/getPosition';
 
 export default (options) => {
 
@@ -87,48 +88,11 @@ export default (options) => {
     }
   };
 
-  const getPosTop = (el, anchor) => {
-    let pos = api.settings.anchorPadding;
-    if (api.settings.selectorTopElem) {
-      const topElem = el.querySelector(api.settings.selectorTopElem);
-      if (topElem) pos += topElem.offsetHeight;
-    }
-    return anchor.offsetTop - (pos);
-  };
-
-  const getPosBot = (el, anchor) => {
-    let pos = api.settings.anchorPadding;
-    if (api.settings.selectorBotElem) {
-      const botElem = el.querySelector(api.settings.selectorBotElem);
-      if (botElem) pos += botElem.offsetHeight;
-    }
-    return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
-  };
-
-  const getPosNearest = (el, anchor) => {
-    const posTop = getPosTop(el, anchor);
-    const posBot = getPosBot(el, anchor);
-
-    if (el.scrollTop > posTop) return posTop;
-    if (el.scrollTop < posBot) return posBot;
-    return false;
-  };
-
-  const getPosition = (el, anchor) => {
-    const align = api.settings.alignment;
-    switch (align) {
-    case 'start' : return getPosTop(el, anchor);
-    case 'end' : return getPosBot(el, anchor);
-    case 'nearest' : return getPosNearest(el, anchor);
-    default: return false;
-    }
-  };
-
   api.showAnchor = (el, behavior = api.settings.behavior) => {
     const anchor = getAnchor(el, api.settings);
 
     if (anchor) {
-      const position = getPosition(el, anchor);
+      const position = getPosition(el, anchor, api.settings);
 
       if (position) {
         el.scroll({
