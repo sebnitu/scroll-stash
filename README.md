@@ -50,15 +50,7 @@ This optional data attribute—when set on a `scroll-stash` element with a valid
 
 > Anchors are elements within a scrollable container that you want to always be visible. In the case where a preserved scroll position is applied and the anchor is not visible, the scroll will be adjusted to the nearest position to make the entire element visible with the appropriate padding or clearance elements as defined in options.
 
-## Customization
-
-### Events
-
-- `scroll-stash:saved` Emits when scroll positions are saved.
-- `scroll-stash:applied` Emits when scroll positions are applied.
-- `scroll-stash:anchor` Emits when the anchor is scrolled into view.
-
-### Options
+## Options
 
 Key | Default | Description
 ---|---|---
@@ -75,9 +67,15 @@ Key | Default | Description
 `throttleDelay` | `250` | The delay to apply between scroll stash saves. Since scrolling events fire extremely fast, this creates a throttle to help improve performance.
 `customEventPrefix` | `'scroll-stash:'` | Prefix to be used on custom events.
 
-### API
+## Events
 
-#### `scrollStash.init()`
+- `scroll-stash:saved` Emits when scroll positions are saved.
+- `scroll-stash:applied` Emits when scroll positions are applied.
+- `scroll-stash:anchor` Emits when the anchor is scrolled into view.
+
+## API
+
+### `scrollStash.init()`
 
 Initializes the `scroll-stash` instance.
 
@@ -86,7 +84,7 @@ const scrollStash = new ScrollStash();
 scrollStash.init();
 ```
 
-#### `scrollStash.destroy()`
+### `scrollStash.destroy()`
 
 Destroys the previously initialized `scroll-stash` instance.
 
@@ -97,7 +95,7 @@ scrollStash.init();
 scrollStash.destroy();
 ```
 
-#### `scrollStash.showAnchor(element, behavior)`
+### `scrollStash.showAnchor(element, behavior)`
 
 Scrolls the anchor in view of the passed `scroll-stash` HTML element.
 
