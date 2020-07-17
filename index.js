@@ -11,6 +11,7 @@ export default (options) => {
     selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
+    alignment: 'nearest', // start | end | nearest
     behavior: 'auto', // auto | smooth
     anchorPadding: 16,
     saveKey: 'ScrollStash',
@@ -28,9 +29,7 @@ export default (options) => {
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
     setScrollPosition();
     api.scrolls.forEach((item) => {
-      if (api.settings.selectorAnchor) {
-        showAnchor(item);
-      }
+      showAnchor(item);
       item.addEventListener('scroll', throttle, false);
     });
   };
@@ -45,9 +44,7 @@ export default (options) => {
   };
 
   api.showAnchor = (el, behavior = api.settings.behavior) => {
-    if (api.settings.selectorAnchor) {
-      showAnchor(el, behavior);
-    }
+    showAnchor(el, behavior);
   };
 
   const throttle = () => {
@@ -69,11 +66,10 @@ export default (options) => {
       if (id) api.state[id] = el.scrollTop;
     });
     localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
-    const customEvent = new CustomEvent(api.settings.customEventPrefix + 'saved', {
+    document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'saved', {
       bubbles: true,
       detail: api.state
-    });
-    document.dispatchEvent(customEvent);
+    }));
   };
 
   const setScrollPosition = () => {
@@ -85,76 +81,99 @@ export default (options) => {
         );
         if (item) item.scrollTop = api.state[key];
       });
-      const customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
+      document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'applied', {
         bubbles: true,
         detail: api.state
-      });
-      document.dispatchEvent(customEvent);
+      }));
     } else {
       saveScrollPosition();
     }
   };
 
-  const showAnchor = (el, behavior = api.settings.behavior) => {
-    // Element size and scrolling
-    // https://javascript.info/size-and-scroll
-
-    let anchor = el.querySelector(api.settings.selectorAnchor);
-    if (anchor && api.settings.selectorAnchorParent) {
-      const anchorParent = anchor.closest(api.settings.selectorAnchorParent);
-      anchor = (anchorParent) ? anchorParent : anchor;
-    }
-
+  const getAnchor = (el) => {
+    // 1. If dataAnchor is disabled, return null
     const dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
     if (dataAnchor == 'false' || dataAnchor == 'ignore') {
-      return false;
-    } else if (dataAnchor) {
-      anchor = (el.querySelector(dataAnchor)) ? el.querySelector(dataAnchor) : anchor;
+      return null;
     }
 
+    // 2. If dataAnchor returns an anchor, return dataAnchor
+    if (dataAnchor && el.querySelector(dataAnchor)) {
+      return el.querySelector(dataAnchor);
+    }
+
+    // 3. If selectAnchor and parentAnchor return an anchor, return parentAnchor
+    const selectorAnchor = (api.settings.selectorAnchor) ?
+      el.querySelector(api.settings.selectorAnchor) : null;
+    if (selectorAnchor && api.settings.selectorAnchorParent) {
+      const parentAnchor = selectorAnchor.closest(api.settings.selectorAnchorParent);
+      if (parentAnchor) return parentAnchor;
+    }
+
+    // 4. If selectAnchor returned an anchor, return selectorAnchor
+    // 5. else null
+    return (selectorAnchor) ? selectorAnchor : null;
+  };
+
+  const getPosTop = (el, anchor) => {
+    let pos = api.settings.anchorPadding;
+    if (api.settings.selectorTopElem) {
+      const topElem = el.querySelector(api.settings.selectorTopElem);
+      if (topElem) pos += topElem.offsetHeight;
+    }
+    return anchor.offsetTop - (pos);
+  };
+
+  const getPosBot = (el, anchor) => {
+    let pos = api.settings.anchorPadding;
+    if (api.settings.selectorBotElem) {
+      const botElem = el.querySelector(api.settings.selectorBotElem);
+      if (botElem) pos += botElem.offsetHeight;
+    }
+    return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
+  };
+
+  const getPosNearest = (el, anchor) => {
+    const posTop = getPosTop(el, anchor);
+    const posBot = getPosBot(el, anchor);
+
+    if (el.scrollTop > posTop) return posTop;
+    if (el.scrollTop < posBot) return posBot;
+    return false;
+  };
+
+  const getPosition = (el, anchor) => {
+    const align = api.settings.alignment;
+    switch (align) {
+    case 'start' : return getPosTop(el, anchor);
+    case 'end' : return getPosBot(el, anchor);
+    case 'nearest' : return getPosNearest(el, anchor);
+    default: return false;
+    }
+  };
+
+  const showAnchor = (el, behavior = api.settings.behavior) => {
+    const anchor = getAnchor(el);
+
     if (anchor) {
-      let adjustTop = api.settings.anchorPadding;
-      let adjustBot = api.settings.anchorPadding;
+      const position = getPosition(el, anchor);
 
-      if (api.settings.selectorTopElem) {
-        const topElem = el.querySelector(api.settings.selectorTopElem);
-        if (topElem) {
-          adjustTop += topElem.offsetHeight;
-        }
-      }
-
-      if (api.settings.selectorBotElem) {
-        const botElem = el.querySelector(api.settings.selectorBotElem);
-        if (botElem) {
-          adjustBot += botElem.offsetHeight;
-        }
-      }
-
-      const posTop = anchor.offsetTop - (adjustTop);
-      const posBot = anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + adjustBot));
-
-      if (el.scrollTop > posTop) {
+      if (position) {
         el.scroll({
-          top: posTop,
-          behavior: behavior
-        });
-      } else if (el.scrollTop < posBot) {
-        el.scroll({
-          top: posBot,
+          top: position,
           behavior: behavior
         });
       } else {
         return true;
       }
 
-      const customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
+      el.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'anchor', {
         bubbles: true,
         detail: {
           key: el.dataset[camelCase(api.settings.dataScroll)],
           position: el.scrollTop,
         }
-      });
-      el.dispatchEvent(customEvent);
+      }));
     }
   };
 

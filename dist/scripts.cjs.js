@@ -36,6 +36,7 @@ var index = (function (options) {
     selectorAnchorParent: '',
     selectorTopElem: '',
     selectorBotElem: '',
+    alignment: 'nearest',
     behavior: 'auto',
     anchorPadding: 16,
     saveKey: 'ScrollStash',
@@ -51,10 +52,7 @@ var index = (function (options) {
     api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
     setScrollPosition();
     api.scrolls.forEach(function (item) {
-      if (api.settings.selectorAnchor) {
-        showAnchor(item);
-      }
-
+      showAnchor(item);
       item.addEventListener('scroll', throttle, false);
     });
   };
@@ -70,10 +68,7 @@ var index = (function (options) {
 
   api.showAnchor = function (el) {
     var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
-
-    if (api.settings.selectorAnchor) {
-      showAnchor(el, behavior);
-    }
+    showAnchor(el, behavior);
   };
 
   var throttle = function throttle() {
@@ -95,11 +90,10 @@ var index = (function (options) {
       if (id) api.state[id] = el.scrollTop;
     });
     localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
-    var customEvent = new CustomEvent(api.settings.customEventPrefix + 'saved', {
+    document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'saved', {
       bubbles: true,
       detail: api.state
-    });
-    document.dispatchEvent(customEvent);
+    }));
   };
 
   var setScrollPosition = function setScrollPosition() {
@@ -109,78 +103,107 @@ var index = (function (options) {
         var item = document.querySelector("[data-".concat(api.settings.dataScroll, "=\"").concat(key, "\"]"));
         if (item) item.scrollTop = api.state[key];
       });
-      var customEvent = new CustomEvent(api.settings.customEventPrefix + 'applied', {
+      document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'applied', {
         bubbles: true,
         detail: api.state
-      });
-      document.dispatchEvent(customEvent);
+      }));
     } else {
       saveScrollPosition();
     }
   };
 
-  var showAnchor = function showAnchor(el) {
-    var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
-    var anchor = el.querySelector(api.settings.selectorAnchor);
-
-    if (anchor && api.settings.selectorAnchorParent) {
-      var anchorParent = anchor.closest(api.settings.selectorAnchorParent);
-      anchor = anchorParent ? anchorParent : anchor;
-    }
-
+  var getAnchor = function getAnchor(el) {
     var dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
 
     if (dataAnchor == 'false' || dataAnchor == 'ignore') {
-      return false;
-    } else if (dataAnchor) {
-      anchor = el.querySelector(dataAnchor) ? el.querySelector(dataAnchor) : anchor;
+      return null;
     }
 
+    if (dataAnchor && el.querySelector(dataAnchor)) {
+      return el.querySelector(dataAnchor);
+    }
+
+    var selectorAnchor = api.settings.selectorAnchor ? el.querySelector(api.settings.selectorAnchor) : null;
+
+    if (selectorAnchor && api.settings.selectorAnchorParent) {
+      var parentAnchor = selectorAnchor.closest(api.settings.selectorAnchorParent);
+      if (parentAnchor) return parentAnchor;
+    }
+
+    return selectorAnchor ? selectorAnchor : null;
+  };
+
+  var getPosTop = function getPosTop(el, anchor) {
+    var pos = api.settings.anchorPadding;
+
+    if (api.settings.selectorTopElem) {
+      var topElem = el.querySelector(api.settings.selectorTopElem);
+      if (topElem) pos += topElem.offsetHeight;
+    }
+
+    return anchor.offsetTop - pos;
+  };
+
+  var getPosBot = function getPosBot(el, anchor) {
+    var pos = api.settings.anchorPadding;
+
+    if (api.settings.selectorBotElem) {
+      var botElem = el.querySelector(api.settings.selectorBotElem);
+      if (botElem) pos += botElem.offsetHeight;
+    }
+
+    return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
+  };
+
+  var getPosNearest = function getPosNearest(el, anchor) {
+    var posTop = getPosTop(el, anchor);
+    var posBot = getPosBot(el, anchor);
+    if (el.scrollTop > posTop) return posTop;
+    if (el.scrollTop < posBot) return posBot;
+    return false;
+  };
+
+  var getPosition = function getPosition(el, anchor) {
+    var align = api.settings.alignment;
+
+    switch (align) {
+      case 'start':
+        return getPosTop(el, anchor);
+
+      case 'end':
+        return getPosBot(el, anchor);
+
+      case 'nearest':
+        return getPosNearest(el, anchor);
+
+      default:
+        return false;
+    }
+  };
+
+  var showAnchor = function showAnchor(el) {
+    var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
+    var anchor = getAnchor(el);
+
     if (anchor) {
-      var adjustTop = api.settings.anchorPadding;
-      var adjustBot = api.settings.anchorPadding;
+      var position = getPosition(el, anchor);
 
-      if (api.settings.selectorTopElem) {
-        var topElem = el.querySelector(api.settings.selectorTopElem);
-
-        if (topElem) {
-          adjustTop += topElem.offsetHeight;
-        }
-      }
-
-      if (api.settings.selectorBotElem) {
-        var botElem = el.querySelector(api.settings.selectorBotElem);
-
-        if (botElem) {
-          adjustBot += botElem.offsetHeight;
-        }
-      }
-
-      var posTop = anchor.offsetTop - adjustTop;
-      var posBot = anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + adjustBot));
-
-      if (el.scrollTop > posTop) {
+      if (position) {
         el.scroll({
-          top: posTop,
-          behavior: behavior
-        });
-      } else if (el.scrollTop < posBot) {
-        el.scroll({
-          top: posBot,
+          top: position,
           behavior: behavior
         });
       } else {
         return true;
       }
 
-      var customEvent = new CustomEvent(api.settings.customEventPrefix + 'anchor', {
+      el.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'anchor', {
         bubbles: true,
         detail: {
           key: el.dataset[camelCase(api.settings.dataScroll)],
           position: el.scrollTop
         }
-      });
-      el.dispatchEvent(customEvent);
+      }));
     }
   };
 

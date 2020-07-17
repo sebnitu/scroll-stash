@@ -16,9 +16,19 @@ const markup = `
     </span>
     <span class="bot"></span>
   </div>
-  <div data-scroll-stash="example-2"></div>
+  <div data-scroll-stash="example-2">
+    <span class="anchor-parent">
+      <span class="anchor"></span>
+    </span>
+  </div>
   <div data-scroll-stash="example-3"></div>
   <div data-scroll-stash=""></div>
+`;
+
+const markupSimple = `
+  <div data-scroll-stash="example" data-scroll-stash-anchor="[data-anchor]">
+    <span data-anchor></span>
+  </div>
 `;
 
 beforeEach(() => {
@@ -121,6 +131,16 @@ test('should scroll to anchor when anchor selector is set', () => {
   expect(el.scroll).toHaveBeenCalledWith({ behavior: 'auto', top: -16 });
 });
 
+test('should not throw error if anchor parent doesn not return an element', () => {
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    selectorAnchor: '.anchor',
+    selectorAnchorParent: '.anchor-asdf',
+  });
+  const el = document.querySelector('[data-scroll-stash="example-2"]');
+  expect(el.scroll).toHaveBeenCalledTimes(2);
+});
+
 test('should scroll to anchor while adjusting for top elements', () => {
   const el = document.querySelector('[data-scroll-stash="example-1"]');
   el.scrollTop = 30;
@@ -173,7 +193,9 @@ test('should not throw error if selector top and bottom elements aren\'t found',
 
 test('should ignore anchor selector if data value is set to false or ignore', () => {
   const el1 = document.querySelector('[data-scroll-stash="example-1"]');
+  const el2 = document.querySelector('[data-scroll-stash="example-2"]');
   el1.dataset.scrollStashAnchor = 'false';
+  el2.dataset.scrollStashAnchor = 'false';
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
@@ -182,6 +204,7 @@ test('should ignore anchor selector if data value is set to false or ignore', ()
 
   scrollStash.destroy();
   el1.dataset.scrollStashAnchor = 'ignore';
+  el2.dataset.scrollStashAnchor = 'ignore';
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
@@ -190,22 +213,12 @@ test('should ignore anchor selector if data value is set to false or ignore', ()
 
   scrollStash.destroy();
   delete el1.dataset.scrollStashAnchor;
+  delete el2.dataset.scrollStashAnchor;
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
   });
   expect(el1.scroll).toHaveBeenCalled();
-});
-
-test('should not throw error if anchor parent is not found', () => {
-  const el = document.querySelector('[data-scroll-stash="example-1"]');
-  el.dataset.scrollStashAnchor = 'ignore';
-  scrollStash = new ScrollStash({
-    selectorAnchor: '.anchor',
-    selectorAnchorParent: '.anchor-asdf',
-  });
-  expect(scrollStash.init).not.toThrow();
-  expect(el.scroll).not.toHaveBeenCalled();
 });
 
 test('should not throw error if data anchor is not found', () => {
@@ -228,11 +241,33 @@ test('should scroll to anchor when showAnchor api is called', () => {
   expect(el1.scroll).toHaveBeenCalled();
 });
 
-test('should ignore showAnchor api call if select anchor is not set', () => {
+test('should scroll to anchor using alignment options', () => {
+  document.body.innerHTML = markupSimple;
+  const el = document.querySelector('[data-scroll-stash="example"]');
   scrollStash = new ScrollStash({
     autoInit: true,
+    alignment: 'start'
   });
-  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.showAnchor(el1);
-  expect(el1.scroll).not.toHaveBeenCalled();
+  expect(el.scroll).toHaveBeenCalledTimes(1);
+
+  scrollStash.destroy();
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    alignment: 'end'
+  });
+  expect(el.scroll).toHaveBeenCalledTimes(2);
+
+  scrollStash.destroy();
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    alignment: 'nearest'
+  });
+  expect(el.scroll).toHaveBeenCalledTimes(3);
+
+  scrollStash.destroy();
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    alignment: 'asdf'
+  });
+  expect(el.scroll).toHaveBeenCalledTimes(3);
 });

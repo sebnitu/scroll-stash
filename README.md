@@ -61,7 +61,8 @@ Key | Default | Description
 `selectorAnchorParent` | `''` | Parent selector for anchors who are wrapped in elements with `position: relative` styles.
 `selectorTopElem` | `''` | Selector for sticky or fixed top element within a `scroll-stash` that anchors need to take into account.
 `selectorBotElem` | `''` | Selector for sticky or fixed bottom element within a `scroll-stash` that anchors need to take into account.
-`behavior` | `auto` | Defines the transition animation. Can either be set to `auto` or `smooth`.
+`alignment` | `'nearest'` | Defines the vertical alignment of scroll anchor. Can be set to `start`, `end` or `nearest`.
+`behavior` | `'auto'` | Defines the transition animation. Can either be set to `auto` or `smooth`.
 `anchorPadding` | `16` | The extra padding to provide when scrolling anchors into view.
 `saveKey` | `'ScrollStash'` | The key that is used to save the scroll stash state object in local storage.
 `throttleDelay` | `250` | The delay to apply between scroll stash saves. Since scrolling events fire extremely fast, this creates a throttle to help improve performance.
