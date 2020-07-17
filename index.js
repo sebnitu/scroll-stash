@@ -1,4 +1,5 @@
-import { camelCase } from '@vrembem/core';
+import { saveScrollPosition } from './src/saveScrollPosition';
+import { setScrollPosition } from './src/setScrollPosition';
 import { showAnchor } from './src/showAnchor';
 
 export default (options) => {
@@ -33,7 +34,7 @@ export default (options) => {
 
   api.init = () => {
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
-    setScrollPosition();
+    api.state = setScrollPosition(api.state, api.settings);
     api.scrolls.forEach((item) => {
       showAnchor(item, false, api.settings);
       item.addEventListener('scroll', throttle, false);
@@ -57,39 +58,8 @@ export default (options) => {
   };
 
   const run = () => {
-    saveScrollPosition();
+    api.state = saveScrollPosition(api.state, api.settings);
     api.ticking = false;
-  };
-
-  const saveScrollPosition = () => {
-    const scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
-    scrolls.forEach((el) => {
-      const id = el.dataset[camelCase(api.settings.dataScroll)];
-      if (id) api.state[id] = el.scrollTop;
-    });
-    localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
-    document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'saved', {
-      bubbles: true,
-      detail: api.state
-    }));
-  };
-
-  const setScrollPosition = () => {
-    if (localStorage.getItem(api.settings.saveKey)) {
-      api.state = JSON.parse(localStorage.getItem(api.settings.saveKey));
-      Object.keys(api.state).forEach((key) => {
-        const item = document.querySelector(
-          `[data-${api.settings.dataScroll}="${key}"]`
-        );
-        if (item) item.scrollTop = api.state[key];
-      });
-      document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'applied', {
-        bubbles: true,
-        detail: api.state
-      }));
-    } else {
-      saveScrollPosition();
-    }
   };
 
   if (api.settings.autoInit) api.init();
