@@ -93,11 +93,40 @@ this.ScrollStash = (function () {
     }
   };
 
+  var showAnchor = function showAnchor(el, behavior, settings) {
+    var anchor = getAnchor(el, settings);
+
+    if (anchor) {
+      var position = getPosition(el, anchor, settings);
+
+      if (position) {
+        el.scroll({
+          top: position,
+          behavior: behavior ? behavior : settings.behavior
+        });
+      } else {
+        return true;
+      }
+
+      el.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'anchor', {
+        bubbles: true,
+        detail: {
+          key: el.dataset[camelCase(settings.dataScroll)],
+          position: el.scrollTop
+        }
+      }));
+    }
+  };
+
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var index = (function (options) {
-    var api = {};
+    var api = {
+      showAnchor: function showAnchor$1(el, behavior) {
+        showAnchor(el, behavior, api.settings);
+      }
+    };
     var defaults = {
       autoInit: false,
       dataScroll: 'scroll-stash',
@@ -122,7 +151,8 @@ this.ScrollStash = (function () {
       api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
       setScrollPosition();
       api.scrolls.forEach(function (item) {
-        api.showAnchor(item);
+        showAnchor(item, false, api.settings);
+
         item.addEventListener('scroll', throttle, false);
       });
     };
@@ -174,32 +204,6 @@ this.ScrollStash = (function () {
         }));
       } else {
         saveScrollPosition();
-      }
-    };
-
-    api.showAnchor = function (el) {
-      var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
-      var anchor = getAnchor(el, api.settings);
-
-      if (anchor) {
-        var position = getPosition(el, anchor, api.settings);
-
-        if (position) {
-          el.scroll({
-            top: position,
-            behavior: behavior
-          });
-        } else {
-          return true;
-        }
-
-        el.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'anchor', {
-          bubbles: true,
-          detail: {
-            key: el.dataset[camelCase(api.settings.dataScroll)],
-            position: el.scrollTop
-          }
-        }));
       }
     };
 

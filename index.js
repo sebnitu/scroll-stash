@@ -1,10 +1,14 @@
 import { camelCase } from '@vrembem/core';
-import { getAnchor } from './src/getAnchor';
-import { getPosition } from './src/getPosition';
+import { showAnchor } from './src/showAnchor';
 
 export default (options) => {
 
-  let api = {};
+  let api = {
+    showAnchor: (el, behavior) => {
+      showAnchor(el, behavior, api.settings);
+    }
+  };
+
   const defaults = {
     autoInit: false,
     dataScroll: 'scroll-stash',
@@ -31,7 +35,7 @@ export default (options) => {
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
     setScrollPosition();
     api.scrolls.forEach((item) => {
-      api.showAnchor(item);
+      showAnchor(item, false, api.settings);
       item.addEventListener('scroll', throttle, false);
     });
   };
@@ -85,31 +89,6 @@ export default (options) => {
       }));
     } else {
       saveScrollPosition();
-    }
-  };
-
-  api.showAnchor = (el, behavior = api.settings.behavior) => {
-    const anchor = getAnchor(el, api.settings);
-
-    if (anchor) {
-      const position = getPosition(el, anchor, api.settings);
-
-      if (position) {
-        el.scroll({
-          top: position,
-          behavior: behavior
-        });
-      } else {
-        return true;
-      }
-
-      el.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'anchor', {
-        bubbles: true,
-        detail: {
-          key: el.dataset[camelCase(api.settings.dataScroll)],
-          position: el.scrollTop,
-        }
-      }));
     }
   };
 
