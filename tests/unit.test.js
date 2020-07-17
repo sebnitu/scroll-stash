@@ -46,6 +46,7 @@ afterEach(() => {
 test('should save scroll stash instances and scroll position on init', () => {
   scrollStash = new ScrollStash({ autoInit: true });
   const storage = JSON.parse(localStorage.getItem('ScrollStash'));
+  throttleDelay(500);
   expect(scrollStash.state).toEqual(storage);
 });
 

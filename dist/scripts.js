@@ -24,6 +24,37 @@ this.ScrollStash = (function () {
     });
   };
 
+  var saveScrollPosition = function saveScrollPosition(state, settings) {
+    var scrolls = document.querySelectorAll("[data-".concat(settings.dataScroll, "]"));
+    scrolls.forEach(function (el) {
+      var id = el.dataset[camelCase(settings.dataScroll)];
+      if (id) state[id] = el.scrollTop;
+    });
+    localStorage.setItem(settings.saveKey, JSON.stringify(state));
+    document.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'saved', {
+      bubbles: true,
+      detail: state
+    }));
+    return state;
+  };
+
+  var setScrollPosition = function setScrollPosition(state, settings) {
+    if (localStorage.getItem(settings.saveKey)) {
+      state = JSON.parse(localStorage.getItem(settings.saveKey));
+      Object.keys(state).forEach(function (key) {
+        var item = document.querySelector("[data-".concat(settings.dataScroll, "=\"").concat(key, "\"]"));
+        if (item) item.scrollTop = state[key];
+      });
+      document.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'applied', {
+        bubbles: true,
+        detail: state
+      }));
+      return state;
+    } else {
+      return saveScrollPosition(state, settings);
+    }
+  };
+
   var getAnchor = function getAnchor(el, settings) {
     var dataAnchor = el.dataset[camelCase(settings.dataAnchor)];
 
@@ -149,7 +180,7 @@ this.ScrollStash = (function () {
 
     api.init = function () {
       api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
-      setScrollPosition();
+      api.state = setScrollPosition(api.state, api.settings);
       api.scrolls.forEach(function (item) {
         showAnchor(item, false, api.settings);
 
@@ -174,37 +205,8 @@ this.ScrollStash = (function () {
     };
 
     var run = function run() {
-      saveScrollPosition();
+      api.state = saveScrollPosition(api.state, api.settings);
       api.ticking = false;
-    };
-
-    var saveScrollPosition = function saveScrollPosition() {
-      var scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
-      scrolls.forEach(function (el) {
-        var id = el.dataset[camelCase(api.settings.dataScroll)];
-        if (id) api.state[id] = el.scrollTop;
-      });
-      localStorage.setItem(api.settings.saveKey, JSON.stringify(api.state));
-      document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'saved', {
-        bubbles: true,
-        detail: api.state
-      }));
-    };
-
-    var setScrollPosition = function setScrollPosition() {
-      if (localStorage.getItem(api.settings.saveKey)) {
-        api.state = JSON.parse(localStorage.getItem(api.settings.saveKey));
-        Object.keys(api.state).forEach(function (key) {
-          var item = document.querySelector("[data-".concat(api.settings.dataScroll, "=\"").concat(key, "\"]"));
-          if (item) item.scrollTop = api.state[key];
-        });
-        document.dispatchEvent(new CustomEvent(api.settings.customEventPrefix + 'applied', {
-          bubbles: true,
-          detail: api.state
-        }));
-      } else {
-        saveScrollPosition();
-      }
     };
 
     if (api.settings.autoInit) api.init();
