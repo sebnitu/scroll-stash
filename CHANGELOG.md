@@ -17,12 +17,33 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v0.2.5 to CHANGELOG.md`
+  - `chore(release): add v0.2.6 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s"`
 4. Run `npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+
+## [0.2.6](https://github.com/sebnitu/scroll-stash/compare/v0.2.5...v0.2.6) (2020-07-17)
+
+### Features
+
+* add the alignment option ([2d65f4b](https://github.com/sebnitu/scroll-stash/commit/2d65f4b))
+
+### Refactor
+
+* Refactor show anchor functionality (#41) ([7071ac1](https://github.com/sebnitu/scroll-stash/commit/7071ac1)), closes [#41](https://github.com/sebnitu/scroll-stash/issues/41)
+  * move the anchor query logic into it's own method ([4563c1a](https://github.com/sebnitu/scroll-stash/commit/4563c1a))
+  * remove redundant conditionals around showAnchor calls ([12da5a2](https://github.com/sebnitu/scroll-stash/commit/12da5a2))
+  * move posTop and posBot into their own get methods ([b9e0fa5](https://github.com/sebnitu/scroll-stash/commit/b9e0fa5))
+  * move the nearest position logic into its own get method ([feea05c](https://github.com/sebnitu/scroll-stash/commit/feea05c))
+  * clean up custom event dispatch ([33356b6](https://github.com/sebnitu/scroll-stash/commit/33356b6))
+
+### Documentation
+
+* update readme content order ([8c85687](https://github.com/sebnitu/scroll-stash/commit/8c85687))
 
 
 
