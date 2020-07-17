@@ -241,6 +241,16 @@ test('should scroll to anchor when showAnchor api is called', () => {
   expect(el1.scroll).toHaveBeenCalled();
 });
 
+test('should scroll with custom behavior when showAnchor api is called', () => {
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    selectorAnchor: '.anchor',
+  });
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  scrollStash.showAnchor(el, 'smooth');
+  expect(el.scroll).toHaveBeenLastCalledWith({ behavior: 'smooth', top: -16 });
+});
+
 test('should scroll to anchor using alignment options', () => {
   document.body.innerHTML = markupSimple;
   const el = document.querySelector('[data-scroll-stash="example"]');
