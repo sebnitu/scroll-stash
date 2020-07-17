@@ -23,6 +23,27 @@ var camelCase = function camelCase(str) {
   });
 };
 
+var getAnchor = function getAnchor(el, settings) {
+  var dataAnchor = el.dataset[camelCase(settings.dataAnchor)];
+
+  if (dataAnchor == 'false' || dataAnchor == 'ignore') {
+    return null;
+  }
+
+  if (dataAnchor && el.querySelector(dataAnchor)) {
+    return el.querySelector(dataAnchor);
+  }
+
+  var selectorAnchor = settings.selectorAnchor ? el.querySelector(settings.selectorAnchor) : null;
+
+  if (selectorAnchor && settings.selectorAnchorParent) {
+    var parentAnchor = selectorAnchor.closest(settings.selectorAnchorParent);
+    if (parentAnchor) return parentAnchor;
+  }
+
+  return selectorAnchor ? selectorAnchor : null;
+};
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -107,27 +128,6 @@ var index = (function (options) {
     }
   };
 
-  var getAnchor = function getAnchor(el) {
-    var dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
-
-    if (dataAnchor == 'false' || dataAnchor == 'ignore') {
-      return null;
-    }
-
-    if (dataAnchor && el.querySelector(dataAnchor)) {
-      return el.querySelector(dataAnchor);
-    }
-
-    var selectorAnchor = api.settings.selectorAnchor ? el.querySelector(api.settings.selectorAnchor) : null;
-
-    if (selectorAnchor && api.settings.selectorAnchorParent) {
-      var parentAnchor = selectorAnchor.closest(api.settings.selectorAnchorParent);
-      if (parentAnchor) return parentAnchor;
-    }
-
-    return selectorAnchor ? selectorAnchor : null;
-  };
-
   var getPosTop = function getPosTop(el, anchor) {
     var pos = api.settings.anchorPadding;
 
@@ -178,7 +178,7 @@ var index = (function (options) {
 
   api.showAnchor = function (el) {
     var behavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : api.settings.behavior;
-    var anchor = getAnchor(el);
+    var anchor = getAnchor(el, api.settings);
 
     if (anchor) {
       var position = getPosition(el, anchor);

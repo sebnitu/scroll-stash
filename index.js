@@ -1,4 +1,5 @@
 import { camelCase } from '@vrembem/core';
+import { getAnchor } from './src/getAnchor';
 
 export default (options) => {
 
@@ -86,31 +87,6 @@ export default (options) => {
     }
   };
 
-  const getAnchor = (el) => {
-    // 1. If dataAnchor is disabled, return null
-    const dataAnchor = el.dataset[camelCase(api.settings.dataAnchor)];
-    if (dataAnchor == 'false' || dataAnchor == 'ignore') {
-      return null;
-    }
-
-    // 2. If dataAnchor returns an anchor, return dataAnchor
-    if (dataAnchor && el.querySelector(dataAnchor)) {
-      return el.querySelector(dataAnchor);
-    }
-
-    // 3. If selectAnchor and parentAnchor return an anchor, return parentAnchor
-    const selectorAnchor = (api.settings.selectorAnchor) ?
-      el.querySelector(api.settings.selectorAnchor) : null;
-    if (selectorAnchor && api.settings.selectorAnchorParent) {
-      const parentAnchor = selectorAnchor.closest(api.settings.selectorAnchorParent);
-      if (parentAnchor) return parentAnchor;
-    }
-
-    // 4. If selectAnchor returned an anchor, return selectorAnchor
-    // 5. else null
-    return (selectorAnchor) ? selectorAnchor : null;
-  };
-
   const getPosTop = (el, anchor) => {
     let pos = api.settings.anchorPadding;
     if (api.settings.selectorTopElem) {
@@ -149,7 +125,7 @@ export default (options) => {
   };
 
   api.showAnchor = (el, behavior = api.settings.behavior) => {
-    const anchor = getAnchor(el);
+    const anchor = getAnchor(el, api.settings);
 
     if (anchor) {
       const position = getPosition(el, anchor);
