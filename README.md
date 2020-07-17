@@ -81,7 +81,7 @@ Key | Default | Description
 Initializes the `scroll-stash` instance.
 
 ```js
-const scrollStash = new ScrollStash({ options });
+const scrollStash = new ScrollStash();
 scrollStash.init();
 ```
 
