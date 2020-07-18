@@ -110,6 +110,7 @@ test('should properly destroy scroll-stash instance on api call', async () => {
 });
 
 test('should re-initialize scroll-stash instance on api call', async () => {
+  // await throttleDelay();
   let result = await page.evaluate(() => {
     document.querySelector('#example-api').scrollIntoView();
     document.querySelector('.js-api-destroy').click();
