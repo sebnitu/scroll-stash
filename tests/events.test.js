@@ -46,7 +46,7 @@ test('should emit custom event when scroll states are saved', async () => {
   expect(eLog.saved.length).toBe(eCount + 1);
   const current = eLog.saved[eLog.saved.length - 1];
   expect(current.type).toBe('scroll-stash:saved');
-  expect(current.detail['example-1']).toBe(100);
+  expect(current.detail.state['example-1']).toBe(100);
 });
 
 test('should emit custom event when scolling anchors into view', async () => {
@@ -60,13 +60,22 @@ test('should emit custom event when scolling anchors into view', async () => {
     document.querySelector('#example-2').scrollIntoView();
     return [{
       key: 'example-2',
-      position: (document.querySelector('[data-scroll-stash="example-2"]').scrollTop)
+      scrolled: {
+        behavior: 'auto',
+        value: (document.querySelector('[data-scroll-stash="example-2"]').scrollTop)
+      }
     }, {
       key: 'example-3',
-      position: (document.querySelector('[data-scroll-stash="example-3"]').scrollTop)
+      scrolled: {
+        behavior: 'auto',
+        value: (document.querySelector('[data-scroll-stash="example-3"]').scrollTop)
+      }
     }, {
       key: 'example-4',
-      position: (document.querySelector('[data-scroll-stash="example-4"]').scrollTop)
+      scrolled: {
+        behavior: 'auto',
+        value: (document.querySelector('[data-scroll-stash="example-4"]').scrollTop)
+      }
     }];
   });
   await throttleDelay();
@@ -90,5 +99,5 @@ test('should emit custom event when scroll states are applied', async () => {
   expect(eLog.applied.length).toBe(eCount + 1);
   const current = eLog.applied[eLog.applied.length - 1];
   expect(current.type).toBe('scroll-stash:applied');
-  expect(current.detail.page).toBe(pageScroll);
+  expect(current.detail.state.page).toBe(pageScroll);
 });

@@ -168,17 +168,29 @@ test('should scroll to anchor while adjusting for bottom elements', () => {
 
 test('should not scroll if anchor is already in view', () => {
   const el = document.querySelector('[data-scroll-stash="example-1"]');
-  let hasScrolled = false;
-  window.addEventListener('scroll-stash:anchor', () => {
-    hasScrolled = true;
-  });
+  let result;
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
     anchorPadding: 0,
   });
-  expect(el.scroll).not.toHaveBeenCalled();
-  expect(hasScrolled).toBe(false);
+  result = scrollStash.anchor.show(el);
+  expect(result.scrolled).toBe(false);
+
+  scrollStash.destroy();
+  scrollStash.init({
+    alignment: 'start'
+  });
+  scrollStash.anchor.show(el);
+  result = scrollStash.anchor.show(el);
+  expect(result.scrolled).toBe(false);
+
+  scrollStash.destroy();
+  scrollStash.init({
+    alignment: 'end'
+  });
+  result = scrollStash.anchor.show(el);
+  expect(result.scrolled).toBe(false);
 });
 
 test('should not throw error if selector top and bottom elements aren\'t found', () => {

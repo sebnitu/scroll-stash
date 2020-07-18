@@ -25,10 +25,19 @@ export const anchorPositionNearest = (el, anchor, settings) => {
   return false;
 };
 
+export const anchorInView = (el, anchor, settings) => {
+  const posTop = anchorPositionTop(el, anchor, settings);
+  const posBot = anchorPositionBottom(el, anchor, settings);
+
+  if (el.scrollTop > posTop || el.scrollTop < posBot) return false;
+  return true;
+};
+
 export const anchorPositionGet = (el, anchor, settings) => {
+  const inView = anchorInView(el, anchor, settings);
   switch (settings.alignment) {
-    case 'start' : return anchorPositionTop(el, anchor, settings);
-    case 'end' : return anchorPositionBottom(el, anchor, settings);
+    case 'start' : return (inView) ? false : anchorPositionTop(el, anchor, settings);
+    case 'end' : return (inView) ? false : anchorPositionBottom(el, anchor, settings);
     case 'nearest' : return anchorPositionNearest(el, anchor, settings);
     default: return false;
   }
