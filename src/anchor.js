@@ -33,21 +33,27 @@ export const anchorShow = (el, behavior, settings) => {
     const position = anchorPositionGet(el, anchor, settings);
 
     if (position) {
+      behavior = (behavior) ? behavior : settings.behavior;
       el.scroll({
         top: position,
-        behavior: (behavior) ? behavior : settings.behavior
+        behavior: behavior
       });
+      el.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'anchor', {
+        bubbles: true,
+        detail: {
+          scrolled: { value: position, behavior: behavior },
+          key: el.dataset[camelCase(settings.dataScroll)]
+        }
+      }));
+      return {
+        scrolled: { value: position, behavior: behavior },
+        msg: 'Anchor was scrolled into view'
+      };
     } else {
-      return true;
+      return { scrolled: false, msg: 'Anchor is already in view' };
     }
-
-    el.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'anchor', {
-      bubbles: true,
-      detail: {
-        key: el.dataset[camelCase(settings.dataScroll)],
-        position: el.scrollTop,
-      }
-    }));
+  } else {
+    return { scrolled: false, msg: 'Anchor was not found!' };
   }
 };
 

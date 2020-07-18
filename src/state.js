@@ -9,7 +9,7 @@ export const stateSave = (state, settings) => {
   localStorage.setItem(settings.saveKey, JSON.stringify(state));
   document.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'saved', {
     bubbles: true,
-    detail: state
+    detail: { state: state }
   }));
   return state;
 };
@@ -25,7 +25,7 @@ export const stateSet = (state, settings) => {
     });
     document.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'applied', {
       bubbles: true,
-      detail: state
+      detail: { state: state }
     }));
     return state;
   } else {

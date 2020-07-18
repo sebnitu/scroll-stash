@@ -38,7 +38,7 @@ export default (options) => {
       return anchor.get(el, api.settings);
     },
     show: (el, behavior) => {
-      anchor.show(el, behavior, api.settings);
+      return anchor.show(el, behavior, api.settings);
     }
   };
 

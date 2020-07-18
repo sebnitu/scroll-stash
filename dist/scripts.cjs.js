@@ -298,13 +298,21 @@ var anchorPositionNearest = function anchorPositionNearest(el, anchor, settings)
   if (el.scrollTop < posBot) return posBot;
   return false;
 };
+var anchorInView = function anchorInView(el, anchor, settings) {
+  var posTop = anchorPositionTop(el, anchor, settings);
+  var posBot = anchorPositionBottom(el, anchor, settings);
+  if (el.scrollTop > posTop || el.scrollTop < posBot) return false;
+  return true;
+};
 var anchorPositionGet = function anchorPositionGet(el, anchor, settings) {
+  var inView = anchorInView(el, anchor, settings);
+
   switch (settings.alignment) {
     case 'start':
-      return anchorPositionTop(el, anchor, settings);
+      return inView ? false : anchorPositionTop(el, anchor, settings);
 
     case 'end':
-      return anchorPositionBottom(el, anchor, settings);
+      return inView ? false : anchorPositionBottom(el, anchor, settings);
 
     case 'nearest':
       return anchorPositionNearest(el, anchor, settings);
@@ -341,21 +349,39 @@ var anchorShow = function anchorShow(el, behavior, settings) {
     var position = anchorPositionGet(el, anchor, settings);
 
     if (position) {
+      behavior = behavior ? behavior : settings.behavior;
       el.scroll({
         top: position,
-        behavior: behavior ? behavior : settings.behavior
+        behavior: behavior
       });
+      el.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'anchor', {
+        bubbles: true,
+        detail: {
+          scrolled: {
+            value: position,
+            behavior: behavior
+          },
+          key: el.dataset[camelCase(settings.dataScroll)]
+        }
+      }));
+      return {
+        scrolled: {
+          value: position,
+          behavior: behavior
+        },
+        msg: 'Anchor was scrolled into view'
+      };
     } else {
-      return true;
+      return {
+        scrolled: false,
+        msg: 'Anchor is already in view'
+      };
     }
-
-    el.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'anchor', {
-      bubbles: true,
-      detail: {
-        key: el.dataset[camelCase(settings.dataScroll)],
-        position: el.scrollTop
-      }
-    }));
+  } else {
+    return {
+      scrolled: false,
+      msg: 'Anchor was not found!'
+    };
   }
 };
 var anchor = {
@@ -372,7 +398,9 @@ var stateSave = function stateSave(state, settings) {
   localStorage.setItem(settings.saveKey, JSON.stringify(state));
   document.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'saved', {
     bubbles: true,
-    detail: state
+    detail: {
+      state: state
+    }
   }));
   return state;
 };
@@ -385,7 +413,9 @@ var stateSet = function stateSet(state, settings) {
     });
     document.dispatchEvent(new CustomEvent(settings.customEventPrefix + 'applied', {
       bubbles: true,
-      detail: state
+      detail: {
+        state: state
+      }
     }));
     return state;
   } else {
@@ -439,7 +469,7 @@ var core = (function (options) {
       return anchor.get(el, api.settings);
     },
     show: function show(el, behavior) {
-      anchor.show(el, behavior, api.settings);
+      return anchor.show(el, behavior, api.settings);
     }
   };
   if (api.settings.autoInit) api.init();
