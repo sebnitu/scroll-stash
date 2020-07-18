@@ -344,6 +344,10 @@ var anchorShow = function anchorShow(el, behavior, settings) {
     }));
   }
 };
+var anchor = {
+  get: anchorGet,
+  show: anchorShow
+};
 
 var stateSave = function stateSave(state, settings) {
   var scrolls = document.querySelectorAll("[data-".concat(settings.dataScroll, "]"));
@@ -399,8 +403,11 @@ var core = (function (options) {
     customEventPrefix: 'scroll-stash:'
   };
   var api = {
-    anchorShow: function anchorShow$1(el, behavior) {
-      anchorShow(el, behavior, api.settings);
+    anchorShow: function anchorShow(el, behavior) {
+      anchor.show(el, behavior, api.settings);
+    },
+    anchorGet: function anchorGet(el) {
+      return anchor.get(el, api.settings);
     }
   };
   api.settings = _objectSpread(_objectSpread({}, defaults), options);
@@ -421,8 +428,7 @@ var core = (function (options) {
     api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
     api.state = state.set(api.state, api.settings);
     api.scrolls.forEach(function (item) {
-      anchorShow(item, false, api.settings);
-
+      anchor.show(item, false, api.settings);
       item.addEventListener('scroll', throttleRef, false);
     });
   };

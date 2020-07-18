@@ -1,5 +1,5 @@
 import throttle from 'lodash.throttle';
-import { anchorShow } from './anchor';
+import anchor from './anchor';
 import state from './state';
 
 export default (options) => {
@@ -22,7 +22,10 @@ export default (options) => {
 
   const api = {
     anchorShow: (el, behavior) => {
-      anchorShow(el, behavior, api.settings);
+      anchor.show(el, behavior, api.settings);
+    },
+    anchorGet: (el) => {
+      return anchor.get(el, api.settings);
     }
   };
 
@@ -39,7 +42,7 @@ export default (options) => {
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
     api.state = state.set(api.state, api.settings);
     api.scrolls.forEach((item) => {
-      anchorShow(item, false, api.settings);
+      anchor.show(item, false, api.settings);
       item.addEventListener('scroll', throttleRef, false);
     });
   };

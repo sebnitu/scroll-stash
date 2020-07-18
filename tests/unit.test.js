@@ -292,3 +292,10 @@ test('should be able to set options via init api call', () => {
   throttleDelay();
   expect(scrollStash.state).toEqual(storage);
 });
+
+test('should return anchor on anchorGet api call', () => {
+  scrollStash = new ScrollStash({ autoInit: true });
+  const el = document.querySelector('[data-scroll-stash]');
+  const anchor = scrollStash.anchorGet(el);
+  expect(anchor).toHaveClass('anchor');
+});
