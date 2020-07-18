@@ -46,7 +46,7 @@ afterEach(() => {
 test('should save scroll stash instances and scroll position on init', () => {
   scrollStash = new ScrollStash({ autoInit: true });
   const storage = JSON.parse(localStorage.getItem('ScrollStash'));
-  throttleDelay(500);
+  throttleDelay();
   expect(scrollStash.state).toEqual(storage);
 });
 
@@ -237,9 +237,9 @@ test('should scroll to anchor when showAnchor api is called', () => {
     autoInit: true,
     selectorAnchor: '.anchor',
   });
-  const el1 = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.showAnchor(el1);
-  expect(el1.scroll).toHaveBeenCalled();
+  const el = document.querySelector('[data-scroll-stash="example-1"]');
+  scrollStash.showAnchor(el);
+  expect(el.scroll).toHaveBeenCalled();
 });
 
 test('should scroll with custom behavior when showAnchor api is called', () => {
@@ -281,4 +281,14 @@ test('should scroll to anchor using alignment options', () => {
     alignment: 'asdf'
   });
   expect(el.scroll).toHaveBeenCalledTimes(3);
+});
+
+test('should be able to set options via init api call', () => {
+  scrollStash = new ScrollStash();
+  scrollStash.init({
+    selectorAnchor: '.anchor',
+  });
+  const storage = JSON.parse(localStorage.getItem('ScrollStash'));
+  throttleDelay();
+  expect(scrollStash.state).toEqual(storage);
 });

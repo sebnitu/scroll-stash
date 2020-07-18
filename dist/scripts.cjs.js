@@ -17,6 +17,22 @@ function _defineProperty(obj, key, value) {
 
 var defineProperty = _defineProperty;
 
+var defaults = {
+  autoInit: false,
+  dataScroll: 'scroll-stash',
+  dataAnchor: 'scroll-stash-anchor',
+  selectorAnchor: '',
+  selectorAnchorParent: '',
+  selectorTopElem: '',
+  selectorBotElem: '',
+  alignment: 'nearest',
+  behavior: 'auto',
+  anchorPadding: 16,
+  saveKey: 'ScrollStash',
+  throttleDelay: 250,
+  customEventPrefix: 'scroll-stash:'
+};
+
 var camelCase = function camelCase(str) {
   return str.replace(/-([a-z])/g, function (g) {
     return g[1].toUpperCase();
@@ -157,27 +173,14 @@ var index = (function (options) {
       showAnchor(el, behavior, api.settings);
     }
   };
-  var defaults = {
-    autoInit: false,
-    dataScroll: 'scroll-stash',
-    dataAnchor: 'scroll-stash-anchor',
-    selectorAnchor: '',
-    selectorAnchorParent: '',
-    selectorTopElem: '',
-    selectorBotElem: '',
-    alignment: 'nearest',
-    behavior: 'auto',
-    anchorPadding: 16,
-    saveKey: 'ScrollStash',
-    throttleDelay: 250,
-    customEventPrefix: 'scroll-stash:'
-  };
   api.settings = _objectSpread(_objectSpread({}, defaults), options);
   api.scrolls = [];
   api.state = {};
   api.ticking = false;
 
   api.init = function () {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    if (options) api.settings = _objectSpread(_objectSpread({}, api.settings), options);
     api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
     api.state = setScrollPosition(api.state, api.settings);
     api.scrolls.forEach(function (item) {
