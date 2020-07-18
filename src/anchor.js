@@ -26,7 +26,6 @@ export const anchorShow = (el, behavior, settings) => {
 
   if (anchor) {
     const position = anchorPositionGet(el, anchor, settings);
-
     if (position) {
       behavior = (behavior) ? behavior : settings.behavior;
       el.scroll({

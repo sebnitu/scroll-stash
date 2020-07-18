@@ -484,7 +484,7 @@ this.ScrollStash = (function () {
     });
   };
 
-  var anchorPositionTop = function anchorPositionTop(el, anchor, settings) {
+  var anchorPositionStart = function anchorPositionStart(el, anchor, settings) {
     var pos = settings.anchorPadding;
 
     if (settings.selectorTopElem) {
@@ -494,7 +494,7 @@ this.ScrollStash = (function () {
 
     return anchor.offsetTop - pos;
   };
-  var anchorPositionBottom = function anchorPositionBottom(el, anchor, settings) {
+  var anchorPositionEnd = function anchorPositionEnd(el, anchor, settings) {
     var pos = settings.anchorPadding;
 
     if (settings.selectorBotElem) {
@@ -504,16 +504,21 @@ this.ScrollStash = (function () {
 
     return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
   };
+  var anchorPositionCenter = function anchorPositionCenter(el, anchor, settings) {
+    var posTop = anchorPositionStart(el, anchor, settings);
+    var posBot = anchorPositionEnd(el, anchor, settings);
+    return posBot + (posTop - posBot) / 2;
+  };
   var anchorPositionNearest = function anchorPositionNearest(el, anchor, settings) {
-    var posTop = anchorPositionTop(el, anchor, settings);
-    var posBot = anchorPositionBottom(el, anchor, settings);
+    var posTop = anchorPositionStart(el, anchor, settings);
+    var posBot = anchorPositionEnd(el, anchor, settings);
     if (el.scrollTop > posTop) return posTop;
     if (el.scrollTop < posBot) return posBot;
     return false;
   };
   var anchorInView = function anchorInView(el, anchor, settings) {
-    var posTop = anchorPositionTop(el, anchor, settings);
-    var posBot = anchorPositionBottom(el, anchor, settings);
+    var posTop = anchorPositionStart(el, anchor, settings);
+    var posBot = anchorPositionEnd(el, anchor, settings);
     if (el.scrollTop > posTop || el.scrollTop < posBot) return false;
     return true;
   };
@@ -522,10 +527,13 @@ this.ScrollStash = (function () {
 
     switch (settings.alignment) {
       case 'start':
-        return inView ? false : anchorPositionTop(el, anchor, settings);
+        return inView ? false : anchorPositionStart(el, anchor, settings);
+
+      case 'center':
+        return inView ? false : anchorPositionCenter(el, anchor, settings);
 
       case 'end':
-        return inView ? false : anchorPositionBottom(el, anchor, settings);
+        return inView ? false : anchorPositionEnd(el, anchor, settings);
 
       case 'nearest':
         return anchorPositionNearest(el, anchor, settings);

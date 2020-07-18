@@ -1,4 +1,4 @@
-export const anchorPositionTop = (el, anchor, settings) => {
+export const anchorPositionStart = (el, anchor, settings) => {
   let pos = settings.anchorPadding;
   if (settings.selectorTopElem) {
     const topElem = el.querySelector(settings.selectorTopElem);
@@ -7,7 +7,7 @@ export const anchorPositionTop = (el, anchor, settings) => {
   return anchor.offsetTop - (pos);
 };
 
-export const anchorPositionBottom = (el, anchor, settings) => {
+export const anchorPositionEnd = (el, anchor, settings) => {
   let pos = settings.anchorPadding;
   if (settings.selectorBotElem) {
     const botElem = el.querySelector(settings.selectorBotElem);
@@ -16,18 +16,23 @@ export const anchorPositionBottom = (el, anchor, settings) => {
   return anchor.offsetTop - (el.offsetHeight - (anchor.offsetHeight + pos));
 };
 
-export const anchorPositionNearest = (el, anchor, settings) => {
-  const posTop = anchorPositionTop(el, anchor, settings);
-  const posBot = anchorPositionBottom(el, anchor, settings);
+export const anchorPositionCenter = (el, anchor, settings) => {
+  const posTop = anchorPositionStart(el, anchor, settings);
+  const posBot = anchorPositionEnd(el, anchor, settings);
+  return posBot + ((posTop - posBot) / 2);
+};
 
+export const anchorPositionNearest = (el, anchor, settings) => {
+  const posTop = anchorPositionStart(el, anchor, settings);
+  const posBot = anchorPositionEnd(el, anchor, settings);
   if (el.scrollTop > posTop) return posTop;
   if (el.scrollTop < posBot) return posBot;
   return false;
 };
 
 export const anchorInView = (el, anchor, settings) => {
-  const posTop = anchorPositionTop(el, anchor, settings);
-  const posBot = anchorPositionBottom(el, anchor, settings);
+  const posTop = anchorPositionStart(el, anchor, settings);
+  const posBot = anchorPositionEnd(el, anchor, settings);
 
   if (el.scrollTop > posTop || el.scrollTop < posBot) return false;
   return true;
@@ -36,16 +41,18 @@ export const anchorInView = (el, anchor, settings) => {
 export const anchorPositionGet = (el, anchor, settings) => {
   const inView = anchorInView(el, anchor, settings);
   switch (settings.alignment) {
-    case 'start' : return (inView) ? false : anchorPositionTop(el, anchor, settings);
-    case 'end' : return (inView) ? false : anchorPositionBottom(el, anchor, settings);
+    case 'start' : return (inView) ? false : anchorPositionStart(el, anchor, settings);
+    case 'center' : return (inView) ? false : anchorPositionCenter(el, anchor, settings);
+    case 'end' : return (inView) ? false : anchorPositionEnd(el, anchor, settings);
     case 'nearest' : return anchorPositionNearest(el, anchor, settings);
     default: return false;
   }
 };
 
 export default {
-  top: anchorPositionTop,
-  bottom: anchorPositionBottom,
+  start: anchorPositionStart,
+  center: anchorPositionCenter,
+  end: anchorPositionEnd,
   nearest: anchorPositionNearest,
   get: anchorPositionGet
 };
