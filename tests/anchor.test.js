@@ -7,6 +7,7 @@ beforeAll(async () => {
 });
 
 test('should scroll to anchor from initial scroll position', async () => {
+  await throttleDelay();
   const el = await page.$eval('[data-scroll-stash="example-2"]', (el) => {
     document.querySelector('#example-2').scrollIntoView();
     return el.scrollTop;

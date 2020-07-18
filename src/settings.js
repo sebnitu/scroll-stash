@@ -10,6 +10,6 @@ export const defaults = {
   behavior: 'auto', // auto | smooth
   anchorPadding: 16,
   saveKey: 'ScrollStash',
-  throttleDelay: 250,
+  throttleDelay: 100,
   customEventPrefix: 'scroll-stash:',
 };

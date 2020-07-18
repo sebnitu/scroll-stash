@@ -261,7 +261,7 @@ var defaults = {
   behavior: 'auto',
   anchorPadding: 16,
   saveKey: 'ScrollStash',
-  throttleDelay: 250,
+  throttleDelay: 100,
   customEventPrefix: 'scroll-stash:'
 };
 
@@ -449,10 +449,12 @@ var core = (function (options) {
     if (options) api.settings = _objectSpread(_objectSpread({}, api.settings), options);
     api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
     api.state = state.set(api.state, api.settings);
-    api.scrolls.forEach(function (item) {
-      anchor.show(item, false, api.settings);
-      item.addEventListener('scroll', throttleRef, false);
-    });
+    setTimeout(function () {
+      api.scrolls.forEach(function (item) {
+        item.addEventListener('scroll', throttleRef, false);
+        anchor.show(item, false, api.settings);
+      });
+    }, api.settings.throttleDelay);
   };
 
   api.destroy = function () {

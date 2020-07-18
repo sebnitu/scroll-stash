@@ -1,6 +1,7 @@
 import 'expect-puppeteer';
 import path from 'path';
 import { throttleDelay } from './helpers/throttleDelay';
+import { defaults } from '../src/settings';
 
 let maxScroll;
 
@@ -19,7 +20,7 @@ test('should save all scroll-stash elements to local storage', async () => {
     'example-3': 107,
     'example-4': 217
   };
-  await throttleDelay();
+  await throttleDelay(defaults.throttleDelay * 2);
   const savedState = JSON.parse(await page.evaluate(() => {
     return localStorage.getItem('ScrollStash');
   }));
