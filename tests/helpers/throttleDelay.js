@@ -1,4 +1,4 @@
-import ScrollStash from '../../index';
+import ScrollStash from '../../src/core';
 const scrollStash = new ScrollStash();
 
 export const throttleDelay = (time = scrollStash.settings.throttleDelay) => {

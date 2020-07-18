@@ -1,15 +1,30 @@
-import { throttle } from 'lodash';
-import { defaults } from './src/settings';
-import { saveScrollPosition } from './src/saveScrollPosition';
-import { setScrollPosition } from './src/setScrollPosition';
-import { showAnchor } from './src/showAnchor';
+import throttle from 'lodash.throttle';
+import { saveScrollPosition } from './saveScrollPosition';
+import { setScrollPosition } from './setScrollPosition';
+import { showAnchor } from './showAnchor';
 
 export default (options) => {
 
-  let api = {
+  const api = {
     showAnchor: (el, behavior) => {
       showAnchor(el, behavior, api.settings);
     }
+  };
+
+  const defaults = {
+    autoInit: false,
+    dataScroll: 'scroll-stash',
+    dataAnchor: 'scroll-stash-anchor',
+    selectorAnchor: '',
+    selectorAnchorParent: '',
+    selectorTopElem: '',
+    selectorBotElem: '',
+    alignment: 'nearest', // start | end | nearest
+    behavior: 'auto', // auto | smooth
+    anchorPadding: 16,
+    saveKey: 'ScrollStash',
+    throttleDelay: 100,
+    customEventPrefix: 'scroll-stash:',
   };
 
   api.settings = { ...defaults, ...options };
