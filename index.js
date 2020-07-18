@@ -1,3 +1,4 @@
+import { defaults } from './src/settings';
 import { saveScrollPosition } from './src/saveScrollPosition';
 import { setScrollPosition } from './src/setScrollPosition';
 import { showAnchor } from './src/showAnchor';
@@ -10,29 +11,14 @@ export default (options) => {
     }
   };
 
-  const defaults = {
-    autoInit: false,
-    dataScroll: 'scroll-stash',
-    dataAnchor: 'scroll-stash-anchor',
-    selectorAnchor: '',
-    selectorAnchorParent: '',
-    selectorTopElem: '',
-    selectorBotElem: '',
-    alignment: 'nearest', // start | end | nearest
-    behavior: 'auto', // auto | smooth
-    anchorPadding: 16,
-    saveKey: 'ScrollStash',
-    throttleDelay: 250,
-    customEventPrefix: 'scroll-stash:',
-  };
-
   api.settings = { ...defaults, ...options };
 
   api.scrolls = [];
   api.state = {};
   api.ticking = false;
 
-  api.init = () => {
+  api.init = (options = null) => {
+    if (options) api.settings = { ...api.settings, ...options };
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
     api.state = setScrollPosition(api.state, api.settings);
     api.scrolls.forEach((item) => {
