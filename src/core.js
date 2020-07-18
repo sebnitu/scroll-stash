@@ -5,14 +5,7 @@ import state from './state';
 
 export default (options) => {
 
-  const api = {
-    anchorShow: (el, behavior) => {
-      anchor.show(el, behavior, api.settings);
-    },
-    anchorGet: (el) => {
-      return anchor.get(el, api.settings);
-    }
-  };
+  const api = {};
 
   api.settings = { ...defaults, ...options };
   api.scrolls = [];
@@ -38,6 +31,15 @@ export default (options) => {
     api.scrolls = [];
     api.state = {};
     localStorage.removeItem(api.settings.saveKey);
+  };
+
+  api.anchor = {
+    get: (el) => {
+      return anchor.get(el, api.settings);
+    },
+    show: (el, behavior) => {
+      anchor.show(el, behavior, api.settings);
+    }
   };
 
   if (api.settings.autoInit) api.init();

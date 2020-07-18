@@ -401,14 +401,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var core = (function (options) {
-  var api = {
-    anchorShow: function anchorShow(el, behavior) {
-      anchor.show(el, behavior, api.settings);
-    },
-    anchorGet: function anchorGet(el) {
-      return anchor.get(el, api.settings);
-    }
-  };
+  var api = {};
   api.settings = _objectSpread(_objectSpread({}, defaults), options);
   api.scrolls = [];
   api.state = {};
@@ -441,6 +434,14 @@ var core = (function (options) {
     localStorage.removeItem(api.settings.saveKey);
   };
 
+  api.anchor = {
+    get: function get(el) {
+      return anchor.get(el, api.settings);
+    },
+    show: function show(el, behavior) {
+      anchor.show(el, behavior, api.settings);
+    }
+  };
   if (api.settings.autoInit) api.init();
   return api;
 });
