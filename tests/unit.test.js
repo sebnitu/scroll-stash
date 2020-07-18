@@ -43,15 +43,16 @@ afterEach(() => {
   }
 });
 
-test('should save scroll stash instances and scroll position on init', () => {
+test('should save scroll stash instances and scroll position on init', async () => {
   scrollStash = new ScrollStash({ autoInit: true });
   const storage = JSON.parse(localStorage.getItem('ScrollStash'));
-  throttleDelay();
+  await throttleDelay();
   expect(scrollStash.state).toEqual(storage);
 });
 
 test('should update state on scrolll event', async () => {
   scrollStash = new ScrollStash({ autoInit: true });
+  await throttleDelay();
   const el1 = document.querySelector('[data-scroll-stash="example-1"]');
   const el2 = document.querySelector('[data-scroll-stash="example-2"]');
   const el3 = document.querySelector('[data-scroll-stash="example-3"]');
@@ -67,7 +68,7 @@ test('should update state on scrolll event', async () => {
   expect(scrollStash.state['example-3']).toEqual(300);
 });
 
-test('should apply saved scroll state to a fresh document', () => {
+test('should apply saved scroll state to a fresh document', async () => {
   localStorage.setItem('ScrollStash', JSON.stringify({
     'example-1': 25,
     'example-2': 50,
@@ -81,6 +82,7 @@ test('should apply saved scroll state to a fresh document', () => {
   expect(el3.scrollTop).toBe(0);
 
   scrollStash = new ScrollStash({ autoInit: true });
+  await throttleDelay();
   const storage = JSON.parse(localStorage.getItem('ScrollStash'));
   expect(scrollStash.state).toEqual(storage);
   expect(el1.scrollTop).toBe(25);
@@ -88,7 +90,7 @@ test('should apply saved scroll state to a fresh document', () => {
   expect(el3.scrollTop).toBe(75);
 });
 
-test('should not throw error if element in localStorage is not present on page', () => {
+test('should not throw error if element in localStorage is not present on page', async () => {
   const el1 = document.querySelector('[data-scroll-stash="example-1"]');
   const el2 = document.querySelector('[data-scroll-stash="example-2"]');
   const el3 = document.querySelector('[data-scroll-stash="example-3"]');
@@ -99,6 +101,7 @@ test('should not throw error if element in localStorage is not present on page',
   }));
   scrollStash = new ScrollStash();
   expect(scrollStash.init).not.toThrow();
+  await throttleDelay();
   expect(el1.scrollTop).toBe(0);
   expect(el2.scrollTop).toBe(50);
   expect(el3.scrollTop).toBe(75);
@@ -111,6 +114,7 @@ test('throttle delay prevents multiple save calls from being fired', async () =>
     count ++;
   });
   scrollStash = new ScrollStash({ autoInit: true });
+  await throttleDelay();
   expect(scrollStash.state['example-1']).toBe(0);
   expect(count).toBe(1);
   el.scrollTop = 100;
@@ -122,27 +126,29 @@ test('throttle delay prevents multiple save calls from being fired', async () =>
   expect(count).toBe(2);
 });
 
-test('should scroll to anchor when anchor selector is set', () => {
+test('should scroll to anchor when anchor selector is set', async () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
     selectorAnchorParent: '.anchor-parent',
   });
   const el = document.querySelector('[data-scroll-stash="example-1"]');
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalledWith({ behavior: 'auto', top: -16 });
 });
 
-test('should not throw error if anchor parent doesn not return an element', () => {
+test('should not throw error if anchor parent doesn not return an element', async () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
     selectorAnchorParent: '.anchor-asdf',
   });
   const el = document.querySelector('[data-scroll-stash="example-2"]');
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalledTimes(2);
 });
 
-test('should scroll to anchor while adjusting for top elements', () => {
+test('should scroll to anchor while adjusting for top elements', async () => {
   const el = document.querySelector('[data-scroll-stash="example-1"]');
   el.scrollTop = 30;
   scrollStash = new ScrollStash({
@@ -151,10 +157,11 @@ test('should scroll to anchor while adjusting for top elements', () => {
     selectorTopElem: '.top',
     selectorBotElem: '.bot',
   });
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalledWith({ behavior: 'auto', top: -16 });
 });
 
-test('should scroll to anchor while adjusting for bottom elements', () => {
+test('should scroll to anchor while adjusting for bottom elements', async () => {
   const el = document.querySelector('[data-scroll-stash="example-1"]');
   el.scrollTop = -30;
   scrollStash = new ScrollStash({
@@ -163,6 +170,7 @@ test('should scroll to anchor while adjusting for bottom elements', () => {
     selectorTopElem: '.top',
     selectorBotElem: '.bot',
   });
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalledWith({ behavior: 'auto', top: 16 });
 });
 
@@ -193,7 +201,7 @@ test('should not scroll if anchor is already in view', () => {
   expect(result.scrolled).toBe(false);
 });
 
-test('should not throw error if selector top and bottom elements aren\'t found', () => {
+test('should not throw error if selector top and bottom elements aren\'t found', async () => {
   const el = document.querySelector('[data-scroll-stash="example-1"]');
   scrollStash = new ScrollStash({
     selectorAnchor: '.anchor',
@@ -201,10 +209,11 @@ test('should not throw error if selector top and bottom elements aren\'t found',
     selectorBotElem: '.bo-asdft',
   });
   expect(scrollStash.init).not.toThrow();
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalled();
 });
 
-test('should ignore anchor selector if data value is set to false or ignore', () => {
+test('should ignore anchor selector if data value is set to false or ignore', async () => {
   const el1 = document.querySelector('[data-scroll-stash="example-1"]');
   const el2 = document.querySelector('[data-scroll-stash="example-2"]');
   el1.dataset.scrollStashAnchor = 'false';
@@ -213,6 +222,7 @@ test('should ignore anchor selector if data value is set to false or ignore', ()
     autoInit: true,
     selectorAnchor: '.anchor',
   });
+  await throttleDelay();
   expect(el1.scroll).not.toHaveBeenCalled();
 
   scrollStash.destroy();
@@ -222,6 +232,7 @@ test('should ignore anchor selector if data value is set to false or ignore', ()
     autoInit: true,
     selectorAnchor: '.anchor',
   });
+  await throttleDelay();
   expect(el1.scroll).not.toHaveBeenCalled();
 
   scrollStash.destroy();
@@ -231,16 +242,18 @@ test('should ignore anchor selector if data value is set to false or ignore', ()
     autoInit: true,
     selectorAnchor: '.anchor',
   });
+  await throttleDelay();
   expect(el1.scroll).toHaveBeenCalled();
 });
 
-test('should not throw error if data anchor is not found', () => {
+test('should not throw error if data anchor is not found', async () => {
   const el = document.querySelector('[data-scroll-stash="example-1"]');
   el.dataset.scrollStashAnchor = '.asdf';
   scrollStash = new ScrollStash({
     selectorAnchor: '.anchor',
   });
   expect(scrollStash.init).not.toThrow();
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalled();
 });
 
@@ -264,13 +277,14 @@ test('should scroll with custom behavior when anchor.show api is called', () => 
   expect(el.scroll).toHaveBeenLastCalledWith({ behavior: 'smooth', top: -16 });
 });
 
-test('should scroll to anchor using alignment options', () => {
+test('should scroll to anchor using alignment options', async () => {
   document.body.innerHTML = markupSimple;
   const el = document.querySelector('[data-scroll-stash="example"]');
   scrollStash = new ScrollStash({
     autoInit: true,
     alignment: 'start'
   });
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalledTimes(1);
 
   scrollStash.destroy();
@@ -278,6 +292,7 @@ test('should scroll to anchor using alignment options', () => {
     autoInit: true,
     alignment: 'end'
   });
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalledTimes(2);
 
   scrollStash.destroy();
@@ -285,6 +300,7 @@ test('should scroll to anchor using alignment options', () => {
     autoInit: true,
     alignment: 'nearest'
   });
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalledTimes(3);
 
   scrollStash.destroy();
@@ -292,6 +308,7 @@ test('should scroll to anchor using alignment options', () => {
     autoInit: true,
     alignment: 'asdf'
   });
+  await throttleDelay();
   expect(el.scroll).toHaveBeenCalledTimes(3);
 });
 

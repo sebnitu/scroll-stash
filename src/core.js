@@ -1,4 +1,5 @@
 import throttle from 'lodash.throttle';
+// import isEmpty from 'lodash.isEmpty';
 import { defaults } from './settings';
 import anchor from './anchor';
 import state from './state';
@@ -18,10 +19,12 @@ export default (options) => {
     if (options) api.settings = { ...api.settings, ...options };
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
     api.state = state.set(api.state, api.settings);
-    api.scrolls.forEach((item) => {
-      anchor.show(item, false, api.settings);
-      item.addEventListener('scroll', throttleRef, false);
-    });
+    setTimeout(() => {
+      api.scrolls.forEach((item) => {
+        item.addEventListener('scroll', throttleRef, false);
+        anchor.show(item, false, api.settings);
+      });
+    }, api.settings.throttleDelay);
   };
 
   api.destroy = () => {
