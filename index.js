@@ -1,3 +1,4 @@
+import { throttle } from 'lodash';
 import { defaults } from './src/settings';
 import { saveScrollPosition } from './src/saveScrollPosition';
 import { setScrollPosition } from './src/setScrollPosition';
@@ -15,7 +16,9 @@ export default (options) => {
 
   api.scrolls = [];
   api.state = {};
-  api.ticking = false;
+
+  const handler = () => api.state = saveScrollPosition(api.state, api.settings);
+  const throttleRef = throttle(handler, api.settings.throttleDelay, { leading: false });
 
   api.init = (options = null) => {
     if (options) api.settings = { ...api.settings, ...options };
@@ -23,27 +26,17 @@ export default (options) => {
     api.state = setScrollPosition(api.state, api.settings);
     api.scrolls.forEach((item) => {
       showAnchor(item, false, api.settings);
-      item.addEventListener('scroll', handler);
+      item.addEventListener('scroll', throttleRef, false);
     });
   };
 
   api.destroy = () => {
     api.scrolls.forEach((item) => {
-      item.removeEventListener('scroll', handler);
+      item.removeEventListener('scroll', throttleRef, false);
     });
     api.scrolls = [];
     api.state = {};
     localStorage.removeItem(api.settings.saveKey);
-  };
-
-  const handler = () => {
-    if (!api.ticking) {
-      setTimeout(() => {
-        api.state = saveScrollPosition(api.state, api.settings);
-        api.ticking = false;
-      }, api.settings.throttleDelay);
-      api.ticking = true;
-    }
   };
 
   if (api.settings.autoInit) api.init();
