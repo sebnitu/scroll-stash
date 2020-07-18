@@ -186,6 +186,14 @@ test('should not scroll if anchor is already in view', () => {
 
   scrollStash.destroy();
   scrollStash.init({
+    alignment: 'center'
+  });
+  scrollStash.anchor.show(el);
+  result = scrollStash.anchor.show(el);
+  expect(result.scrolled).toBe(false);
+
+  scrollStash.destroy();
+  scrollStash.init({
     alignment: 'end'
   });
   result = scrollStash.anchor.show(el);
@@ -269,6 +277,13 @@ test('should scroll to anchor using alignment options', () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     alignment: 'start'
+  });
+  expect(el.scroll).toHaveBeenCalledTimes(1);
+
+  scrollStash.destroy();
+  scrollStash = new ScrollStash({
+    autoInit: true,
+    alignment: 'center'
   });
   expect(el.scroll).toHaveBeenCalledTimes(1);
 
