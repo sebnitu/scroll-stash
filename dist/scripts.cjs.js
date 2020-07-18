@@ -600,7 +600,7 @@ var anchorShow = function anchorShow(el, behavior, settings) {
   } else {
     return {
       scrolled: false,
-      msg: 'Anchor was not found!'
+      msg: 'Anchor was not found'
     };
   }
 };

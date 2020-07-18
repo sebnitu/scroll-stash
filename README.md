@@ -107,7 +107,14 @@ Scrolls the anchor in view of the passed `scroll-stash` HTML element.
 
 ```js
 const el = document.querySelector('[data-scroll-stash]');
-scrollStash.anchor.show(el);
+const result = scrollStash.anchor.show(el);
+// Returns: Object with result details
+// If scrolled:
+//   { scrolled: { value: [position], behavior: [behavior] }, msg: 'Anchor was scrolled into view' }
+// If failed because anchor is already in view:
+//   { scrolled: false, msg: 'Anchor is already in view' }
+// If failed because anchor was not found:
+//   { scrolled: false, msg: 'Anchor was not found' }
 ```
 
 ### `scrollStash.anchor.get(element)`

@@ -601,7 +601,7 @@ this.ScrollStash = (function () {
     } else {
       return {
         scrolled: false,
-        msg: 'Anchor was not found!'
+        msg: 'Anchor was not found'
       };
     }
   };

@@ -47,7 +47,7 @@ export const anchorShow = (el, behavior, settings) => {
       return { scrolled: false, msg: 'Anchor is already in view' };
     }
   } else {
-    return { scrolled: false, msg: 'Anchor was not found!' };
+    return { scrolled: false, msg: 'Anchor was not found' };
   }
 };
 
