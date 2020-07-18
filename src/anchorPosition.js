@@ -26,8 +26,7 @@ export const anchorPositionNearest = (el, anchor, settings) => {
 };
 
 export const anchorPositionGet = (el, anchor, settings) => {
-  const align = settings.alignment;
-  switch (align) {
+  switch (settings.alignment) {
     case 'start' : return anchorPositionTop(el, anchor, settings);
     case 'end' : return anchorPositionBottom(el, anchor, settings);
     case 'nearest' : return anchorPositionNearest(el, anchor, settings);

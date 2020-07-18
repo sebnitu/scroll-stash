@@ -300,9 +300,7 @@ this.ScrollStash = (function () {
     return false;
   };
   var anchorPositionGet = function anchorPositionGet(el, anchor, settings) {
-    var align = settings.alignment;
-
-    switch (align) {
+    switch (settings.alignment) {
       case 'start':
         return anchorPositionTop(el, anchor, settings);
 
