@@ -183,29 +183,27 @@ var index = (function (options) {
     api.scrolls.forEach(function (item) {
       showAnchor(item, false, api.settings);
 
-      item.addEventListener('scroll', throttle, false);
+      item.addEventListener('scroll', handler);
     });
   };
 
   api.destroy = function () {
     api.scrolls.forEach(function (item) {
-      item.removeEventListener('scroll', throttle, false);
+      item.removeEventListener('scroll', handler);
     });
     api.scrolls = [];
     api.state = {};
     localStorage.removeItem(api.settings.saveKey);
   };
 
-  var throttle = function throttle() {
+  var handler = function handler() {
     if (!api.ticking) {
-      setTimeout(run, api.settings.throttleDelay);
+      setTimeout(function () {
+        api.state = saveScrollPosition(api.state, api.settings);
+        api.ticking = false;
+      }, api.settings.throttleDelay);
       api.ticking = true;
     }
-  };
-
-  var run = function run() {
-    api.state = saveScrollPosition(api.state, api.settings);
-    api.ticking = false;
   };
 
   if (api.settings.autoInit) api.init();

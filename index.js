@@ -37,29 +37,27 @@ export default (options) => {
     api.state = setScrollPosition(api.state, api.settings);
     api.scrolls.forEach((item) => {
       showAnchor(item, false, api.settings);
-      item.addEventListener('scroll', throttle, false);
+      item.addEventListener('scroll', handler);
     });
   };
 
   api.destroy = () => {
     api.scrolls.forEach((item) => {
-      item.removeEventListener('scroll', throttle, false);
+      item.removeEventListener('scroll', handler);
     });
     api.scrolls = [];
     api.state = {};
     localStorage.removeItem(api.settings.saveKey);
   };
 
-  const throttle = () => {
+  const handler = () => {
     if (!api.ticking) {
-      setTimeout(run, api.settings.throttleDelay);
+      setTimeout(() => {
+        api.state = saveScrollPosition(api.state, api.settings);
+        api.ticking = false;
+      }, api.settings.throttleDelay);
       api.ticking = true;
     }
-  };
-
-  const run = () => {
-    api.state = saveScrollPosition(api.state, api.settings);
-    api.ticking = false;
   };
 
   if (api.settings.autoInit) api.init();
