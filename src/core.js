@@ -1,5 +1,5 @@
 import throttle from 'lodash.throttle';
-import isEmpty from 'lodash.isEmpty';
+import isEmpty from 'lodash.isempty';
 import { defaults } from './settings';
 import anchor from './anchor';
 import state from './state';
