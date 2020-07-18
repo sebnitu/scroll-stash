@@ -232,23 +232,23 @@ test('should not throw error if data anchor is not found', () => {
   expect(el.scroll).toHaveBeenCalled();
 });
 
-test('should scroll to anchor when showAnchor api is called', () => {
+test('should scroll to anchor when anchorShow api is called', () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
   });
   const el = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.showAnchor(el);
+  scrollStash.anchorShow(el);
   expect(el.scroll).toHaveBeenCalled();
 });
 
-test('should scroll with custom behavior when showAnchor api is called', () => {
+test('should scroll with custom behavior when anchorShow api is called', () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
   });
   const el = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.showAnchor(el, 'smooth');
+  scrollStash.anchorShow(el, 'smooth');
   expect(el.scroll).toHaveBeenLastCalledWith({ behavior: 'smooth', top: -16 });
 });
 

@@ -1,15 +1,8 @@
 import throttle from 'lodash.throttle';
-import { saveScrollPosition } from './saveScrollPosition';
-import { setScrollPosition } from './setScrollPosition';
-import { showAnchor } from './showAnchor';
+import { anchorShow } from './anchor';
+import state from './state';
 
 export default (options) => {
-
-  const api = {
-    showAnchor: (el, behavior) => {
-      showAnchor(el, behavior, api.settings);
-    }
-  };
 
   const defaults = {
     autoInit: false,
@@ -23,8 +16,14 @@ export default (options) => {
     behavior: 'auto', // auto | smooth
     anchorPadding: 16,
     saveKey: 'ScrollStash',
-    throttleDelay: 100,
+    throttleDelay: 250,
     customEventPrefix: 'scroll-stash:',
+  };
+
+  const api = {
+    anchorShow: (el, behavior) => {
+      anchorShow(el, behavior, api.settings);
+    }
   };
 
   api.settings = { ...defaults, ...options };
@@ -32,15 +31,15 @@ export default (options) => {
   api.scrolls = [];
   api.state = {};
 
-  const handler = () => api.state = saveScrollPosition(api.state, api.settings);
+  const handler = () => api.state = state.save(api.state, api.settings);
   const throttleRef = throttle(handler, api.settings.throttleDelay, { leading: false });
 
   api.init = (options = null) => {
     if (options) api.settings = { ...api.settings, ...options };
     api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
-    api.state = setScrollPosition(api.state, api.settings);
+    api.state = state.set(api.state, api.settings);
     api.scrolls.forEach((item) => {
-      showAnchor(item, false, api.settings);
+      anchorShow(item, false, api.settings);
       item.addEventListener('scroll', throttleRef, false);
     });
   };
