@@ -125,6 +125,7 @@
         <p>Scroll position should be preserved but will scroll to the nearest anchor if it's not currently visible.</p>
         <ul class="list">
           <li><button class="link js-api-anchorShow"><code class="code">api.anchorShow</code></button></li>
+          <li><button class="link js-api-anchorGet"><code class="code">api.anchorGet</code></button></li>
         </ul>
       </div>
       <div class="scroll-box background-shade-dark" style="height:14em;" data-scroll-stash="example-2">
@@ -199,6 +200,7 @@
         <p>Scrolling anchor in view should take into account a sticky header and footer along with the set padding.</p>
         <ul class="list">
           <li><button class="link js-api-anchorShow"><code class="code">api.anchorShow</code></button></li>
+          <li><button class="link js-api-anchorGet"><code class="code">api.anchorGet</code></button></li>
         </ul>
       </div>
       <div class="scroll-box">
@@ -283,6 +285,7 @@
         <p>Using a custom anchor by providing a selector via <code class="code">data-scroll-stash-anchor</code> which overrides the anchor selector passed in options.</p>
         <ul class="list">
           <li><button class="link js-api-anchorShow"><code class="code">api.anchorShow</code></button></li>
+          <li><button class="link js-api-anchorGet"><code class="code">api.anchorGet</code></button></li>
         </ul>
       </div>
       <div class="scroll-box background-shade-dark" style="height:14em;" data-scroll-stash="example-4" data-scroll-stash-anchor=".background-secondary">
@@ -385,6 +388,14 @@
     ) {
       const scrollBox = target.closest('.example').querySelector('[data-scroll-stash]');
       scrollStash.anchorShow(scrollBox, 'smooth');
+    }
+
+    if (
+      target.classList.contains('js-api-anchorGet') ||
+      target.parentElement.classList.contains('js-api-anchorGet')
+    ) {
+      const scrollBox = target.closest('.example').querySelector('[data-scroll-stash]');
+      console.log(scrollStash.anchorGet(scrollBox));
     }
 
     if (
