@@ -250,6 +250,22 @@ this.ScrollStash = (function () {
 
   var lodash_throttle = throttle;
 
+  var defaults = {
+    autoInit: false,
+    dataScroll: 'scroll-stash',
+    dataAnchor: 'scroll-stash-anchor',
+    selectorAnchor: '',
+    selectorAnchorParent: '',
+    selectorTopElem: '',
+    selectorBotElem: '',
+    alignment: 'nearest',
+    behavior: 'auto',
+    anchorPadding: 16,
+    saveKey: 'ScrollStash',
+    throttleDelay: 250,
+    customEventPrefix: 'scroll-stash:'
+  };
+
   var camelCase = function camelCase(str) {
     return str.replace(/-([a-z])/g, function (g) {
       return g[1].toUpperCase();
@@ -388,21 +404,6 @@ this.ScrollStash = (function () {
 
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var core = (function (options) {
-    var defaults = {
-      autoInit: false,
-      dataScroll: 'scroll-stash',
-      dataAnchor: 'scroll-stash-anchor',
-      selectorAnchor: '',
-      selectorAnchorParent: '',
-      selectorTopElem: '',
-      selectorBotElem: '',
-      alignment: 'nearest',
-      behavior: 'auto',
-      anchorPadding: 16,
-      saveKey: 'ScrollStash',
-      throttleDelay: 250,
-      customEventPrefix: 'scroll-stash:'
-    };
     var api = {
       anchorShow: function anchorShow(el, behavior) {
         anchor.show(el, behavior, api.settings);
