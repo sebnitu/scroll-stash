@@ -124,8 +124,8 @@
         <h2 id="example-2">Example 2</h2>
         <p>Scroll position should be preserved but will scroll to the nearest anchor if it's not currently visible.</p>
         <ul class="list">
-          <li><button class="link js-api-anchorShow"><code class="code">api.anchorShow</code></button></li>
-          <li><button class="link js-api-anchorGet"><code class="code">api.anchorGet</code></button></li>
+          <li><button class="link js-api-anchor-show"><code class="code">api.anchor.show</code></button></li>
+          <li><button class="link js-api-anchor-get"><code class="code">api.anchor.get</code></button></li>
         </ul>
       </div>
       <div class="scroll-box background-shade-dark" style="height:14em;" data-scroll-stash="example-2">
@@ -199,8 +199,8 @@
         <h2 id="example-3">Example 3</h2>
         <p>Scrolling anchor in view should take into account a sticky header and footer along with the set padding.</p>
         <ul class="list">
-          <li><button class="link js-api-anchorShow"><code class="code">api.anchorShow</code></button></li>
-          <li><button class="link js-api-anchorGet"><code class="code">api.anchorGet</code></button></li>
+          <li><button class="link js-api-anchor-show"><code class="code">api.anchor.show</code></button></li>
+          <li><button class="link js-api-anchor-get"><code class="code">api.anchor.get</code></button></li>
         </ul>
       </div>
       <div class="scroll-box">
@@ -284,8 +284,8 @@
         <h2 id="example-4">Example 4</h2>
         <p>Using a custom anchor by providing a selector via <code class="code">data-scroll-stash-anchor</code> which overrides the anchor selector passed in options.</p>
         <ul class="list">
-          <li><button class="link js-api-anchorShow"><code class="code">api.anchorShow</code></button></li>
-          <li><button class="link js-api-anchorGet"><code class="code">api.anchorGet</code></button></li>
+          <li><button class="link js-api-anchor-show"><code class="code">api.anchor.show</code></button></li>
+          <li><button class="link js-api-anchor-get"><code class="code">api.anchor.get</code></button></li>
         </ul>
       </div>
       <div class="scroll-box background-shade-dark" style="height:14em;" data-scroll-stash="example-4" data-scroll-stash-anchor=".background-secondary">
@@ -383,19 +383,19 @@
 
   document.addEventListener('click', ({ target }) => {
     if (
-      target.classList.contains('js-api-anchorShow') ||
-      target.parentElement.classList.contains('js-api-anchorShow')
+      target.classList.contains('js-api-anchor-show') ||
+      target.parentElement.classList.contains('js-api-anchor-show')
     ) {
       const scrollBox = target.closest('.example').querySelector('[data-scroll-stash]');
-      scrollStash.anchorShow(scrollBox, 'smooth');
+      scrollStash.anchor.show(scrollBox, 'smooth');
     }
 
     if (
-      target.classList.contains('js-api-anchorGet') ||
-      target.parentElement.classList.contains('js-api-anchorGet')
+      target.classList.contains('js-api-anchor-get') ||
+      target.parentElement.classList.contains('js-api-anchor-get')
     ) {
       const scrollBox = target.closest('.example').querySelector('[data-scroll-stash]');
-      console.log(scrollStash.anchorGet(scrollBox));
+      console.log(scrollStash.anchor.get(scrollBox));
     }
 
     if (

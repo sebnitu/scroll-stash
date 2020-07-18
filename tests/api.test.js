@@ -30,10 +30,10 @@ beforeAll(async () => {
   await page.goto(`file:${path.join(__dirname, '../example.html')}`);
 });
 
-test('should scroll to anchor on anchorShow api call', async () => {
+test('should scroll to anchor on anchor.show api call', async () => {
   let result = await page.$eval('[data-scroll-stash="example-2"]', (el) => {
     document.querySelector('#example-2').scrollIntoView();
-    const btn = el.closest('.example').querySelector('.js-api-anchorShow');
+    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
     el.scrollTop = 0;
     btn.click();
     return el.scrollTop;
@@ -46,10 +46,10 @@ test('should scroll to anchor on anchorShow api call', async () => {
   expect(result).toBe(217);
 });
 
-test('should scroll to anchor with space adjustments on anchorShow api call', async () => {
+test('should scroll to anchor with space adjustments on anchor.show api call', async () => {
   let result = await page.$eval('[data-scroll-stash="example-3"]', (el) => {
     document.querySelector('#example-3').scrollIntoView();
-    const btn = el.closest('.example').querySelector('.js-api-anchorShow');
+    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
     el.scrollTop = 0;
     btn.click();
     return el.scrollTop;
@@ -63,7 +63,7 @@ test('should scroll to anchor with space adjustments on anchorShow api call', as
 
   result = await page.$eval('[data-scroll-stash="example-3"]', (el) => {
     document.querySelector('#example-3').scrollIntoView();
-    const btn = el.closest('.example').querySelector('.js-api-anchorShow');
+    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
     el.scrollTop = 9999;
     btn.click();
     return el.scrollTop;
@@ -76,10 +76,10 @@ test('should scroll to anchor with space adjustments on anchorShow api call', as
   expect(result).toBe(369);
 });
 
-test('should scroll to custom anchor on anchorShow api call', async () => {
+test('should scroll to custom anchor on anchor.show api call', async () => {
   let result = await page.$eval('[data-scroll-stash="example-4"]', (el) => {
     document.querySelector('#example-4').scrollIntoView();
-    const btn = el.closest('.example').querySelector('.js-api-anchorShow');
+    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
     el.scrollTop = 0;
     btn.click();
     return el.scrollTop;

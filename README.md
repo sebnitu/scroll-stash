@@ -96,7 +96,7 @@ scrollStash.init();
 scrollStash.destroy();
 ```
 
-### `scrollStash.anchorShow(element, behavior)`
+### `scrollStash.anchor.show(element, behavior)`
 
 Scrolls the anchor in view of the passed `scroll-stash` HTML element.
 
@@ -107,10 +107,10 @@ Scrolls the anchor in view of the passed `scroll-stash` HTML element.
 
 ```js
 const el = document.querySelector('[data-scroll-stash]');
-scrollStash.anchorShow(el);
+scrollStash.anchor.show(el);
 ```
 
-### `scrollStash.anchorGet(element)`
+### `scrollStash.anchor.get(element)`
 
 Returns the anchor element of the passed `scroll-stash` HTML element.
 
@@ -120,6 +120,6 @@ Returns the anchor element of the passed `scroll-stash` HTML element.
 
 ```js
 const el = document.querySelector('[data-scroll-stash]');
-const anchor = scrollStash.anchorGet(el);
+const anchor = scrollStash.anchor.get(el);
 // Returns: HTMLElement Object
 ```

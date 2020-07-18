@@ -232,23 +232,23 @@ test('should not throw error if data anchor is not found', () => {
   expect(el.scroll).toHaveBeenCalled();
 });
 
-test('should scroll to anchor when anchorShow api is called', () => {
+test('should scroll to anchor when anchor.show api is called', () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
   });
   const el = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.anchorShow(el);
+  scrollStash.anchor.show(el);
   expect(el.scroll).toHaveBeenCalled();
 });
 
-test('should scroll with custom behavior when anchorShow api is called', () => {
+test('should scroll with custom behavior when anchor.show api is called', () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
   });
   const el = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.anchorShow(el, 'smooth');
+  scrollStash.anchor.show(el, 'smooth');
   expect(el.scroll).toHaveBeenLastCalledWith({ behavior: 'smooth', top: -16 });
 });
 
@@ -293,9 +293,9 @@ test('should be able to set options via init api call', () => {
   expect(scrollStash.state).toEqual(storage);
 });
 
-test('should return anchor on anchorGet api call', () => {
+test('should return anchor on anchor.get api call', () => {
   scrollStash = new ScrollStash({ autoInit: true });
   const el = document.querySelector('[data-scroll-stash]');
-  const anchor = scrollStash.anchorGet(el);
+  const anchor = scrollStash.anchor.get(el);
   expect(anchor).toHaveClass('anchor');
 });
