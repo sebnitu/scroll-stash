@@ -17,12 +17,44 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v0.2.6 to CHANGELOG.md`
+  - `chore(release): add v1.0.0 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s"`
 4. Run `npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+
+## [1.0.0](https://github.com/sebnitu/scroll-stash/compare/v0.2.6...v1.0.0) (2020-07-19)
+
+### Bug Fixes
+
+* add throttleDelay to prevent extra save trigger ([b793ca4](https://github.com/sebnitu/scroll-stash/commit/b793ca430d5676f4d9b748f8df970c2c3951caec))
+* lodash isEmpty import ([ba11357](https://github.com/sebnitu/scroll-stash/commit/ba113579bfa1babee9633a712c24093213ffc686))
+
+### Features
+
+* add ability to set options via init api call ([8bfe014](https://github.com/sebnitu/scroll-stash/commit/8bfe0148b78579bf29e9d4111d0a4a859a7a30be))
+* add anchorGet method to api ([2f579af](https://github.com/sebnitu/scroll-stash/commit/2f579af0dc8476e74ca581dc9ecfc1dec433c2d8))
+* add anchorShow return details and anchorInView method ([05dd39f](https://github.com/sebnitu/scroll-stash/commit/05dd39fbaf38d1d926d15ed91847b0d7eb3c5ffb))
+* add positionCenter to anchor alignment options ([0c0abbb](https://github.com/sebnitu/scroll-stash/commit/0c0abbb5f353a479eeeb7543b3172f8e9fc01a4d))
+
+### Refactor
+
+* combine throttle and run methods into handler ([69b372c](https://github.com/sebnitu/scroll-stash/commit/69b372c))
+* convert default settings into a module ([aa5d0cb](https://github.com/sebnitu/scroll-stash/commit/aa5d0cb))
+* convert getAnchor into a module ([3a163d6](https://github.com/sebnitu/scroll-stash/commit/3a163d6))
+* convert getPosition and getPos* to modules ([c6abe84](https://github.com/sebnitu/scroll-stash/commit/c6abe84))
+* convert set and save scrollPosition methods into modules ([15b43e5](https://github.com/sebnitu/scroll-stash/commit/15b43e5))
+* convert showAnchor into a module ([bf7570c](https://github.com/sebnitu/scroll-stash/commit/bf7570c))
+* group features into the same module files ([f0d7174](https://github.com/sebnitu/scroll-stash/commit/f0d7174))
+* move anchor api into the anchor property ([93d243a](https://github.com/sebnitu/scroll-stash/commit/93d243a))
+* move and rename index to core in src ([42897de](https://github.com/sebnitu/scroll-stash/commit/42897de))
+* remove custom throttle in favor of lodash implementation ([acde91b](https://github.com/sebnitu/scroll-stash/commit/acde91b))
+* remove private showAnchor method and use api instead ([089665a](https://github.com/sebnitu/scroll-stash/commit/089665a))
+* remove unneeded const ([dd8c27b](https://github.com/sebnitu/scroll-stash/commit/dd8c27b))
+* revert some changes to init ([3043259](https://github.com/sebnitu/scroll-stash/commit/3043259))
 
 
 
