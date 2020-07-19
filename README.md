@@ -76,13 +76,23 @@ Key | Default | Description
 
 ## API
 
-### `scrollStash.init()`
+### `scrollStash.init(options)`
 
 Initializes the `scroll-stash` instance.
+
+**Parameters**
+
+- `options` (optional) An options object. This will be merged with the options passed during instantiation.
 
 ```js
 const scrollStash = new ScrollStash();
 scrollStash.init();
+
+// Or, pass in some options:
+scrollStash.init({
+  selectorAnchor: '.asdf',
+  anchorPadding: 20
+});
 ```
 
 ### `scrollStash.destroy()`
