@@ -12,18 +12,19 @@ export default [{
     file: pkg.browser,
     format: 'iife',
     name: name,
-    extend: true
+    extend: true,
   }, {
     file: pkg.main,
     format: 'cjs',
-    name: name
+    name: name,
+    exports: 'default'
   }],
   plugins: [
     resolve(),
     commonjs(),
     babel({
       babelHelpers: 'runtime',
-      rootMode: 'upward'
+      rootMode: 'upward',
     })
   ]
 }, {
@@ -32,14 +33,14 @@ export default [{
     file: pkg.browser.replace('.js', '.min.js'),
     format: 'iife',
     name: name,
-    extend: true
+    extend: true,
   },
   plugins: [
     resolve(),
     commonjs(),
     babel({
       babelHelpers: 'runtime',
-      rootMode: 'upward'
+      rootMode: 'upward',
     }),
     terser()
   ]
