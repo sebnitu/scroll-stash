@@ -1,6 +1,6 @@
 # scroll-stash
 
-A JavaScript plugin to help preserve an element's scroll position.
+A JavaScript plugin to help preserve an element's scroll position. Check out this [codepen demo](https://codepen.io/sebnitu/full/eYJbeEj) for an example usage or clone this repo, run `npm install` and open [`example.html`](https://github.com/sebnitu/scroll-stash/blob/master/example.html) in your browser.
 
 [![npm version](https://img.shields.io/npm/v/scroll-stash.svg)](https://www.npmjs.com/package/scroll-stash)
 [![Build Status](https://travis-ci.org/sebnitu/scroll-stash.svg?branch=master)](https://travis-ci.org/sebnitu/scroll-stash)
