@@ -142,3 +142,7 @@ const el = document.querySelector('[data-scroll-stash]');
 const anchor = scrollStash.anchor.get(el);
 // Returns: HTMLElement Object
 ```
+
+## Copyright and License
+
+Scroll-stash copyright (c) 2020 Sebastian Nitu. Scroll-stash is released under the [MIT license](https://github.com/sebnitu/scroll-stash/blob/master/LICENSE).
