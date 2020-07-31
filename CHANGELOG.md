@@ -24,6 +24,8 @@ Release flow:
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
 
+
+
 ## [1.0.1](https://github.com/sebnitu/scroll-stash/compare/v1.0.0...v1.0.1) (2020-07-31)
 
 ### Refactor
