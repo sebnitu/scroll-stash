@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import ScrollStash from '../src/core';
+import ScrollStash from '../src/main';
 import '@testing-library/jest-dom/extend-expect';
 import { throttleDelay } from './helpers/throttleDelay';
 
@@ -107,7 +107,7 @@ test('throttle delay prevents multiple save calls from being fired', async () =>
   const el = document.querySelector('[data-scroll-stash="example-1"]');
   let count = 0;
   window.addEventListener('scroll-stash:saved', () => {
-    count ++;
+    count++;
   });
   scrollStash = new ScrollStash({ autoInit: true });
   expect(scrollStash.state['example-1']).toBe(0);
