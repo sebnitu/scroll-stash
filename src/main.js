@@ -4,7 +4,7 @@ import { defaults } from './settings';
 import anchor from './anchor';
 import state from './state';
 
-export const ScrollStash = (options) => {
+export default (options) => {
 
   const api = {};
 

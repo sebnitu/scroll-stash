@@ -13,14 +13,14 @@ export default [{
   output: {
     file: 'dist/scripts.cjs.js',
     format: 'cjs',
-    exports: 'named'
+    exports: 'default'
   }, plugins: [
     resolve(),
     commonjs(),
     babel(babelConfig)
   ]
 }, {
-  input: 'index.js',
+  input: 'src/main.js',
   output: {
     file: 'dist/scripts.js',
     format: 'iife',
@@ -32,7 +32,7 @@ export default [{
     babel(babelConfig)
   ]
 }, {
-  input: 'index.js',
+  input: 'src/main.js',
   output: {
     file: 'dist/scripts.min.js',
     format: 'iife',

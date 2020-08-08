@@ -17,9 +17,27 @@ npm install scroll-stash
 
 ### JavaScript
 
+Import and instantiate ScrollStash in your scripts:
+
 ```js
-import { ScrollStash } from 'scroll-stash';
-const scrollStash = new ScrollStash({ autoInit: true });
+import ScrollStash from 'scroll-stash';
+const scrollStash = ScrollStash({ autoInit: true });
+```
+
+It's also possible to include ScrollStash using a script tag:
+
+```html
+<!-- Via NPM -->
+<script src="./node_modules/scroll-stash/dist/scripts.min.js"></script>
+
+<!-- Via CDN -->
+<script src="https://unpkg.com/scroll-stash/dist/scripts.min.js"></script>
+
+<!-- Instantiate ScrollStash in your scripts -->
+<script>
+const scrollStash = ScrollStash();
+scrollStash.init();
+</script>
 ```
 
 ### Styles
@@ -54,21 +72,21 @@ This optional data attribute—when set on a `scroll-stash` element with a valid
 
 ## Options
 
-Key | Default | Description
----|---|---
-`autoInit` | `false` | Automatically instantiates the instance.
-`dataScroll` | `'scroll-stash'` | Data attribute for a `scroll-stash` element. Stores the unique ID for saving and restoring scroll positions.
-`dataAnchor` | `'scroll-stash-anchor'` | Data attribute for setting an element specific anchor or disabling the anchor feature on a specific `scroll-stash` element.
-`selectorAnchor` | `''` | Selector for the anchor to look for in each `scroll-stash` element.
-`selectorAnchorParent` | `''` | Parent selector for anchors who are wrapped in elements with `position: relative` styles.
-`selectorTopElem` | `''` | Selector for sticky or fixed top element within a `scroll-stash` that anchors need to take into account.
-`selectorBotElem` | `''` | Selector for sticky or fixed bottom element within a `scroll-stash` that anchors need to take into account.
-`alignment` | `'nearest'` | Defines the vertical alignment of scroll anchor. Can be set to `start`, `end` or `nearest`.
-`behavior` | `'auto'` | Defines the transition animation. Can either be set to `auto` or `smooth`.
-`anchorPadding` | `16` | The extra padding to provide when scrolling anchors into view.
-`saveKey` | `'ScrollStash'` | The key that is used to save the scroll stash state object in local storage.
-`throttleDelay` | `250` | The delay to apply between scroll stash saves. Since scrolling events fire extremely fast, this creates a throttle to help improve performance.
-`customEventPrefix` | `'scroll-stash:'` | Prefix to be used on custom events.
+| Key                    | Default                 | Description                                                                                                                                     |
+| ---------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autoInit`             | `false`                 | Automatically instantiates the instance.                                                                                                        |
+| `dataScroll`           | `'scroll-stash'`        | Data attribute for a `scroll-stash` element. Stores the unique ID for saving and restoring scroll positions.                                    |
+| `dataAnchor`           | `'scroll-stash-anchor'` | Data attribute for setting an element specific anchor or disabling the anchor feature on a specific `scroll-stash` element.                     |
+| `selectorAnchor`       | `''`                    | Selector for the anchor to look for in each `scroll-stash` element.                                                                             |
+| `selectorAnchorParent` | `''`                    | Parent selector for anchors who are wrapped in elements with `position: relative` styles.                                                       |
+| `selectorTopElem`      | `''`                    | Selector for sticky or fixed top element within a `scroll-stash` that anchors need to take into account.                                        |
+| `selectorBotElem`      | `''`                    | Selector for sticky or fixed bottom element within a `scroll-stash` that anchors need to take into account.                                     |
+| `alignment`            | `'nearest'`             | Defines the vertical alignment of scroll anchor. Can be set to `start`, `end` or `nearest`.                                                     |
+| `behavior`             | `'auto'`                | Defines the transition animation. Can either be set to `auto` or `smooth`.                                                                      |
+| `anchorPadding`        | `16`                    | The extra padding to provide when scrolling anchors into view.                                                                                  |
+| `saveKey`              | `'ScrollStash'`         | The key that is used to save the scroll stash state object in local storage.                                                                    |
+| `throttleDelay`        | `250`                   | The delay to apply between scroll stash saves. Since scrolling events fire extremely fast, this creates a throttle to help improve performance. |
+| `customEventPrefix`    | `'scroll-stash:'`       | Prefix to be used on custom events.                                                                                                             |
 
 ## Events
 
@@ -87,7 +105,7 @@ Initializes the `scroll-stash` instance.
 - `options` (optional) An options object. This will be merged with the options passed during instantiation.
 
 ```js
-const scrollStash = new ScrollStash();
+const scrollStash = ScrollStash();
 scrollStash.init();
 
 // Or, pass in some options:
@@ -102,7 +120,7 @@ scrollStash.init({
 Destroys the previously initialized `scroll-stash` instance.
 
 ```js
-const scrollStash = new ScrollStash();
+const scrollStash = ScrollStash();
 scrollStash.init();
 // ...
 scrollStash.destroy();
