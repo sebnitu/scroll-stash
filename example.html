@@ -364,63 +364,60 @@
 <!-- Scripts -->
 <script src="./dist/scripts.js"></script>
 <script>
-  const scrollStash = new ScrollStash();
-  console.log({ scrollStash });
+  document.addEventListener('scroll-stash:saved', ({ type, detail, target }) => {
+    console.log({ type, detail, target });
+  });
 
-  // document.addEventListener('scroll-stash:saved', ({ type, detail, target }) => {
-  //   console.log({ type, detail, target });
-  // });
+  document.addEventListener('scroll-stash:applied', ({ type, detail, target }) => {
+    console.log({ type, detail, target });
+  });
 
-  // document.addEventListener('scroll-stash:applied', ({ type, detail, target }) => {
-  //   console.log({ type, detail, target });
-  // });
+  document.addEventListener('scroll-stash:anchor', ({ type, detail, target }) => {
+    console.log({ type, detail, target });
+  });
 
-  // document.addEventListener('scroll-stash:anchor', ({ type, detail, target }) => {
-  //   console.log({ type, detail, target });
-  // });
+  const options = {
+    selectorAnchor: '.is-active',
+    selectorTopElem: '.dialog__header',
+    selectorBotElem: '.dialog__footer'
+  };
+  const scrollStash = new ScrollStash(options);
 
-  // const options = {
-  //   selectorAnchor: '.is-active',
-  //   selectorTopElem: '.dialog__header',
-  //   selectorBotElem: '.dialog__footer'
-  // };
-  // const scrollStash = new ScrollStash(options);
+  scrollStash.init();
 
-  // scrollStash.init();
+  document.addEventListener('click', ({ target }) => {
+    if (
+      target.classList.contains('js-api-anchor-show') ||
+      target.parentElement.classList.contains('js-api-anchor-show')
+    ) {
+      const scrollBox = target.closest('.example').querySelector('[data-scroll-stash]');
+      console.log(scrollStash.anchor.show(scrollBox, 'smooth'));
+    }
 
-  // document.addEventListener('click', ({ target }) => {
-  //   if (
-  //     target.classList.contains('js-api-anchor-show') ||
-  //     target.parentElement.classList.contains('js-api-anchor-show')
-  //   ) {
-  //     const scrollBox = target.closest('.example').querySelector('[data-scroll-stash]');
-  //     console.log(scrollStash.anchor.show(scrollBox, 'smooth'));
-  //   }
+    if (
+      target.classList.contains('js-api-anchor-get') ||
+      target.parentElement.classList.contains('js-api-anchor-get')
+    ) {
+      const scrollBox = target.closest('.example').querySelector('[data-scroll-stash]');
+      console.log(scrollStash.anchor.get(scrollBox));
+    }
 
-  //   if (
-  //     target.classList.contains('js-api-anchor-get') ||
-  //     target.parentElement.classList.contains('js-api-anchor-get')
-  //   ) {
-  //     const scrollBox = target.closest('.example').querySelector('[data-scroll-stash]');
-  //     console.log(scrollStash.anchor.get(scrollBox));
-  //   }
+    if (
+      target.classList.contains('js-api-init') ||
+      target.parentElement.classList.contains('js-api-init')
+    ) {
+      console.log('init...');
+      scrollStash.init();
+    }
 
-  //   if (
-  //     target.classList.contains('js-api-init') ||
-  //     target.parentElement.classList.contains('js-api-init')
-  //   ) {
-  //     console.log('init...');
-  //     scrollStash.init();
-  //   }
-
-  //   if (
-  //     target.classList.contains('js-api-destroy') ||
-  //     target.parentElement.classList.contains('js-api-destroy')
-  //   ) {
-  //     console.log('destroy...');
-  //     scrollStash.destroy();
-  //   }
-  // });
+    if (
+      target.classList.contains('js-api-destroy') ||
+      target.parentElement.classList.contains('js-api-destroy')
+    ) {
+      console.log('destroy...');
+      scrollStash.destroy();
+    }
+  });
 </script>
 
 </body>
