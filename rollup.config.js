@@ -2,19 +2,19 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
-import pkg from './package.json';
 
+const entry = 'src/main.js';
 const name = 'ScrollStash';
 
 export default [{
-  input: pkg.module,
+  input: entry,
   output: [{
-    file: pkg.browser,
+    file: 'dist/scripts.js',
     format: 'iife',
     name: name,
     extend: true,
   }, {
-    file: pkg.main,
+    file: 'dist/scripts.cjs',
     format: 'cjs',
     name: name,
     exports: 'default'
@@ -28,9 +28,9 @@ export default [{
     })
   ]
 }, {
-  input: pkg.module,
+  input: entry,
   output: {
-    file: pkg.browser.replace('.js', '.min.js'),
+    file: 'dist/scripts.min.js',
     format: 'iife',
     name: name,
     extend: true,
