@@ -14,7 +14,7 @@ export default [{
     name: name,
     extend: true,
   }, {
-    file: 'dist/scripts.cjs',
+    file: 'dist/scripts.cjs.js',
     format: 'cjs',
     exports: 'default'
   }],
