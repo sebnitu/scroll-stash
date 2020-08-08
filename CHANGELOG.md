@@ -17,12 +17,15 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v1.0.1 to CHANGELOG.md`
+  - `chore(release): add v1.0.2 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s"`
 4. Run `npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+## [1.0.2](https://github.com/sebnitu/scroll-stash/compare/v1.0.1...v1.0.2) (2020-08-08)
+
+* Update package exports (#76) ([1d76515](https://github.com/sebnitu/scroll-stash/commit/1d76515)), closes [#76](https://github.com/sebnitu/scroll-stash/issues/76)
 
 
 
