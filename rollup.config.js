@@ -16,7 +16,6 @@ export default [{
   }, {
     file: 'dist/scripts.cjs',
     format: 'cjs',
-    name: name,
     exports: 'default'
   }],
   plugins: [
