@@ -3,44 +3,45 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 
-const entry = 'src/main.js';
-const name = 'ScrollStash';
+const babelConfig = {
+  babelHelpers: 'runtime',
+  rootMode: 'upward',
+};
 
 export default [{
-  input: entry,
-  output: [{
-    file: 'dist/scripts.js',
-    format: 'iife',
-    name: name,
-    extend: true,
-  }, {
+  input: 'src/main.js',
+  output: {
     file: 'dist/scripts.cjs.js',
     format: 'cjs',
-    exports: 'default'
-  }],
-  plugins: [
+    exports: 'named'
+  }, plugins: [
     resolve(),
     commonjs(),
-    babel({
-      babelHelpers: 'runtime',
-      rootMode: 'upward',
-    })
+    babel(babelConfig)
   ]
 }, {
-  input: entry,
+  input: 'index.js',
   output: {
-    file: 'dist/scripts.min.js',
+    file: 'dist/scripts.js',
     format: 'iife',
-    name: name,
-    extend: true,
+    name: 'ScrollStash'
   },
   plugins: [
     resolve(),
     commonjs(),
-    babel({
-      babelHelpers: 'runtime',
-      rootMode: 'upward',
-    }),
+    babel(babelConfig)
+  ]
+}, {
+  input: 'index.js',
+  output: {
+    file: 'dist/scripts.min.js',
+    format: 'iife',
+    name: 'ScrollStash'
+  },
+  plugins: [
+    resolve(),
+    commonjs(),
+    babel(babelConfig),
     terser()
   ]
 }];
