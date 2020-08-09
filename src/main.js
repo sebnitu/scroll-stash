@@ -4,7 +4,7 @@ import { defaults } from './settings';
 import anchor from './anchor';
 import state from './state';
 
-export default (options) => {
+export default function (options) {
 
   const api = {};
 
@@ -47,4 +47,4 @@ export default (options) => {
   if (api.settings.autoInit) api.init();
 
   return api;
-};
+}
