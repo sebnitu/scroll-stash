@@ -19,8 +19,7 @@ Release flow:
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
   - `chore(release): add v1.0.6 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
-  - `npm version patch -m "chore(release): bump to v%s"`
-4. Run `npm publish`
+  - `npm version patch -m "chore(release): bump to v%s" && npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
 
