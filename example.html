@@ -381,8 +381,9 @@
     selectorTopElem: '.dialog__header',
     selectorBotElem: '.dialog__footer'
   };
-  const scrollStash = ScrollStash(options);
+  const scrollStash = new ScrollStash(options);
   scrollStash.init();
+  console.log(scrollStash);
 
   document.addEventListener('click', ({ target }) => {
     if (

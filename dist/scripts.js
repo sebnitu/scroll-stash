@@ -18,6 +18,32 @@ var ScrollStash = (function () {
 
   var defineProperty = _defineProperty;
 
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var classCallCheck = _classCallCheck;
+
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+
+  var createClass = _createClass;
+
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
   function createCommonjsModule(fn, basedir, module) {
@@ -611,6 +637,7 @@ var ScrollStash = (function () {
   };
 
   var stateSave = function stateSave(settings) {
+    console.log('stateSave');
     var state = {};
     var scrolls = document.querySelectorAll("[data-".concat(settings.dataScroll, "]"));
     scrolls.forEach(function (el) {
@@ -627,6 +654,8 @@ var ScrollStash = (function () {
     return state;
   };
   var stateSet = function stateSet(settings) {
+    console.log('stateSet', settings);
+
     if (localStorage.getItem(settings.saveKey)) {
       var state = JSON.parse(localStorage.getItem(settings.saveKey));
       Object.keys(state).forEach(function (key) {
@@ -652,53 +681,61 @@ var ScrollStash = (function () {
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-  function main (options) {
-    var api = {};
-    api.settings = _objectSpread(_objectSpread({}, defaults), options);
-    api.state = {};
-    api.scrolls = [];
 
-    var handler = function handler() {
-      return api.state = state.save(api.settings);
-    };
+  var ScrollStash = function () {
+    function ScrollStash(options) {
+      classCallCheck(this, ScrollStash);
 
-    var throttleRef = lodash_throttle(handler, api.settings.throttleDelay, {
-      leading: false
-    });
+      this.settings = _objectSpread(_objectSpread({}, defaults), options);
+      this.state = {};
+      this.scrolls = [];
+      if (this.settings.autoInit) this.init();
+    }
 
-    api.init = function () {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      if (options) api.settings = _objectSpread(_objectSpread({}, api.settings), options);
-      api.state = state.set(api.settings);
-      api.state = lodash_isempty(api.state) ? state.save(api.settings) : api.state;
-      api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
-      api.scrolls.forEach(function (item) {
-        item.addEventListener('scroll', throttleRef, false);
-        anchor.show(item, false, api.settings);
-      });
-    };
-
-    api.destroy = function () {
-      api.scrolls.forEach(function (item) {
-        item.removeEventListener('scroll', throttleRef, false);
-      });
-      api.state = {};
-      api.scrolls = [];
-      localStorage.removeItem(api.settings.saveKey);
-    };
-
-    api.anchor = {
-      get: function get(el) {
-        return anchor.get(el, api.settings);
-      },
-      show: function show(el, behavior) {
-        return anchor.show(el, behavior, api.settings);
+    createClass(ScrollStash, [{
+      key: "handler",
+      value: function handler() {
+        this.state = state.save(this.settings);
       }
-    };
-    if (api.settings.autoInit) api.init();
-    return api;
-  }
+    }, {
+      key: "throttleRef",
+      value: function throttleRef() {
+        lodash_throttle(this.handler, this.settings.throttleDelay, {
+          leading: false
+        });
+      }
+    }, {
+      key: "init",
+      value: function init() {
+        var _this = this;
 
-  return main;
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+        if (options) this.settings = _objectSpread(_objectSpread({}, this.settings), options);
+        this.state = state.set(this.settings);
+        this.state = lodash_isempty(this.state) ? state.save(this.settings) : this.state;
+        this.scrolls = document.querySelectorAll("[data-".concat(this.settings.dataScroll, "]"));
+        this.scrolls.forEach(function (item) {
+          item.addEventListener('scroll', _this.throttleRef.bind(_this), false);
+          anchor.show(item, false, _this.settings);
+        });
+      }
+    }, {
+      key: "destroy",
+      value: function destroy() {
+        var _this2 = this;
+
+        this.scrolls.forEach(function (item) {
+          item.removeEventListener('scroll', _this2.throttleRef.bind(_this2), false);
+        });
+        this.state = {};
+        this.scrolls = [];
+        localStorage.removeItem(this.settings.saveKey);
+      }
+    }]);
+
+    return ScrollStash;
+  }();
+
+  return ScrollStash;
 
 }());

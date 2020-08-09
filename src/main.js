@@ -4,47 +4,50 @@ import { defaults } from './settings';
 import anchor from './anchor';
 import state from './state';
 
-export default function (options) {
+class ScrollStash {
+  constructor(options) {
+    this.settings = { ...defaults, ...options };
+    this.state = {};
+    this.scrolls = [];
+    if (this.settings.autoInit) this.init();
+  }
 
-  const api = {};
+  handler() {
+    this.state = state.save(this.settings);
+  }
 
-  api.settings = { ...defaults, ...options };
-  api.state = {};
-  api.scrolls = [];
+  throttleRef() {
+    throttle(this.handler, this.settings.throttleDelay, { leading: false });
+  }
 
-  const handler = () => api.state = state.save(api.settings);
-  const throttleRef = throttle(handler, api.settings.throttleDelay, { leading: false });
-
-  api.init = (options = null) => {
-    if (options) api.settings = { ...api.settings, ...options };
-    api.state = state.set(api.settings);
-    api.state = (isEmpty(api.state)) ? state.save(api.settings) : api.state;
-    api.scrolls = document.querySelectorAll(`[data-${api.settings.dataScroll}]`);
-    api.scrolls.forEach((item) => {
-      item.addEventListener('scroll', throttleRef, false);
-      anchor.show(item, false, api.settings);
+  init(options = null) {
+    if (options) this.settings = { ...this.settings, ...options };
+    this.state = state.set(this.settings);
+    this.state = (isEmpty(this.state)) ? state.save(this.settings) : this.state;
+    this.scrolls = document.querySelectorAll(`[data-${this.settings.dataScroll}]`);
+    this.scrolls.forEach((item) => {
+      item.addEventListener('scroll', this.throttleRef.bind(this), false);
+      anchor.show(item, false, this.settings);
     });
-  };
+  }
 
-  api.destroy = () => {
-    api.scrolls.forEach((item) => {
-      item.removeEventListener('scroll', throttleRef, false);
+  destroy() {
+    this.scrolls.forEach((item) => {
+      item.removeEventListener('scroll', this.throttleRef.bind(this), false);
     });
-    api.state = {};
-    api.scrolls = [];
-    localStorage.removeItem(api.settings.saveKey);
-  };
+    this.state = {};
+    this.scrolls = [];
+    localStorage.removeItem(this.settings.saveKey);
+  }
 
-  api.anchor = {
-    get: (el) => {
-      return anchor.get(el, api.settings);
-    },
-    show: (el, behavior) => {
-      return anchor.show(el, behavior, api.settings);
-    }
-  };
-
-  if (api.settings.autoInit) api.init();
-
-  return api;
+  // api.anchor = {
+  //   get: (el) => {
+  //     return anchor.get(el, api.settings);
+  //   },
+  //   show: (el, behavior) => {
+  //     return anchor.show(el, behavior, api.settings);
+  //   }
+  // }
 }
+
+export default ScrollStash;
