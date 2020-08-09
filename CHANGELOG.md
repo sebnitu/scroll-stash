@@ -17,12 +17,21 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v1.0.5 to CHANGELOG.md`
+  - `chore(release): add v1.0.6 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s"`
 4. Run `npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+
+
+## [1.0.6](https://github.com/sebnitu/scroll-stash/compare/v1.0.5...v1.0.6) (2020-08-09)
+
+### Bug Fixes
+
+* fix: convert constructor to a functional instantiation (#77) ([e834822](https://github.com/sebnitu/scroll-stash/commit/e834822)), closes [#77](https://github.com/sebnitu/scroll-stash/issues/77)
 
 
 
