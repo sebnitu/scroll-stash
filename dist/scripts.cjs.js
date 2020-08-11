@@ -503,11 +503,93 @@ var defaults = {
   customEventPrefix: 'scroll-stash:'
 };
 
-var camelCase = function camelCase(str) {
-  return str.replace(/-([a-z])/g, function (g) {
-    return g[1].toUpperCase();
+var scripts_cjs = createCommonjsModule(function (module, exports) {
+
+  Object.defineProperty(exports, '__esModule', {
+    value: true
   });
-};
+
+  var addClass = function addClass(el) {
+    for (var _len = arguments.length, cl = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      cl[_key - 1] = arguments[_key];
+    }
+
+    el = el.forEach ? el : [el];
+    el.forEach(function (el) {
+      var _el$classList;
+
+      (_el$classList = el.classList).add.apply(_el$classList, cl);
+    });
+  };
+
+  var camelCase = function camelCase(str) {
+    return str.replace(/-([a-z])/g, function (g) {
+      return g[1].toUpperCase();
+    });
+  };
+
+  var hasClass = function hasClass(el) {
+    el = el.forEach ? el : [el];
+    el = [].slice.call(el);
+
+    for (var _len = arguments.length, cl = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      cl[_key - 1] = arguments[_key];
+    }
+
+    return cl.some(function (cl) {
+      return el.some(function (el) {
+        if (el.classList.contains(cl)) return true;
+      });
+    });
+  };
+
+  var hyphenCase = function hyphenCase(str) {
+    return str.replace(/([a-z][A-Z])/g, function (g) {
+      return g[0] + '-' + g[1].toLowerCase();
+    });
+  };
+
+  var removeClass = function removeClass(el) {
+    for (var _len = arguments.length, cl = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      cl[_key - 1] = arguments[_key];
+    }
+
+    el = el.forEach ? el : [el];
+    el.forEach(function (el) {
+      var _el$classList;
+
+      (_el$classList = el.classList).remove.apply(_el$classList, cl);
+    });
+  };
+
+  var toggleClass = function toggleClass(el) {
+    for (var _len = arguments.length, cl = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      cl[_key - 1] = arguments[_key];
+    }
+
+    el = el.forEach ? el : [el];
+    el.forEach(function (el) {
+      cl.forEach(function (cl) {
+        el.classList.toggle(cl);
+      });
+    });
+  };
+
+  var breakpoints = {
+    xs: '480px',
+    sm: '620px',
+    md: '760px',
+    lg: '990px',
+    xl: '1380px'
+  };
+  exports.addClass = addClass;
+  exports.breakpoints = breakpoints;
+  exports.camelCase = camelCase;
+  exports.hasClass = hasClass;
+  exports.hyphenCase = hyphenCase;
+  exports.removeClass = removeClass;
+  exports.toggleClass = toggleClass;
+});
 
 var anchorPositionStart = function anchorPositionStart(el, anchor, settings) {
   var pos = settings.anchorPadding;
@@ -569,7 +651,7 @@ var anchorPositionGet = function anchorPositionGet(el, anchor, settings) {
 };
 
 var anchorGet = function anchorGet(el, settings) {
-  var dataAnchor = el.dataset[camelCase(settings.dataAnchor)];
+  var dataAnchor = el.dataset[scripts_cjs.camelCase(settings.dataAnchor)];
 
   if (dataAnchor == 'false' || dataAnchor == 'ignore') {
     return null;
@@ -607,7 +689,7 @@ var anchorShow = function anchorShow(el, behavior, settings) {
             value: position,
             behavior: behavior
           },
-          key: el.dataset[camelCase(settings.dataScroll)]
+          key: el.dataset[scripts_cjs.camelCase(settings.dataScroll)]
         }
       }));
       return {
@@ -640,7 +722,7 @@ var stateSave = function stateSave(settings) {
   var state = {};
   var scrolls = document.querySelectorAll("[data-".concat(settings.dataScroll, "]"));
   scrolls.forEach(function (el) {
-    var id = el.dataset[camelCase(settings.dataScroll)];
+    var id = el.dataset[scripts_cjs.camelCase(settings.dataScroll)];
     if (id) state[id] = el.scrollTop;
   });
   localStorage.setItem(settings.saveKey, JSON.stringify(state));
