@@ -4,7 +4,7 @@ import { defaults } from './settings';
 import anchor from './anchor';
 import state from './state';
 
-class ScrollStash {
+export default class ScrollStash {
   constructor(options) {
     this.settings = { ...defaults, ...options };
     this.state = {};
@@ -49,5 +49,3 @@ class ScrollStash {
     return anchor.show(el, behavior, this.settings);
   }
 }
-
-export default ScrollStash;
