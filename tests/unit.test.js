@@ -97,7 +97,7 @@ test('should not throw error if element in localStorage is not present on page',
     'example-3': 75,
   }));
   scrollStash = new ScrollStash();
-  expect(scrollStash.init).not.toThrow();
+  expect(scrollStash.init.bind(scrollStash)).not.toThrow();
   expect(el1.scrollTop).toBe(0);
   expect(el2.scrollTop).toBe(50);
   expect(el3.scrollTop).toBe(75);
@@ -173,30 +173,30 @@ test('should not scroll if anchor is already in view', () => {
     selectorAnchor: '.anchor',
     anchorPadding: 0,
   });
-  result = scrollStash.anchor.show(el);
+  result = scrollStash.anchorShow(el);
   expect(result.scrolled).toBe(false);
 
   scrollStash.destroy();
   scrollStash.init({
     alignment: 'start'
   });
-  scrollStash.anchor.show(el);
-  result = scrollStash.anchor.show(el);
+  scrollStash.anchorShow(el);
+  result = scrollStash.anchorShow(el);
   expect(result.scrolled).toBe(false);
 
   scrollStash.destroy();
   scrollStash.init({
     alignment: 'center'
   });
-  scrollStash.anchor.show(el);
-  result = scrollStash.anchor.show(el);
+  scrollStash.anchorShow(el);
+  result = scrollStash.anchorShow(el);
   expect(result.scrolled).toBe(false);
 
   scrollStash.destroy();
   scrollStash.init({
     alignment: 'end'
   });
-  result = scrollStash.anchor.show(el);
+  result = scrollStash.anchorShow(el);
   expect(result.scrolled).toBe(false);
 });
 
@@ -207,7 +207,7 @@ test('should not throw error if selector top and bottom elements aren\'t found',
     selectorTopElem: '.top-asdf',
     selectorBotElem: '.bo-asdft',
   });
-  expect(scrollStash.init).not.toThrow();
+  expect(scrollStash.init.bind(scrollStash)).not.toThrow();
   expect(el.scroll).toHaveBeenCalled();
 });
 
@@ -247,27 +247,27 @@ test('should not throw error if data anchor is not found', () => {
   scrollStash = new ScrollStash({
     selectorAnchor: '.anchor',
   });
-  expect(scrollStash.init).not.toThrow();
+  expect(scrollStash.init.bind(scrollStash)).not.toThrow();
   expect(el.scroll).toHaveBeenCalled();
 });
 
-test('should scroll to anchor when anchor.show api is called', () => {
+test('should scroll to anchor when anchorShow api is called', () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
   });
   const el = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.anchor.show(el);
+  scrollStash.anchorShow(el);
   expect(el.scroll).toHaveBeenCalled();
 });
 
-test('should scroll with custom behavior when anchor.show api is called', () => {
+test('should scroll with custom behavior when anchorShow api is called', () => {
   scrollStash = new ScrollStash({
     autoInit: true,
     selectorAnchor: '.anchor',
   });
   const el = document.querySelector('[data-scroll-stash="example-1"]');
-  scrollStash.anchor.show(el, 'smooth');
+  scrollStash.anchorShow(el, 'smooth');
   expect(el.scroll).toHaveBeenLastCalledWith({ behavior: 'smooth', top: -16 });
 });
 
@@ -319,9 +319,9 @@ test('should be able to set options via init api call', () => {
   expect(scrollStash.state).toEqual(storage);
 });
 
-test('should return anchor on anchor.get api call', () => {
+test('should return anchor on anchorGet api call', () => {
   scrollStash = new ScrollStash({ autoInit: true });
   const el = document.querySelector('[data-scroll-stash]');
-  const anchor = scrollStash.anchor.get(el);
+  const anchor = scrollStash.anchorGet(el);
   expect(anchor).toHaveClass('anchor');
 });

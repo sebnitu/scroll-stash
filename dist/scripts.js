@@ -719,7 +719,6 @@ var ScrollStash = (function () {
   };
 
   var stateSave = function stateSave(settings) {
-    console.log('stateSave');
     var state = {};
     var scrolls = document.querySelectorAll("[data-".concat(settings.dataScroll, "]"));
     scrolls.forEach(function (el) {
@@ -736,8 +735,6 @@ var ScrollStash = (function () {
     return state;
   };
   var stateSet = function stateSet(settings) {
-    console.log('stateSet', settings);
-
     if (localStorage.getItem(settings.saveKey)) {
       var state = JSON.parse(localStorage.getItem(settings.saveKey));
       Object.keys(state).forEach(function (key) {
@@ -771,22 +768,13 @@ var ScrollStash = (function () {
       this.settings = _objectSpread(_objectSpread({}, defaults), options);
       this.state = {};
       this.scrolls = [];
+      this.throttleRef = lodash_throttle(this.handler, this.settings.throttleDelay, {
+        leading: false
+      }).bind(this);
       if (this.settings.autoInit) this.init();
     }
 
     createClass(ScrollStash, [{
-      key: "handler",
-      value: function handler() {
-        this.state = state.save(this.settings);
-      }
-    }, {
-      key: "throttleRef",
-      value: function throttleRef() {
-        lodash_throttle(this.handler, this.settings.throttleDelay, {
-          leading: false
-        });
-      }
-    }, {
       key: "init",
       value: function init() {
         var _this = this;
@@ -797,7 +785,7 @@ var ScrollStash = (function () {
         this.state = lodash_isempty(this.state) ? state.save(this.settings) : this.state;
         this.scrolls = document.querySelectorAll("[data-".concat(this.settings.dataScroll, "]"));
         this.scrolls.forEach(function (item) {
-          item.addEventListener('scroll', _this.throttleRef.bind(_this), false);
+          item.addEventListener('scroll', _this.throttleRef);
           anchor.show(item, false, _this.settings);
         });
       }
@@ -807,11 +795,26 @@ var ScrollStash = (function () {
         var _this2 = this;
 
         this.scrolls.forEach(function (item) {
-          item.removeEventListener('scroll', _this2.throttleRef.bind(_this2), false);
+          item.removeEventListener('scroll', _this2.throttleRef);
         });
         this.state = {};
         this.scrolls = [];
         localStorage.removeItem(this.settings.saveKey);
+      }
+    }, {
+      key: "handler",
+      value: function handler() {
+        this.state = state.save(this.settings);
+      }
+    }, {
+      key: "anchorGet",
+      value: function anchorGet(el) {
+        return anchor.get(el, this.settings);
+      }
+    }, {
+      key: "anchorShow",
+      value: function anchorShow(el, behavior) {
+        return anchor.show(el, behavior, this.settings);
       }
     }]);
 

@@ -9,15 +9,12 @@ class ScrollStash {
     this.settings = { ...defaults, ...options };
     this.state = {};
     this.scrolls = [];
+    this.throttleRef = throttle(
+      this.handler,
+      this.settings.throttleDelay,
+      { leading: false }
+    ).bind(this);
     if (this.settings.autoInit) this.init();
-  }
-
-  handler() {
-    this.state = state.save(this.settings);
-  }
-
-  throttleRef() {
-    throttle(this.handler, this.settings.throttleDelay, { leading: false });
   }
 
   init(options = null) {
@@ -26,28 +23,31 @@ class ScrollStash {
     this.state = (isEmpty(this.state)) ? state.save(this.settings) : this.state;
     this.scrolls = document.querySelectorAll(`[data-${this.settings.dataScroll}]`);
     this.scrolls.forEach((item) => {
-      item.addEventListener('scroll', this.throttleRef.bind(this), false);
+      item.addEventListener('scroll', this.throttleRef);
       anchor.show(item, false, this.settings);
     });
   }
 
   destroy() {
     this.scrolls.forEach((item) => {
-      item.removeEventListener('scroll', this.throttleRef.bind(this), false);
+      item.removeEventListener('scroll', this.throttleRef);
     });
     this.state = {};
     this.scrolls = [];
     localStorage.removeItem(this.settings.saveKey);
   }
 
-  // api.anchor = {
-  //   get: (el) => {
-  //     return anchor.get(el, api.settings);
-  //   },
-  //   show: (el, behavior) => {
-  //     return anchor.show(el, behavior, api.settings);
-  //   }
-  // }
+  handler() {
+    this.state = state.save(this.settings);
+  }
+
+  anchorGet(el) {
+    return anchor.get(el, this.settings);
+  }
+
+  anchorShow(el, behavior) {
+    return anchor.show(el, behavior, this.settings);
+  }
 }
 
 export default ScrollStash;

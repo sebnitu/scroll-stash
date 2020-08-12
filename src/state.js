@@ -1,7 +1,6 @@
 import { camelCase } from '@vrembem/core';
 
 export const stateSave = (settings) => {
-  console.log('stateSave');
   const state = {};
   const scrolls = document.querySelectorAll(`[data-${settings.dataScroll}]`);
   scrolls.forEach((el) => {
@@ -17,7 +16,6 @@ export const stateSave = (settings) => {
 };
 
 export const stateSet = (settings) => {
-  console.log('stateSet', settings);
   if (localStorage.getItem(settings.saveKey)) {
     let state = JSON.parse(localStorage.getItem(settings.saveKey));
     Object.keys(state).forEach((key) => {
