@@ -126,7 +126,7 @@ scrollStash.init();
 scrollStash.destroy();
 ```
 
-### `scrollStash.anchor.show(element, behavior)`
+### `scrollStash.anchorShow(element, behavior)`
 
 Scrolls the anchor in view of the passed `scroll-stash` HTML element.
 
@@ -137,7 +137,7 @@ Scrolls the anchor in view of the passed `scroll-stash` HTML element.
 
 ```js
 const el = document.querySelector('[data-scroll-stash]');
-const result = scrollStash.anchor.show(el);
+const result = scrollStash.anchorShow(el);
 // Returns: Object with result details
 // If scrolled:
 //   { scrolled: { value: [position], behavior: [behavior] }, msg: 'Anchor was scrolled into view' }
@@ -147,7 +147,7 @@ const result = scrollStash.anchor.show(el);
 //   { scrolled: false, msg: 'Anchor was not found' }
 ```
 
-### `scrollStash.anchor.get(element)`
+### `scrollStash.anchorGet(element)`
 
 Returns the anchor element of the passed `scroll-stash` HTML element.
 
@@ -157,7 +157,7 @@ Returns the anchor element of the passed `scroll-stash` HTML element.
 
 ```js
 const el = document.querySelector('[data-scroll-stash]');
-const anchor = scrollStash.anchor.get(el);
+const anchor = scrollStash.anchorGet(el);
 // Returns: HTMLElement Object
 ```
 
