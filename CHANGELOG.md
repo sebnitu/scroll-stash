@@ -30,7 +30,8 @@ Release flow:
 
 ### Bug Fixes
 
-* fix: change main entry to es module ([222c08f](https://github.com/sebnitu/scroll-stash/commit/222c08f))
+* change main entry to es module ([222c08f](https://github.com/sebnitu/scroll-stash/commit/222c08f))
+* remove type because it breaks build ([7ef5a7a](https://github.com/sebnitu/scroll-stash/commit/7ef5a7a))
 
 
 
