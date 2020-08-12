@@ -21,7 +21,7 @@ Import and instantiate ScrollStash in your scripts:
 
 ```js
 import ScrollStash from 'scroll-stash';
-const scrollStash = ScrollStash({ autoInit: true });
+const scrollStash = new ScrollStash({ autoInit: true });
 ```
 
 It's also possible to include ScrollStash using a script tag:
@@ -35,7 +35,7 @@ It's also possible to include ScrollStash using a script tag:
 
 <!-- Instantiate ScrollStash in your scripts -->
 <script>
-const scrollStash = ScrollStash();
+const scrollStash = new ScrollStash();
 scrollStash.init();
 </script>
 ```
@@ -105,7 +105,7 @@ Initializes the `scroll-stash` instance.
 - `options` (optional) An options object. This will be merged with the options passed during instantiation.
 
 ```js
-const scrollStash = ScrollStash();
+const scrollStash = new ScrollStash();
 scrollStash.init();
 
 // Or, pass in some options:
@@ -120,7 +120,7 @@ scrollStash.init({
 Destroys the previously initialized `scroll-stash` instance.
 
 ```js
-const scrollStash = ScrollStash();
+const scrollStash = new ScrollStash();
 scrollStash.init();
 // ...
 scrollStash.destroy();
