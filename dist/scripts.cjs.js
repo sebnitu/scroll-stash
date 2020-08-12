@@ -17,6 +17,32 @@ function _defineProperty(obj, key, value) {
 
 var defineProperty = _defineProperty;
 
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+var classCallCheck = _classCallCheck;
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+var createClass = _createClass;
+
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, basedir, module) {
@@ -651,51 +677,65 @@ var state = {
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-function main (options) {
-  var api = {};
-  api.settings = _objectSpread(_objectSpread({}, defaults), options);
-  api.state = {};
-  api.scrolls = [];
 
-  var handler = function handler() {
-    return api.state = state.save(api.settings);
-  };
+var ScrollStash = function () {
+  function ScrollStash(options) {
+    classCallCheck(this, ScrollStash);
 
-  var throttleRef = lodash_throttle(handler, api.settings.throttleDelay, {
-    leading: false
-  });
+    this.settings = _objectSpread(_objectSpread({}, defaults), options);
+    this.state = {};
+    this.scrolls = [];
+    this.throttleRef = lodash_throttle(this.handler, this.settings.throttleDelay, {
+      leading: false
+    }).bind(this);
+    if (this.settings.autoInit) this.init();
+  }
 
-  api.init = function () {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    if (options) api.settings = _objectSpread(_objectSpread({}, api.settings), options);
-    api.state = state.set(api.settings);
-    api.state = lodash_isempty(api.state) ? state.save(api.settings) : api.state;
-    api.scrolls = document.querySelectorAll("[data-".concat(api.settings.dataScroll, "]"));
-    api.scrolls.forEach(function (item) {
-      item.addEventListener('scroll', throttleRef, false);
-      anchor.show(item, false, api.settings);
-    });
-  };
+  createClass(ScrollStash, [{
+    key: "init",
+    value: function init() {
+      var _this = this;
 
-  api.destroy = function () {
-    api.scrolls.forEach(function (item) {
-      item.removeEventListener('scroll', throttleRef, false);
-    });
-    api.state = {};
-    api.scrolls = [];
-    localStorage.removeItem(api.settings.saveKey);
-  };
-
-  api.anchor = {
-    get: function get(el) {
-      return anchor.get(el, api.settings);
-    },
-    show: function show(el, behavior) {
-      return anchor.show(el, behavior, api.settings);
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      if (options) this.settings = _objectSpread(_objectSpread({}, this.settings), options);
+      this.state = state.set(this.settings);
+      this.state = lodash_isempty(this.state) ? state.save(this.settings) : this.state;
+      this.scrolls = document.querySelectorAll("[data-".concat(this.settings.dataScroll, "]"));
+      this.scrolls.forEach(function (item) {
+        item.addEventListener('scroll', _this.throttleRef);
+        anchor.show(item, false, _this.settings);
+      });
     }
-  };
-  if (api.settings.autoInit) api.init();
-  return api;
-}
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      var _this2 = this;
 
-module.exports = main;
+      this.scrolls.forEach(function (item) {
+        item.removeEventListener('scroll', _this2.throttleRef);
+      });
+      this.state = {};
+      this.scrolls = [];
+      localStorage.removeItem(this.settings.saveKey);
+    }
+  }, {
+    key: "handler",
+    value: function handler() {
+      this.state = state.save(this.settings);
+    }
+  }, {
+    key: "anchorGet",
+    value: function anchorGet(el) {
+      return anchor.get(el, this.settings);
+    }
+  }, {
+    key: "anchorShow",
+    value: function anchorShow(el, behavior) {
+      return anchor.show(el, behavior, this.settings);
+    }
+  }]);
+
+  return ScrollStash;
+}();
+
+module.exports = ScrollStash;

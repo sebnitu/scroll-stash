@@ -9,7 +9,7 @@
     "drawer",
     "scroll"
   ],
-  "browser": "dist/scripts.cjs.js",
+  "main": "dist/scripts.cjs.js",
   "scripts": {
     "build": "npm-run-all clean scripts",
     "clean": "del dist",
