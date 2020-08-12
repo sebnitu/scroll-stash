@@ -17,11 +17,20 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v1.0.6 to CHANGELOG.md`
+  - `chore(release): add v1.0.7 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s" && npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+
+
+## [1.0.7](https://github.com/sebnitu/scroll-stash/compare/v1.0.6...v1.0.7) (2020-08-12)
+
+### Refactor
+
+* Refactor ScrollStash to be in Class syntax (#93) ([784179b](https://github.com/sebnitu/scroll-stash/commit/784179b)), closes [#93](https://github.com/sebnitu/scroll-stash/issues/93)
 
 
 
