@@ -9,8 +9,8 @@
     "drawer",
     "scroll"
   ],
-  "main": "dist/scripts.cjs.js",
-  "module": "src/main.js",
+  "main": "src/main.js",
+  "type": "module",
   "scripts": {
     "build": "npm-run-all clean scripts",
     "clean": "del dist",
