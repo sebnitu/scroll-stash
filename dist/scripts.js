@@ -1,5 +1,8 @@
-var ScrollStash = (function () {
-  'use strict';
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.ScrollStash = factory());
+}(this, (function () { 'use strict';
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -741,4 +744,4 @@ var ScrollStash = (function () {
 
   return ScrollStash;
 
-}());
+})));

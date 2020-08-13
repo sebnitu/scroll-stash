@@ -9,7 +9,8 @@
     "drawer",
     "scroll"
   ],
-  "main": "src/main.js",
+  "main": "dist/scripts.js",
+  "module": "src/main.js",
   "scripts": {
     "build": "npm-run-all clean scripts",
     "clean": "del dist",
