@@ -17,11 +17,20 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v1.0.9 to CHANGELOG.md`
+  - `chore(release): add v1.0.10 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s" && npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+
+
+## [1.0.10](https://github.com/sebnitu/scroll-stash/compare/v1.0.9...v1.0.10) (2020-08-13)
+
+### Bug Fixes
+
+* remove cjs and iife bundles in favor of umd ([2298059](https://github.com/sebnitu/scroll-stash/commit/2298059))
 
 
 
