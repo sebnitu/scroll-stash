@@ -1,4 +1,4 @@
-import { camelCase } from '@vrembem/core/index';
+import { camelCase } from '@vrembem/core';
 
 export const stateSave = (settings) => {
   const state = {};
