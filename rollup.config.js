@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 
-const entry = 'src/main.js';
+const entry = 'index.js';
 const name = 'ScrollStash';
 const babelConfig = {
   babelHelpers: 'runtime',

@@ -1,7 +1,7 @@
 import 'expect-puppeteer';
 import path from 'path';
 import { throttleDelay } from './helpers/throttleDelay';
-import { defaults } from '../src/settings';
+import { defaults } from '../src/defaults';
 
 let maxScroll;
 

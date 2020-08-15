@@ -41,18 +41,10 @@ export const anchorInView = (el, anchor, settings) => {
 export const anchorPositionGet = (el, anchor, settings) => {
   const inView = anchorInView(el, anchor, settings);
   switch (settings.alignment) {
-    case 'start' : return (inView) ? false : anchorPositionStart(el, anchor, settings);
-    case 'center' : return (inView) ? false : anchorPositionCenter(el, anchor, settings);
-    case 'end' : return (inView) ? false : anchorPositionEnd(el, anchor, settings);
-    case 'nearest' : return anchorPositionNearest(el, anchor, settings);
+    case 'start': return (inView) ? false : anchorPositionStart(el, anchor, settings);
+    case 'center': return (inView) ? false : anchorPositionCenter(el, anchor, settings);
+    case 'end': return (inView) ? false : anchorPositionEnd(el, anchor, settings);
+    case 'nearest': return anchorPositionNearest(el, anchor, settings);
     default: return false;
   }
-};
-
-export default {
-  start: anchorPositionStart,
-  center: anchorPositionCenter,
-  end: anchorPositionEnd,
-  nearest: anchorPositionNearest,
-  get: anchorPositionGet
 };

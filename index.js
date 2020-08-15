@@ -1,8 +1,8 @@
 import throttle from 'lodash.throttle';
 import isEmpty from 'lodash.isempty';
-import { defaults } from './settings';
-import anchor from './anchor';
-import state from './state';
+import { defaults } from './src/defaults';
+import { anchorGet, anchorShow } from './src/anchor';
+import { stateSave, stateSet } from './src/state';
 
 export default class ScrollStash {
   constructor(options) {
@@ -19,12 +19,12 @@ export default class ScrollStash {
 
   init(options = null) {
     if (options) this.settings = { ...this.settings, ...options };
-    this.state = state.set(this.settings);
-    this.state = (isEmpty(this.state)) ? state.save(this.settings) : this.state;
+    this.state = stateSet(this.settings);
+    this.state = (isEmpty(this.state)) ? stateSave(this.settings) : this.state;
     this.scrolls = document.querySelectorAll(`[data-${this.settings.dataScroll}]`);
     this.scrolls.forEach((item) => {
       item.addEventListener('scroll', this.throttleRef);
-      anchor.show(item, false, this.settings);
+      anchorShow(item, false, this.settings);
     });
   }
 
@@ -38,14 +38,14 @@ export default class ScrollStash {
   }
 
   handler() {
-    this.state = state.save(this.settings);
+    this.state = stateSave(this.settings);
   }
 
   anchorGet(el) {
-    return anchor.get(el, this.settings);
+    return anchorGet(el, this.settings);
   }
 
   anchorShow(el, behavior) {
-    return anchor.show(el, behavior, this.settings);
+    return anchorShow(el, behavior, this.settings);
   }
 }

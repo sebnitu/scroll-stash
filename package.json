@@ -10,7 +10,7 @@
     "scroll"
   ],
   "main": "dist/scripts.js",
-  "module": "src/main.js",
+  "module": "index.js",
   "scripts": {
     "build": "npm-run-all clean scripts",
     "clean": "del dist",

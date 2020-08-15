@@ -50,8 +50,3 @@ export const anchorShow = (el, behavior, settings) => {
     return { scrolled: false, msg: 'Anchor was not found' };
   }
 };
-
-export default {
-  get: anchorGet,
-  show: anchorShow
-};

@@ -33,8 +33,3 @@ export const stateSet = (settings) => {
     return {};
   }
 };
-
-export default {
-  save: stateSave,
-  set: stateSet
-};
