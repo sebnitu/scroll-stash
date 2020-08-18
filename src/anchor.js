@@ -1,4 +1,4 @@
-import { camelCase } from '@vrembem/core';
+import { camelCase } from '@vrembem/core/src/js/camelCase';
 import { anchorPositionGet } from './anchorPosition';
 
 export const anchorGet = (el, settings) => {
