@@ -42,7 +42,7 @@
     "@vrembem/core": "^1.15.0",
     "@vrembem/dialog": "^1.15.0",
     "@vrembem/menu": "^1.15.0",
-    "@vrembem/utility": "^1.14.8",
+    "@vrembem/utility": "^1.15.0",
     "babel-jest": "^26.3.0",
     "concurrently": "^5.3.0",
     "conventional-changelog-cli": "^2.1.0",
