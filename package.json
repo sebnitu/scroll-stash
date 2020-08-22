@@ -1,7 +1,7 @@
 {
   "name": "scroll-stash",
   "description": "A JavaScript plugin to help preserve an element's scroll position.",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "license": "MIT",
   "keywords": [
     "JavaScript",
