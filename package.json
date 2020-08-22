@@ -39,7 +39,6 @@
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@testing-library/jest-dom": "^5.11.3",
     "@vrembem/base": "^1.15.1",
-    "@vrembem/core": "^1.15.0",
     "@vrembem/dialog": "^1.15.0",
     "@vrembem/menu": "^1.15.0",
     "@vrembem/utility": "^1.15.0",
@@ -59,6 +58,7 @@
     "rollup-plugin-terser": "^7.0.0"
   },
   "dependencies": {
+    "@vrembem/core": "^1.15.2",
     "lodash.isempty": "^4.4.0",
     "lodash.throttle": "^4.1.1"
   }
