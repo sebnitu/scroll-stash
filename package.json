@@ -38,7 +38,7 @@
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@testing-library/jest-dom": "^5.11.4",
-    "@vrembem/base": "^1.15.5",
+    "@vrembem/base": "^1.18.0",
     "@vrembem/dialog": "^1.15.5",
     "@vrembem/menu": "^1.15.5",
     "@vrembem/utility": "^1.18.0",
