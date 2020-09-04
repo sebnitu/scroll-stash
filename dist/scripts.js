@@ -507,12 +507,6 @@
     customEventPrefix: 'scroll-stash:'
   };
 
-  var camelCase = function camelCase(str) {
-    return str.replace(/-([a-z])/g, function (g) {
-      return g[1].toUpperCase();
-    });
-  };
-
   var anchorPositionStart = function anchorPositionStart(el, anchor, settings) {
     var pos = settings.anchorPadding;
 
@@ -573,7 +567,7 @@
   };
 
   var anchorGet = function anchorGet(el, settings) {
-    var dataAnchor = el.dataset[camelCase(settings.dataAnchor)];
+    var dataAnchor = el.getAttribute("data-".concat(settings.dataAnchor));
 
     if (dataAnchor == 'false' || dataAnchor == 'ignore') {
       return null;
@@ -611,7 +605,7 @@
               value: position,
               behavior: behavior
             },
-            key: el.dataset[camelCase(settings.dataScroll)]
+            key: el.getAttribute("data-".concat(settings.dataScroll))
           }
         }));
         return {
@@ -639,7 +633,7 @@
     var state = {};
     var scrolls = document.querySelectorAll("[data-".concat(settings.dataScroll, "]"));
     scrolls.forEach(function (el) {
-      var id = el.dataset[camelCase(settings.dataScroll)];
+      var id = el.getAttribute("data-".concat(settings.dataScroll));
       if (id) state[id] = el.scrollTop;
     });
     localStorage.setItem(settings.saveKey, JSON.stringify(state));

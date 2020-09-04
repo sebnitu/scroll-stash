@@ -1,8 +1,7 @@
-import { camelCase } from '@vrembem/core/src/js/camelCase';
 import { anchorPositionGet } from './anchorPosition';
 
 export const anchorGet = (el, settings) => {
-  const dataAnchor = el.dataset[camelCase(settings.dataAnchor)];
+  const dataAnchor = el.getAttribute(`data-${settings.dataAnchor}`);
   if (dataAnchor == 'false' || dataAnchor == 'ignore') {
     return null;
   }
@@ -36,7 +35,7 @@ export const anchorShow = (el, behavior, settings) => {
         bubbles: true,
         detail: {
           scrolled: { value: position, behavior: behavior },
-          key: el.dataset[camelCase(settings.dataScroll)]
+          key: el.getAttribute(`data-${settings.dataScroll}`)
         }
       }));
       return {

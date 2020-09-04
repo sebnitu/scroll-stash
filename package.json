@@ -58,7 +58,6 @@
     "rollup-plugin-terser": "^7.0.1"
   },
   "dependencies": {
-    "@vrembem/core": "^1.18.0",
     "lodash.isempty": "^4.4.0",
     "lodash.throttle": "^4.1.1"
   }

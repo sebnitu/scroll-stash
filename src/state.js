@@ -1,10 +1,8 @@
-import { camelCase } from '@vrembem/core/src/js/camelCase';
-
 export const stateSave = (settings) => {
   const state = {};
   const scrolls = document.querySelectorAll(`[data-${settings.dataScroll}]`);
   scrolls.forEach((el) => {
-    const id = el.dataset[camelCase(settings.dataScroll)];
+    const id = el.getAttribute(`data-${settings.dataScroll}`);
     if (id) state[id] = el.scrollTop;
   });
   localStorage.setItem(settings.saveKey, JSON.stringify(state));
