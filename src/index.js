@@ -1,6 +1,6 @@
-import defaults from './src/defaults';
-import { anchorGet, anchorShow } from './src/anchor';
-import { stateSave, stateSet } from './src/state';
+import defaults from './defaults';
+import { anchorGet, anchorShow } from './anchor';
+import { stateSave, stateSet } from './state';
 
 export default class ScrollStash {
   constructor(options) {

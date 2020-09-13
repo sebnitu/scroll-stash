@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 
-const entry = 'index.js';
+const entry = 'src/index.js';
 const name = 'ScrollStash';
 
 export default [{
