@@ -17,11 +17,23 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v1.0.13 to CHANGELOG.md`
+  - `chore(release): add v1.1.0 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s" && npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+## v1.1.0 (2020-09-13)
+
+### Chore
+* add esm bundle and remove unused deps ([441a328](https://github.com/sebnitu/scroll-stash/commit/441a328))
+* clean up rollup config ([e501fe9](https://github.com/sebnitu/scroll-stash/commit/e501fe9))
+* run npm update to bump deps ([3bc6daa](https://github.com/sebnitu/scroll-stash/commit/3bc6daa))
+
+### Refactor
+* build in custom throttle and remove lodash dep ([1c1a2de](https://github.com/sebnitu/scroll-stash/commit/1c1a2de))
+* move index into src ([58f9dde](https://github.com/sebnitu/scroll-stash/commit/58f9dde))
 
 
 ## [1.0.13](https://github.com/sebnitu/scroll-stash/compare/v1.0.12...v1.0.13) (2020-09-04)
