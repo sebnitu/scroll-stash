@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import ScrollStash from '../index';
+import ScrollStash from '../src/index';
 import '@testing-library/jest-dom/extend-expect';
 import { throttleDelay } from './helpers/throttleDelay';
 

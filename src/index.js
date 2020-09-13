@@ -1,36 +1,31 @@
-import throttle from 'lodash.throttle';
-import isEmpty from 'lodash.isempty';
-import { defaults } from './src/defaults';
-import { anchorGet, anchorShow } from './src/anchor';
-import { stateSave, stateSet } from './src/state';
+import defaults from './defaults';
+import { anchorGet, anchorShow } from './anchor';
+import { stateSave, stateSet } from './state';
 
 export default class ScrollStash {
   constructor(options) {
     this.settings = { ...defaults, ...options };
     this.state = {};
     this.scrolls = [];
-    this.throttleRef = throttle(
-      this.handler,
-      this.settings.throttleDelay,
-      { leading: false }
-    ).bind(this);
+    this.ticking = false;
+    this.handlerRef = this.handler.bind(this);
     if (this.settings.autoInit) this.init();
   }
 
   init(options = null) {
     if (options) this.settings = { ...this.settings, ...options };
     this.state = stateSet(this.settings);
-    this.state = (isEmpty(this.state)) ? stateSave(this.settings) : this.state;
+    this.state = (!Object.keys(this.state).length) ? stateSave(this.settings) : this.state;
     this.scrolls = document.querySelectorAll(`[data-${this.settings.dataScroll}]`);
     this.scrolls.forEach((item) => {
-      item.addEventListener('scroll', this.throttleRef);
+      item.addEventListener('scroll', this.handlerRef);
       anchorShow(item, false, this.settings);
     });
   }
 
   destroy() {
     this.scrolls.forEach((item) => {
-      item.removeEventListener('scroll', this.throttleRef);
+      item.removeEventListener('scroll', this.handlerRef);
     });
     this.state = {};
     this.scrolls = [];
@@ -38,7 +33,12 @@ export default class ScrollStash {
   }
 
   handler() {
-    this.state = stateSave(this.settings);
+    if (this.ticking) return;
+    this.ticking = true;
+    setTimeout(() => {
+      this.state = stateSave(this.settings);
+      this.ticking = false;
+    }, this.settings.throttleDelay);
   }
 
   anchorGet(el) {

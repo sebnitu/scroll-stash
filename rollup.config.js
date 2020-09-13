@@ -1,27 +1,24 @@
 import babel from '@rollup/plugin-babel';
-import commonjs from '@rollup/plugin-commonjs';
-import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 
-const entry = 'index.js';
+const entry = 'src/index.js';
 const name = 'ScrollStash';
-const babelConfig = {
-  babelHelpers: 'runtime',
-  rootMode: 'upward'
-};
 
 export default [{
+  input: entry,
+  output: {
+    file: 'dist/scripts.esm.js',
+    format: 'es'
+  },
+  plugins: [babel({ babelHelpers: 'bundled' })]
+}, {
   input: entry,
   output: {
     file: 'dist/scripts.js',
     format: 'umd',
     name: name
   },
-  plugins: [
-    resolve(),
-    commonjs(),
-    babel(babelConfig)
-  ]
+  plugins: [babel({ babelHelpers: 'bundled' })]
 }, {
   input: entry,
   output: {
@@ -30,9 +27,7 @@ export default [{
     name: name
   },
   plugins: [
-    resolve(),
-    commonjs(),
-    babel(babelConfig),
+    babel({ babelHelpers: 'bundled' }),
     terser()
   ]
 }];
