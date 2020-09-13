@@ -8,7 +8,6 @@ module.exports = (api) => {
     ]];
   } else {
     config.presets = ['@babel/preset-env'];
-    config.comments = false;
   }
 
   return config;

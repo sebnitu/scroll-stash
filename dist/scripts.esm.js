@@ -78,7 +78,9 @@ var defaults = {
   selectorTopElem: '',
   selectorBotElem: '',
   alignment: 'nearest',
+  // start | end | nearest
   behavior: 'auto',
+  // auto | smooth
   anchorPadding: 16,
   saveKey: 'ScrollStash',
   throttleDelay: 100,
@@ -242,7 +244,7 @@ var stateSet = function stateSet(settings) {
   }
 };
 
-var ScrollStash = function () {
+var ScrollStash = /*#__PURE__*/function () {
   function ScrollStash(options) {
     _classCallCheck(this, ScrollStash);
 
