@@ -4,30 +4,27 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.ScrollStash = factory());
 }(this, (function () { 'use strict';
 
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
+  function _typeof(obj) {
+    "@babel/helpers - typeof";
+
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
     } else {
-      obj[key] = value;
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
     }
 
-    return obj;
+    return _typeof(obj);
   }
-
-  var defineProperty = _defineProperty;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
     }
   }
-
-  var classCallCheck = _classCallCheck;
 
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -45,43 +42,56 @@
     return Constructor;
   }
 
-  var createClass = _createClass;
-
-  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-  function createCommonjsModule(fn, basedir, module) {
-  	return module = {
-  	  path: basedir,
-  	  exports: {},
-  	  require: function (path, base) {
-        return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-      }
-  	}, fn(module, module.exports), module.exports;
-  }
-
-  function commonjsRequire () {
-  	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-  }
-
-  var _typeof_1 = createCommonjsModule(function (module) {
-    function _typeof(obj) {
-      "@babel/helpers - typeof";
-
-      if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-        module.exports = _typeof = function _typeof(obj) {
-          return typeof obj;
-        };
-      } else {
-        module.exports = _typeof = function _typeof(obj) {
-          return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        };
-      }
-
-      return _typeof(obj);
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
     }
 
-    module.exports = _typeof;
-  });
+    return obj;
+  }
+
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
+  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
   var FUNC_ERROR_TEXT = 'Expected a function';
   var NAN = 0 / 0;
@@ -91,8 +101,8 @@
   var reIsBinary = /^0b[01]+$/i;
   var reIsOctal = /^0o[0-7]+$/i;
   var freeParseInt = parseInt;
-  var freeGlobal = _typeof_1(commonjsGlobal) == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-  var freeSelf = (typeof self === "undefined" ? "undefined" : _typeof_1(self)) == 'object' && self && self.Object === Object && self;
+  var freeGlobal = _typeof(commonjsGlobal) == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+  var freeSelf = (typeof self === "undefined" ? "undefined" : _typeof(self)) == 'object' && self && self.Object === Object && self;
   var root = freeGlobal || freeSelf || Function('return this')();
   var objectProto = Object.prototype;
   var objectToString = objectProto.toString;
@@ -241,17 +251,17 @@
   }
 
   function isObject(value) {
-    var type = _typeof_1(value);
+    var type = _typeof(value);
 
     return !!value && (type == 'object' || type == 'function');
   }
 
   function isObjectLike(value) {
-    return !!value && _typeof_1(value) == 'object';
+    return !!value && _typeof(value) == 'object';
   }
 
   function isSymbol(value) {
-    return _typeof_1(value) == 'symbol' || isObjectLike(value) && objectToString.call(value) == symbolTag;
+    return _typeof(value) == 'symbol' || isObjectLike(value) && objectToString.call(value) == symbolTag;
   }
 
   function toNumber(value) {
@@ -278,218 +288,6 @@
   }
 
   var lodash_throttle = throttle;
-
-  var lodash_isempty = createCommonjsModule(function (module, exports) {
-    var MAX_SAFE_INTEGER = 9007199254740991;
-    var argsTag = '[object Arguments]',
-        funcTag = '[object Function]',
-        genTag = '[object GeneratorFunction]',
-        mapTag = '[object Map]',
-        objectTag = '[object Object]',
-        promiseTag = '[object Promise]',
-        setTag = '[object Set]',
-        weakMapTag = '[object WeakMap]';
-    var dataViewTag = '[object DataView]';
-    var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-    var reIsHostCtor = /^\[object .+?Constructor\]$/;
-    var freeGlobal = _typeof_1(commonjsGlobal) == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-    var freeSelf = (typeof self === "undefined" ? "undefined" : _typeof_1(self)) == 'object' && self && self.Object === Object && self;
-    var root = freeGlobal || freeSelf || Function('return this')();
-    var freeExports =  exports && !exports.nodeType && exports;
-    var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
-    var moduleExports = freeModule && freeModule.exports === freeExports;
-
-    function getValue(object, key) {
-      return object == null ? undefined : object[key];
-    }
-
-    function isHostObject(value) {
-      var result = false;
-
-      if (value != null && typeof value.toString != 'function') {
-        try {
-          result = !!(value + '');
-        } catch (e) {}
-      }
-
-      return result;
-    }
-
-    function overArg(func, transform) {
-      return function (arg) {
-        return func(transform(arg));
-      };
-    }
-
-    var funcProto = Function.prototype,
-        objectProto = Object.prototype;
-    var coreJsData = root['__core-js_shared__'];
-
-    var maskSrcKey = function () {
-      var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
-      return uid ? 'Symbol(src)_1.' + uid : '';
-    }();
-
-    var funcToString = funcProto.toString;
-    var hasOwnProperty = objectProto.hasOwnProperty;
-    var objectToString = objectProto.toString;
-    var reIsNative = RegExp('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
-    var Buffer = moduleExports ? root.Buffer : undefined,
-        propertyIsEnumerable = objectProto.propertyIsEnumerable;
-    var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
-        nativeKeys = overArg(Object.keys, Object);
-    var DataView = getNative(root, 'DataView'),
-        Map = getNative(root, 'Map'),
-        Promise = getNative(root, 'Promise'),
-        Set = getNative(root, 'Set'),
-        WeakMap = getNative(root, 'WeakMap');
-    var nonEnumShadows = !propertyIsEnumerable.call({
-      'valueOf': 1
-    }, 'valueOf');
-    var dataViewCtorString = toSource(DataView),
-        mapCtorString = toSource(Map),
-        promiseCtorString = toSource(Promise),
-        setCtorString = toSource(Set),
-        weakMapCtorString = toSource(WeakMap);
-
-    function baseGetTag(value) {
-      return objectToString.call(value);
-    }
-
-    function baseIsNative(value) {
-      if (!isObject(value) || isMasked(value)) {
-        return false;
-      }
-
-      var pattern = isFunction(value) || isHostObject(value) ? reIsNative : reIsHostCtor;
-      return pattern.test(toSource(value));
-    }
-
-    function getNative(object, key) {
-      var value = getValue(object, key);
-      return baseIsNative(value) ? value : undefined;
-    }
-
-    var getTag = baseGetTag;
-
-    if (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag || Map && getTag(new Map()) != mapTag || Promise && getTag(Promise.resolve()) != promiseTag || Set && getTag(new Set()) != setTag || WeakMap && getTag(new WeakMap()) != weakMapTag) {
-      getTag = function getTag(value) {
-        var result = objectToString.call(value),
-            Ctor = result == objectTag ? value.constructor : undefined,
-            ctorString = Ctor ? toSource(Ctor) : undefined;
-
-        if (ctorString) {
-          switch (ctorString) {
-            case dataViewCtorString:
-              return dataViewTag;
-
-            case mapCtorString:
-              return mapTag;
-
-            case promiseCtorString:
-              return promiseTag;
-
-            case setCtorString:
-              return setTag;
-
-            case weakMapCtorString:
-              return weakMapTag;
-          }
-        }
-
-        return result;
-      };
-    }
-
-    function isMasked(func) {
-      return !!maskSrcKey && maskSrcKey in func;
-    }
-
-    function isPrototype(value) {
-      var Ctor = value && value.constructor,
-          proto = typeof Ctor == 'function' && Ctor.prototype || objectProto;
-      return value === proto;
-    }
-
-    function toSource(func) {
-      if (func != null) {
-        try {
-          return funcToString.call(func);
-        } catch (e) {}
-
-        try {
-          return func + '';
-        } catch (e) {}
-      }
-
-      return '';
-    }
-
-    function isArguments(value) {
-      return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') && (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-    }
-
-    var isArray = Array.isArray;
-
-    function isArrayLike(value) {
-      return value != null && isLength(value.length) && !isFunction(value);
-    }
-
-    function isArrayLikeObject(value) {
-      return isObjectLike(value) && isArrayLike(value);
-    }
-
-    var isBuffer = nativeIsBuffer || stubFalse;
-
-    function isEmpty(value) {
-      if (isArrayLike(value) && (isArray(value) || typeof value == 'string' || typeof value.splice == 'function' || isBuffer(value) || isArguments(value))) {
-        return !value.length;
-      }
-
-      var tag = getTag(value);
-
-      if (tag == mapTag || tag == setTag) {
-        return !value.size;
-      }
-
-      if (nonEnumShadows || isPrototype(value)) {
-        return !nativeKeys(value).length;
-      }
-
-      for (var key in value) {
-        if (hasOwnProperty.call(value, key)) {
-          return false;
-        }
-      }
-
-      return true;
-    }
-
-    function isFunction(value) {
-      var tag = isObject(value) ? objectToString.call(value) : '';
-      return tag == funcTag || tag == genTag;
-    }
-
-    function isLength(value) {
-      return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-    }
-
-    function isObject(value) {
-      var type = _typeof_1(value);
-
-      return !!value && (type == 'object' || type == 'function');
-    }
-
-    function isObjectLike(value) {
-      return !!value && _typeof_1(value) == 'object';
-    }
-
-    function stubFalse() {
-      return false;
-    }
-
-    module.exports = isEmpty;
-  });
 
   var defaults = {
     autoInit: false,
@@ -664,15 +462,11 @@
     }
   };
 
-  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
   var ScrollStash = function () {
     function ScrollStash(options) {
-      classCallCheck(this, ScrollStash);
+      _classCallCheck(this, ScrollStash);
 
-      this.settings = _objectSpread(_objectSpread({}, defaults), options);
+      this.settings = _objectSpread2(_objectSpread2({}, defaults), options);
       this.state = {};
       this.scrolls = [];
       this.throttleRef = lodash_throttle(this.handler, this.settings.throttleDelay, {
@@ -681,15 +475,15 @@
       if (this.settings.autoInit) this.init();
     }
 
-    createClass(ScrollStash, [{
+    _createClass(ScrollStash, [{
       key: "init",
       value: function init() {
         var _this = this;
 
         var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        if (options) this.settings = _objectSpread(_objectSpread({}, this.settings), options);
+        if (options) this.settings = _objectSpread2(_objectSpread2({}, this.settings), options);
         this.state = stateSet(this.settings);
-        this.state = lodash_isempty(this.state) ? stateSave(this.settings) : this.state;
+        this.state = !Object.keys(this.state).length ? stateSave(this.settings) : this.state;
         this.scrolls = document.querySelectorAll("[data-".concat(this.settings.dataScroll, "]"));
         this.scrolls.forEach(function (item) {
           item.addEventListener('scroll', _this.throttleRef);

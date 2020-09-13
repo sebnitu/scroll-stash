@@ -5,10 +5,6 @@ import { terser } from 'rollup-plugin-terser';
 
 const entry = 'index.js';
 const name = 'ScrollStash';
-const babelConfig = {
-  babelHelpers: 'runtime',
-  rootMode: 'upward'
-};
 
 export default [{
   input: entry,
@@ -20,7 +16,9 @@ export default [{
   plugins: [
     resolve(),
     commonjs(),
-    babel(babelConfig)
+    babel({
+      babelHelpers: 'bundled'
+    })
   ]
 }, {
   input: entry,
@@ -32,7 +30,22 @@ export default [{
   plugins: [
     resolve(),
     commonjs(),
-    babel(babelConfig),
+    babel({
+      babelHelpers: 'bundled'
+    }),
     terser()
+  ]
+}, {
+  input: entry,
+  output: {
+    file: 'dist/scripts.esm.js',
+    format: 'es'
+  },
+  plugins: [
+    resolve(),
+    commonjs(),
+    babel({
+      babelHelpers: 'bundled'
+    })
   ]
 }];
