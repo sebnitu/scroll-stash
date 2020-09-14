@@ -1,5 +1,6 @@
 .changelog
 .DS_Store
 coverage
+dev
 node_modules
 UNRELEASED.md
