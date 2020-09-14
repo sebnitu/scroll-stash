@@ -28,10 +28,10 @@ It's also possible to include ScrollStash using a script tag:
 
 ```html
 <!-- Via NPM -->
-<script src="./node_modules/scroll-stash/dist/scripts.min.js"></script>
+<script src="./node_modules/scroll-stash/dist/scripts.umd.js"></script>
 
 <!-- Via CDN -->
-<script src="https://unpkg.com/scroll-stash/dist/scripts.min.js"></script>
+<script src="https://unpkg.com/scroll-stash"></script>
 
 <!-- Instantiate ScrollStash in your scripts -->
 <script>
