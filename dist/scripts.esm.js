@@ -252,7 +252,7 @@ var ScrollStash = /*#__PURE__*/function () {
     this.state = {};
     this.scrolls = [];
     this.ticking = false;
-    this.handlerRef = this.handler.bind(this);
+    this.__handler = this.handler.bind(this);
     if (this.settings.autoInit) this.init();
   }
 
@@ -267,7 +267,7 @@ var ScrollStash = /*#__PURE__*/function () {
       this.state = !Object.keys(this.state).length ? stateSave(this.settings) : this.state;
       this.scrolls = document.querySelectorAll("[data-".concat(this.settings.dataScroll, "]"));
       this.scrolls.forEach(function (item) {
-        item.addEventListener('scroll', _this.handlerRef);
+        item.addEventListener('scroll', _this.__handler, false);
 
         anchorShow(item, false, _this.settings);
       });
@@ -278,7 +278,7 @@ var ScrollStash = /*#__PURE__*/function () {
       var _this2 = this;
 
       this.scrolls.forEach(function (item) {
-        item.removeEventListener('scroll', _this2.handlerRef);
+        item.removeEventListener('scroll', _this2.__handler, false);
       });
       this.state = {};
       this.scrolls = [];
