@@ -17,14 +17,25 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v1.1.0 to CHANGELOG.md`
+  - `chore(release): add v1.1.1 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s" && npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
 
 
-## v1.1.0 (2020-09-13)
+## [1.1.1](https://github.com/sebnitu/scroll-stash/compare/v1.1.0...v1.1.1) (2020-09-14)
+
+### Chore
+* switch bundler from rollup to microbundle ([66fd68b](https://github.com/sebnitu/scroll-stash/commit/66fd68b))
+* update babel config to produce correct output ([672219d](https://github.com/sebnitu/scroll-stash/commit/672219d))
+* update docs pointing to new entries ([f51c23e](https://github.com/sebnitu/scroll-stash/commit/f51c23e))
+
+### Refactor
+* update handler ref to be private function ([28cdc92](https://github.com/sebnitu/scroll-stash/commit/28cdc92))
+
+
+## [1.1.0](https://github.com/sebnitu/scroll-stash/compare/v1.0.13...v1.1.0) (2020-09-13)
 
 ### Chore
 * add esm bundle and remove unused deps ([441a328](https://github.com/sebnitu/scroll-stash/commit/441a328))
