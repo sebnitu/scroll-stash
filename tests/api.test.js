@@ -1,8 +1,8 @@
 import 'expect-puppeteer';
 import path from 'path';
-import { throttleDelay } from './helpers/throttleDelay';
+import defaults from '../src/defaults';
 
-const scrollAnimationDelay = 300;
+const scrollAnimationDelay = defaults.throttleDelay;
 
 let eLog = {
   anchor: [],
@@ -31,15 +31,22 @@ beforeAll(async () => {
 });
 
 test('should scroll to anchor on anchorShow api call', async () => {
+  // Setup
   let result = await page.$eval('[data-scroll-stash="example-2"]', (el) => {
     document.querySelector('#example-2').scrollIntoView();
-    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
     el.scrollTop = 0;
-    btn.click();
     return el.scrollTop;
   });
   expect(result).toBe(0);
-  await throttleDelay(scrollAnimationDelay);
+
+  // Click button and wait for animation
+  await page.$eval('[data-scroll-stash="example-2"]', (el) => {
+    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
+    btn.click();
+  });
+  await page.waitForTimeout(scrollAnimationDelay);
+
+  // Check scroll position
   result = await page.$eval('[data-scroll-stash="example-2"]', (el) => {
     return el.scrollTop;
   });
@@ -91,15 +98,22 @@ test('should scroll to anchor with space adjustments on anchorShow api call', as
 });
 
 test('should scroll to custom anchor on anchorShow api call', async () => {
+  // Setup
   let result = await page.$eval('[data-scroll-stash="example-4"]', (el) => {
     document.querySelector('#example-4').scrollIntoView();
-    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
     el.scrollTop = 0;
-    btn.click();
     return el.scrollTop;
   });
   expect(result).toBe(0);
-  await throttleDelay(scrollAnimationDelay);
+
+  // Click button and wait for animation
+  await page.$eval('[data-scroll-stash="example-4"]', (el) => {
+    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
+    btn.click();
+  });
+  await page.waitForTimeout(scrollAnimationDelay);
+
+  // Check scroll position
   result = await page.$eval('[data-scroll-stash="example-4"]', (el) => {
     return el.scrollTop;
   });
@@ -112,25 +126,24 @@ test('should properly destroy scroll-stash instance on api call', async () => {
     document.querySelector('.js-api-destroy').click();
     return localStorage.getItem('ScrollStash');
   });
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   expect(result).toBe(null);
 
   const eCount = eLog.saved.length;
   await page.$eval('#page', (el) => {
     el.scrollTop = 0;
   });
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   expect(eLog.saved.length).toBe(eCount);
 });
 
 test('should re-initialize scroll-stash instance on api call', async () => {
-  // await throttleDelay();
   let result = await page.evaluate(() => {
     document.querySelector('#example-api').scrollIntoView();
     document.querySelector('.js-api-destroy').click();
     return localStorage.getItem('ScrollStash');
   });
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   expect(result).toBe(null);
 
   const eSavedCount = eLog.saved.length;
@@ -140,7 +153,7 @@ test('should re-initialize scroll-stash instance on api call', async () => {
     document.querySelector('.js-api-init').click();
     return localStorage.getItem('ScrollStash');
   });
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   expect(result).not.toBe(null);
   expect(eLog.saved.length).toBe(eSavedCount + 1);
   expect(eLog.anchor.length).toBe(eAnchorCount);
