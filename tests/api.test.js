@@ -47,29 +47,43 @@ test('should scroll to anchor on anchorShow api call', async () => {
 });
 
 test('should scroll to anchor with space adjustments on anchorShow api call', async () => {
+  // Setup
   let result = await page.$eval('[data-scroll-stash="example-3"]', (el) => {
     document.querySelector('#example-3').scrollIntoView();
-    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
     el.scrollTop = 0;
-    btn.click();
     return el.scrollTop;
   });
   expect(result).toBe(0);
-  await throttleDelay(scrollAnimationDelay);
+
+  // Click button and wait for animation
+  await page.$eval('[data-scroll-stash="example-3"]', (el) => {
+    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
+    btn.click();
+  });
+  await page.waitForTimeout(scrollAnimationDelay);
+
+  // Check scroll position
   result = await page.$eval('[data-scroll-stash="example-3"]', (el) => {
     return el.scrollTop;
   });
   expect(result).toBe(107);
 
+  // Setup
   result = await page.$eval('[data-scroll-stash="example-3"]', (el) => {
     document.querySelector('#example-3').scrollIntoView();
-    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
     el.scrollTop = 9999;
-    btn.click();
     return el.scrollTop;
   });
   expect(result).toBe(517);
-  await throttleDelay(scrollAnimationDelay);
+
+  // Click button and wait for animation
+  await page.$eval('[data-scroll-stash="example-3"]', (el) => {
+    const btn = el.closest('.example').querySelector('.js-api-anchor-show');
+    btn.click();
+  });
+  await page.waitForTimeout(scrollAnimationDelay);
+
+  // Check scroll position
   result = await page.$eval('[data-scroll-stash="example-3"]', (el) => {
     return el.scrollTop;
   });
