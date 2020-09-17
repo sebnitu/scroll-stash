@@ -1,13 +1,14 @@
 import 'expect-puppeteer';
 import path from 'path';
-import { throttleDelay } from './helpers/throttleDelay';
+
+const scrollAnimationDelay = 300;
 
 beforeAll(async () => {
   await page.goto(`file:${path.join(__dirname, '../example.html')}`);
 });
 
 test('should scroll to anchor from initial scroll position', async () => {
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   const el = await page.$eval('[data-scroll-stash="example-2"]', (el) => {
     document.querySelector('#example-2').scrollIntoView();
     return el.scrollTop;
@@ -22,9 +23,9 @@ test('should scroll to anchor from saved scroll position', async () => {
     return el.scrollTop;
   });
   expect(el).toBe(627);
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   await page.reload();
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   el = await page.$eval('[data-scroll-stash="example-2"]', (el) => {
     document.querySelector('#example-2').scrollIntoView();
     return el.scrollTop;
@@ -45,9 +46,9 @@ test('should scroll to anchor with spacing for sticky footer', async () => {
     document.querySelector('#example-3').scrollIntoView();
     el.scrollTop = 9999;
   });
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   await page.reload();
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   let el = await page.$eval('[data-scroll-stash="example-3"]', (el) => {
     document.querySelector('#example-3').scrollIntoView();
     return el.scrollTop;
@@ -68,9 +69,9 @@ test('should disable anchor scrolling when data attribute is set to false', asyn
   await page.$eval('[data-scroll-stash="page"]', (el) => {
     el.scrollTop = 0;
   });
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   await page.reload();
-  await throttleDelay();
+  await page.waitForTimeout(scrollAnimationDelay);
   const el = await page.$eval('[data-scroll-stash="page"]', (el) => {
     return el.scrollTop;
   });
