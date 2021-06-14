@@ -17,11 +17,18 @@ All notable changes to this project will be documented in this file.
 Release flow:
 1. Run `npm run unreleased`
 2. Update CHANGELOG with details from UNRELEASED and commit with msg:
-  - `chore(release): add v1.1.1 to CHANGELOG.md`
+  - `chore(release): add v1.1.2 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s" && npm publish`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
+
+
+## [1.1.2](https://github.com/sebnitu/scroll-stash/compare/v1.1.1...v1.1.2) (2021-06-14)
+
+### Chore
+* add npm ci to sink task and run build ([aa9b10f](https://github.com/sebnitu/scroll-stash/commit/aa9b10f))
+* remove travis and add github build action (#260) ([c2cbeb7](https://github.com/sebnitu/scroll-stash/commit/c2cbeb7)), closes [#260](https://github.com/sebnitu/scroll-stash/issues/260)
 
 
 ## [1.1.1](https://github.com/sebnitu/scroll-stash/compare/v1.1.0...v1.1.1) (2020-09-14)
