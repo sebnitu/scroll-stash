@@ -20,6 +20,8 @@ Release flow:
   - `chore(release): add v1.1.2 to CHANGELOG.md`
 3. Run npm version with option [<newversion> | major | minor | patch | from-git | ... ]
   - `npm version patch -m "chore(release): bump to v%s" && npm publish`
+4. Push commits and tags:
+  - `git push && git push origin --tags`
 -->
 <!-- ADD-NEW-CHANGELOG-ENTRY-HERE -->
 
