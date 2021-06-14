@@ -19,7 +19,7 @@
     "clean": "del dist && del dev",
     "lint": "eslint src/*",
     "lint:fix": "eslint src/* --fix",
-    "sink": "npm-run-all clean build lint test:coverage",
+    "sink": "npm ci && npm-run-all clean build lint test:coverage",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
