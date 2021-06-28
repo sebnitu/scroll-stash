@@ -38,7 +38,7 @@
     "@vrembem/base": "^1.30.0",
     "@vrembem/dialog": "^1.32.2",
     "@vrembem/menu": "^1.31.2",
-    "@vrembem/utility": "^1.31.2",
+    "@vrembem/utility": "^1.32.2",
     "babel-jest": "^27.0.5",
     "conventional-changelog-cli": "^2.1.1",
     "coveralls": "^3.1.0",
