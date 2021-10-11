@@ -39,7 +39,7 @@
     "@vrembem/dialog": "^1.36.1",
     "@vrembem/menu": "^1.36.1",
     "@vrembem/utility": "^1.36.1",
-    "babel-jest": "^27.2.4",
+    "babel-jest": "^27.2.5",
     "conventional-changelog-cli": "^2.1.1",
     "coveralls": "^3.1.1",
     "del-cli": "^4.0.1",
