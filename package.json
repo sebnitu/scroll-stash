@@ -40,7 +40,7 @@
     "@vrembem/menu": "^1.37.0",
     "@vrembem/utility": "^1.37.0",
     "babel-jest": "^27.4.5",
-    "conventional-changelog-cli": "^2.1.1",
+    "conventional-changelog-cli": "^2.2.2",
     "coveralls": "^3.1.1",
     "del-cli": "^4.0.1",
     "eslint": "^8.5.0",
