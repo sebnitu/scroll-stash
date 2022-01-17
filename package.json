@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
-    "@babel/preset-env": "^7.16.7",
+    "@babel/preset-env": "^7.16.8",
     "@testing-library/jest-dom": "^5.16.1",
     "@vrembem/base": "^1.37.0",
     "@vrembem/dialog": "^1.37.0",
