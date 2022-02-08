@@ -36,7 +36,7 @@
     "@babel/preset-env": "^7.16.11",
     "@testing-library/jest-dom": "^5.16.2",
     "@vrembem/base": "^1.38.0",
-    "@vrembem/dialog": "^1.37.0",
+    "@vrembem/dialog": "^1.38.0",
     "@vrembem/menu": "^1.38.0",
     "@vrembem/utility": "^1.38.0",
     "babel-jest": "^27.5.0",
