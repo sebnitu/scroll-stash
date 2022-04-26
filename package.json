@@ -37,7 +37,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@vrembem/base": "^3.0.5",
     "@vrembem/dialog": "^3.0.5",
-    "@vrembem/menu": "^3.0.0",
+    "@vrembem/menu": "^3.0.5",
     "@vrembem/utility": "^3.0.5",
     "babel-jest": "^28.0.0",
     "conventional-changelog-cli": "^2.2.2",
