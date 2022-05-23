@@ -32,7 +32,7 @@
     "url": "git+https://github.com/sebnitu/scroll-stash.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.10",
+    "@babel/core": "^7.18.0",
     "@babel/preset-env": "^7.18.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@vrembem/base": "^3.0.8",
